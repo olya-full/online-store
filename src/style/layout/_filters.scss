@@ -1,0 +1,9 @@
+.filters {
+    width: 30%;
+
+    border: 1px dashed rgb(187, 41, 41);
+}
+
+.filters__options {
+    @include flex-colomn;
+}
