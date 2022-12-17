@@ -1,0 +1,12 @@
+// Здесь будут миксины - удобная штука, чтобы не повторять один и тот же код 
+// https://sass-scss.ru/documentation/miksini/obyavlenie_miksina/
+
+@mixin flex-space-between {
+    display: flex;
+    justify-content: space-between;
+}
+
+@mixin flex-colomn {
+    display: flex;
+    flex-direction: column;
+}

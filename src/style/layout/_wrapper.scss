@@ -1,0 +1,11 @@
+.wrapper {
+    margin: 0 auto;
+    width: 1200px;
+    border: 1px dashed yellow;
+}
+
+@media screen and (max-width: 1440px) {
+    .wrapper {
+        width: 87%;
+    }
+}
