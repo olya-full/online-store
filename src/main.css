@@ -1,0 +1,82 @@
+html,
+body,
+header,
+main,
+footer {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+html {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+.footer {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: center;
+  border: 1px solid green;
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+  border: 1px dashed rgb(17, 128, 17);
+}
+
+.wrapper {
+  margin: 0 auto;
+  width: 1200px;
+  border: 1px dashed yellow;
+}
+
+@media screen and (max-width: 1440px) {
+  .wrapper {
+    width: 87%;
+  }
+}
+.main {
+  display: flex;
+}
+
+.filters {
+  width: 30%;
+  border: 1px dashed rgb(187, 41, 41);
+}
+
+.filters__options {
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  border: 1px dashed rgb(113, 32, 189);
+}
+
+.content__control {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border: 1px dashed rgb(0, 110, 255);
+}
+
+.content__products {
+  width: 100%;
+  min-height: 500px;
+  border: 1px dashed black;
+}/*# sourceMappingURL=main.css.map */
