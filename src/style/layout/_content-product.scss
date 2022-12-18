@@ -2,4 +2,35 @@
     width: 100%;
     min-height: 500px;
     border: 1px dashed black;
+    @include grid-4-rows;
+}
+
+.content__products__product__wrapper {
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.content__products__product {
+    background-image: url(https://img1.picmix.com/output/stamp/normal/2/9/2/2/842292_5d658.png) 0% / cover;
+    width: 100%;
+    height: 100%;
+}
+
+.added {
+    @include selected-item; 
+}
+.content__products__product__title {
+    margin: 3px;
+    text-align: center;
+}
+
+.content__products__product__info {
+    margin: 3px;
+    text-align: left;
+}
+
+.content__products__product__cart,
+.content__products__product__details {
+    margin: 3px;
+    text-align: center;
 }
