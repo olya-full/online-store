@@ -3,11 +3,13 @@
     min-height: 500px;
     border: 1px dashed black;
     @include grid-4-rows;
+    font-size: 0.7rem;
 }
 
 .content__products__product__wrapper {
     box-sizing: border-box;
     overflow: hidden;
+    aspect-ratio: 1 / 1;
 }
 
 .content__products__product {
@@ -27,6 +29,12 @@
 .content__products__product__info {
     margin: 3px;
     text-align: left;
+}
+
+.content__products__product__info__item {
+    margin: 3px;
+    text-align: left;
+    font-size: 0.5rem;
 }
 
 .content__products__product__cart,
