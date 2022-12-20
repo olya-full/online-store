@@ -1,17 +1,28 @@
-// import { currentGoods } from "../index";
 import { IGoodsList } from "./goods-list"
 
 // interfaces
 interface IShowGoods {
-  (goodsList: IGoodsList): void;
+  (goodsList: IGoodsList): IGoodsList;
 };
 
 
 // code
 let currentGoods: IGoodsList;
 
-const showGoods: IShowGoods = function(currentGoods): void {
+const showGoods: IShowGoods = function(currentGoods): IGoodsList {
+
+  // надо добавить проверки на big=false/big-true,
+  // в зависимости от проверки и query параметра добавить ".content__products"
+  // или класс big, или класс small
   
+  // populate "Count"
+  let countValue: HTMLElement | null = document.querySelector(".content__control__count__value");
+  if (countValue instanceof HTMLElement){
+    countValue.innerHTML = "";
+    countValue.innerHTML = currentGoods.length + "";
+  }
+
+  // show goods
   for (let i = 0; i < currentGoods.length; i++){
     const productWrapper: HTMLElement = document.createElement("div");
     productWrapper.classList.add("content__products__product__wrapper");
@@ -77,9 +88,8 @@ const showGoods: IShowGoods = function(currentGoods): void {
     productDetails.innerHTML = "DETAILS";
 
     productCard.append(productTitle, productInfo, productCart, productDetails);
-
-    
   }
+  return currentGoods;
 }
 
 
