@@ -1,5 +1,6 @@
 import { goodsList, IGoodsList } from './goods-list';
 import { IShowGoods } from './interfaces';
+import { setQueryParameters, currentURL } from './query-handler';
 
 // declaring global variable for the goods array which is changed by sorting and filtering 
 let currentGoods: IGoodsList;
@@ -10,7 +11,6 @@ const showAllGoods: IShowGoods = function(localGoods: IGoodsList){
   localGoods = goodsList;
   showGoods(localGoods);
   currentGoods = showGoods(localGoods);
-  console.log(currentGoods);
   return currentGoods;
 }
 
@@ -18,24 +18,29 @@ const showAllGoods: IShowGoods = function(localGoods: IGoodsList){
 const sortGoodsPriceUp: IShowGoods = function(localGoods: IGoodsList){
   currentGoods = localGoods.sort((a, b) => {return a.price - b.price})
   showGoods(currentGoods);
+  setQueryParameters("sort", "priceUp");
+  console.log(currentURL);
   return currentGoods;
 }
 
 const sortGoodsPriceDown: IShowGoods = function(localGoods: IGoodsList){
   currentGoods = localGoods.sort((a, b) => {return b.price - a.price})
   showGoods(currentGoods);
+  setQueryParameters("sort", "priceВown");
   return currentGoods;
 }
 
 const sortGoodsRatingUp: IShowGoods = function(localGoods: IGoodsList){
   currentGoods = localGoods.sort((a, b) => {return a.rating - b.rating})
   showGoods(currentGoods);
+  setQueryParameters("sort", "rateUp");
   return currentGoods;
 }
 
 const sortGoodsRatingDown: IShowGoods = function(localGoods: IGoodsList){
   currentGoods = localGoods.sort((a, b) => {return b.rating - a.rating})
   showGoods(currentGoods);
+  setQueryParameters("sort", "rateDown");
   return currentGoods;
 }
 
