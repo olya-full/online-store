@@ -1,17 +1,58 @@
-import { IGoodsList } from "./goods-list"
+import { goodsList, IGoodsList } from './goods-list';
+import { IShowGoods } from './interfaces';
+import { setQueryParameters, currentURL } from './query-handler';
 
-// interfaces
-interface IShowGoods {
-  (goodsList: IGoodsList): IGoodsList;
-};
-
-
-// code
+// declaring global variable for the goods array which is changed by sorting and filtering 
 let currentGoods: IGoodsList;
 
-const showGoods: IShowGoods = function(currentGoods): IGoodsList {
 
-  // надо добавить проверки на big=false/big-true,
+// initial function triggered by "DOMContentLoaded" event
+const showAllGoods: IShowGoods = function(localGoods: IGoodsList){
+  localGoods = goodsList;
+  showGoods(localGoods);
+  currentGoods = showGoods(localGoods);
+  return currentGoods;
+}
+
+// sorting functions in the control panel, triggered by selecting an item from the drop-down list
+const sortGoodsPriceUp: IShowGoods = function(localGoods: IGoodsList){
+  currentGoods = localGoods.sort((a, b) => {return a.price - b.price})
+  showGoods(currentGoods);
+  setQueryParameters("sort", "priceUp");
+  console.log(currentURL);
+  return currentGoods;
+}
+
+const sortGoodsPriceDown: IShowGoods = function(localGoods: IGoodsList){
+  currentGoods = localGoods.sort((a, b) => {return b.price - a.price})
+  showGoods(currentGoods);
+  setQueryParameters("sort", "priceВown");
+  return currentGoods;
+}
+
+const sortGoodsRatingUp: IShowGoods = function(localGoods: IGoodsList){
+  currentGoods = localGoods.sort((a, b) => {return a.rating - b.rating})
+  showGoods(currentGoods);
+  setQueryParameters("sort", "rateUp");
+  return currentGoods;
+}
+
+const sortGoodsRatingDown: IShowGoods = function(localGoods: IGoodsList){
+  currentGoods = localGoods.sort((a, b) => {return b.rating - a.rating})
+  showGoods(currentGoods);
+  setQueryParameters("sort", "rateDown");
+  return currentGoods;
+}
+
+
+//////////// ______________AUXILIARY FUNCTION______________ ////////////
+const showGoods: IShowGoods = function(localGoods): IGoodsList {
+  const contentProducts: HTMLElement | null = document.getElementById("content__products");
+  if (contentProducts instanceof HTMLElement){
+    contentProducts.innerHTML = "";
+  };
+
+  // для Оли: надо добавить проверки на big=false/big-true,
   // в зависимости от проверки и query параметра добавить ".content__products"
   // или класс big, или класс small
   
@@ -19,26 +60,26 @@ const showGoods: IShowGoods = function(currentGoods): IGoodsList {
   let countValue: HTMLElement | null = document.querySelector(".content__control__count__value");
   if (countValue instanceof HTMLElement){
     countValue.innerHTML = "";
-    countValue.innerHTML = currentGoods.length + "";
+    countValue.innerHTML = localGoods.length + "";
   }
 
   // show goods
-  for (let i = 0; i < currentGoods.length; i++){
+  for (let i = 0; i < localGoods.length; i++){
     const productWrapper: HTMLElement = document.createElement("div");
     productWrapper.classList.add("content__products__product__wrapper");
     document.querySelector(".content__products")?.append(productWrapper);
 
     const productCard: HTMLElement = document.createElement("div");
     productCard.classList.add("content__products__product");
-    productCard.id = currentGoods[i].id + "";
-    productCard.style.background = `url(${currentGoods[i].thumbnail}) 0% / cover`;
+    productCard.id = localGoods[i].id + "";
+    productCard.style.background = `url(${localGoods[i].thumbnail}) 0% / cover`;
     productWrapper.append(productCard);
 
     // product title
     const productTitle: HTMLElement = document.createElement("div");
     productTitle.classList.add("content__products__product__title");
     productTitle.innerHTML = "";
-    productTitle.innerHTML = currentGoods[i].title;
+    productTitle.innerHTML = localGoods[i].title;
 
     // products info
     const productInfo: HTMLElement = document.createElement("div");
@@ -47,32 +88,32 @@ const showGoods: IShowGoods = function(currentGoods): IGoodsList {
     const infoCategory: HTMLElement = document.createElement("div");
     infoCategory.classList.add("content__products__product__info__item");
     infoCategory.innerHTML = "";
-    infoCategory.innerHTML = `Category: ${currentGoods[i].category}`;
+    infoCategory.innerHTML = `Category: ${localGoods[i].category}`;
 
     const infoBrand: HTMLElement = document.createElement("div");
     infoBrand.classList.add("content__products__product__info__item");
     infoBrand.innerHTML = "";
-    infoBrand.innerHTML = `Brand: ${currentGoods[i].brand}`;
+    infoBrand.innerHTML = `Brand: ${localGoods[i].brand}`;
     
     const infoPrice: HTMLElement = document.createElement("div");
     infoPrice.classList.add("content__products__product__info__item");
     infoPrice.innerHTML = "";
-    infoPrice.innerHTML = `Price: $${currentGoods[i].price}`;
+    infoPrice.innerHTML = `Price: $${localGoods[i].price}`;
 
     const infoDiscount: HTMLElement = document.createElement("div");
     infoDiscount.classList.add("content__products__product__info__item");
     infoDiscount.innerHTML = "";
-    infoDiscount.innerHTML = `Discount: ${currentGoods[i].discountPercentage}%`;
+    infoDiscount.innerHTML = `Discount: ${localGoods[i].discountPercentage}%`;
 
     const infoRating: HTMLElement = document.createElement("div");
     infoRating.classList.add("content__products__product__info__item");
     infoRating.innerHTML = "";
-    infoRating.innerHTML = `Rating: ${currentGoods[i].rating}`;
+    infoRating.innerHTML = `Rating: ${localGoods[i].rating}`;
 
     const infoStock: HTMLElement = document.createElement("div");
     infoStock.classList.add("content__products__product__info__item");
     infoStock.innerHTML = "";
-    infoStock.innerHTML = `Stock: ${currentGoods[i].stock}`;
+    infoStock.innerHTML = `Stock: ${localGoods[i].stock}`;
     
     productInfo.append(infoCategory, infoBrand, infoPrice, infoDiscount, infoRating, infoStock);
 
@@ -89,9 +130,10 @@ const showGoods: IShowGoods = function(currentGoods): IGoodsList {
 
     productCard.append(productTitle, productInfo, productCart, productDetails);
   }
-  return currentGoods;
+  return localGoods;
 }
 
 
 
-export { showGoods, IShowGoods, currentGoods }
+export { showGoods, IShowGoods, currentGoods, showAllGoods, sortGoodsPriceUp, sortGoodsPriceDown,
+         sortGoodsRatingUp, sortGoodsRatingDown }

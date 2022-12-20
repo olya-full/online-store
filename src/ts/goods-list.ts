@@ -1,19 +1,5 @@
-// interfaces
-type IGoodsList = {
-    id: number;
-    title: string;
-    description: string;
-    price: number;
-    discountPercentage: number;
-    rating: number;
-    stock: number;
-    brand: string;
-    category: string;
-    thumbnail: string;
-    images: string[];
-}[];
+import { IGoodsList } from "./interfaces";
 
-// code
 const goodsList: IGoodsList = [
   {"id":1,
   "title":"iPhone 9",
