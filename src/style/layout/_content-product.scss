@@ -3,7 +3,7 @@
     min-height: 500px;
     border: 1px dashed black;
     @include grid-4-rows;
-    font-size: 0.7rem;
+    font-size: 0.6rem;
 }
 // add "BIG" modifier here when ready
 .content__products {
@@ -23,6 +23,7 @@
     background-image: url(https://img1.picmix.com/output/stamp/normal/2/9/2/2/842292_5d658.png) 0% / cover;
     width: 100%;
     height: 100%;
+    padding: 2px;
 }
 
 .added {
@@ -41,7 +42,6 @@
 .content__products__product__info__item {
     margin: 3px;
     text-align: left;
-    font-size: 0.5rem;
 }
 
 .content__products__product__cart,

@@ -19,7 +19,7 @@
                     <div class="basket__value">Корзина</div>
                 </div>
             </header>
-            <main class="main">
+            <main class="main" id="main">
                 <div class="filters">
                     <div class="filters__options filters__control">
                         <div class="filters__control__name">Control</div>
@@ -44,7 +44,13 @@
                 </div>
                 <div class="content">
                     <div class="content__control">
-                        <div class="content__control__sort">Выпадающий список с опциями</div>
+                        <select class="content__control__sort" id="main_sort" name="main_sort">
+                            <option id="control_sort" value="Sort" disabled selected>Sort</option>
+                            <option id="control_priceup" value="PriceUp">Price ▲</option>
+                            <option id="control_pricedown" value="PriceDown">Price ▼</option>
+                            <option id="control_ratingup" value="RatingUp">Rating ▲</option>
+                            <option id="control_ratingdown" value="RatingDown">Rating ▼</option>
+                        </select>
                         <div class="content__control__count">
                             <div class="content__control__count__text">Count: 
                                 <span class="content__control__count__value"></span>
@@ -53,7 +59,7 @@
                         <div class="content__control__found">Здесь будет поиск</div>
                         <div class="content__control__layout">Раскладка</div>
                     </div>
-                    <div class="content__products">
+                    <div class="content__products" id="content__products">
                         
                     </div>
                 </div>
@@ -62,7 +68,7 @@
                 <a class="github" href="https://github.com/olya-full">Гитхаб1</a>
                 <a class="github" href="https://github.com/Florence100">Гитхаб2</a>
                 <div class="info__year">2022</div>
-                <a class="rsshool" href="https://rs.school/js/">RSSCOOL</a>
+                <a class="rsshool" href="https://rs.school/js/">RSSCHOOL</a>
             </footer>
         </div>
     </body>

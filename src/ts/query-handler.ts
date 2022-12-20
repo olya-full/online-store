@@ -1,0 +1,1 @@
+let currentURL: string = window.location.href;

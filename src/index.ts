@@ -1,7 +1,8 @@
 import './main.scss';
 import './index.html';
 import './ts/create';
-import './ts/main-page-goods'
+import './ts/show-goods';
+import './ts/event-listeners';
 
 
 
