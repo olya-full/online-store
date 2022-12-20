@@ -5,7 +5,14 @@
     @include grid-4-rows;
     font-size: 0.7rem;
 }
+// add "BIG" modifier here when ready
+.content__products {
+    @include grid-4-rows;
+}
 
+.content__products small{
+    @include grid-6-rows;
+}
 .content__products__product__wrapper {
     box-sizing: border-box;
     overflow: hidden;
