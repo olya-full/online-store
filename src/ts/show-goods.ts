@@ -19,28 +19,26 @@ const sortGoodsPriceUp: IShowGoods = function(localGoods: IGoodsList){
   currentGoods = localGoods.sort((a, b) => {return a.price - b.price})
   showGoods(currentGoods);
   setQueryParameters("sort", "priceUp");
-  console.log(currentURL);
+  console.log("currentURL:  " + currentURL);
   return currentGoods;
 }
 
 const sortGoodsPriceDown: IShowGoods = function(localGoods: IGoodsList){
   currentGoods = localGoods.sort((a, b) => {return b.price - a.price})
   showGoods(currentGoods);
-  setQueryParameters("sort", "priceВown");
+  setQueryParameters("sort", "priceDown");
   return currentGoods;
 }
 
 const sortGoodsRatingUp: IShowGoods = function(localGoods: IGoodsList){
   currentGoods = localGoods.sort((a, b) => {return a.rating - b.rating})
   showGoods(currentGoods);
-  setQueryParameters("sort", "rateUp");
   return currentGoods;
 }
 
 const sortGoodsRatingDown: IShowGoods = function(localGoods: IGoodsList){
   currentGoods = localGoods.sort((a, b) => {return b.rating - a.rating})
   showGoods(currentGoods);
-  setQueryParameters("sort", "rateDown");
   return currentGoods;
 }
 
