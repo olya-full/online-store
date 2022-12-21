@@ -1,6 +1,6 @@
 import { currentGoods, showAllGoods, sortGoodsPriceUp, sortGoodsPriceDown,
   sortGoodsRatingUp, sortGoodsRatingDown } from './show-goods';
-import { IEventTargetValue } from './interfaces';
+import { IEventTargetValue } from './interfaces'
 
 
 // commencing JS on the page
