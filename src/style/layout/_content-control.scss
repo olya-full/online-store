@@ -2,11 +2,24 @@
     width: 100%;
     @include flex-space-between;
     border: 1px dashed rgb(0, 110, 255);
+    padding: 2px;
+    align-items: center;
 }
 
-.content__control__sort {
+.content__control__sort,
+#search {
     font: inherit;
 }
-.content__control__layout {
-    background-image: url('./images/cart.png');
+
+.content__control__layout__switch {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-content: center;
+}
+
+#content__control__layout_checkbox,
+.content__control__layout__switch {
+    display: inline;
+    vertical-align: middle;
 }

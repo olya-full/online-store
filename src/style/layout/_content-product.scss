@@ -1,16 +1,20 @@
-.content__products {
+.content__products__wrapper {
     width: 100%;
     min-height: 500px;
     border: 1px dashed black;
-    @include grid-4-rows;
+}
+
+.content__products {
+    width: 100%;
+    max-height: width;
     font-size: 0.6rem;
 }
-// add "BIG" modifier here when ready
-.content__products {
+
+.large {
     @include grid-4-rows;
 }
 
-.content__products small{
+.small{
     @include grid-6-rows;
 }
 .content__products__product__wrapper {
@@ -24,6 +28,10 @@
     width: 100%;
     height: 100%;
     padding: 2px;
+    display: flex;
+    flex-direction: column;
+    @include flex-colomn;
+    @include flex-space-between;
 }
 
 .added {
