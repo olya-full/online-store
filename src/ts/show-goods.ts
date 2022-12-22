@@ -33,12 +33,14 @@ const sortGoodsPriceDown: IShowGoods = function(localGoods: IGoodsList){
 const sortGoodsRatingUp: IShowGoods = function(localGoods: IGoodsList){
   currentGoods = localGoods.sort((a, b) => {return a.rating - b.rating})
   showGoods(currentGoods);
+  setQueryParameters("sort", "ratingUp");
   return currentGoods;
 }
 
 const sortGoodsRatingDown: IShowGoods = function(localGoods: IGoodsList){
   currentGoods = localGoods.sort((a, b) => {return b.rating - a.rating})
   showGoods(currentGoods);
+  setQueryParameters("sort", "ratingDown");
   return currentGoods;
 }
 

@@ -88,44 +88,49 @@ const setQueryParameters = function(key: string, value: string | number): void{
       break;
   }
 
-  /* good solution but there's an unresolved TS issue
-  for (let key in paramsObject){
-    if (typeof paramsObject[key as keyof IParamsObject] === "string" && typeof paramsObjectStringified[key as keyof IParamsObjectStringified] === "string"){
-    paramsObjectStringified[key as keyof IParamsObjectStringified] = paramsObject[key as keyof IParamsObject];
-    }
-  }  */
-
   // creating an object with stringified values
   paramsObjectStringified = JSON.parse(JSON.stringify(paramsObject));
 
   // НАСТЯ, эти if'ы внизу для твоей фильтрации, можешь переделывать по желанию.
   if (paramsObject.category instanceof Array ){
     if (paramsObject.category.length > 0){
-    paramsObjectStringified.category = paramsObject.category.join("-");
+      paramsObjectStringified.category = paramsObject.category.join("-");
     } else if (paramsObject.category.length <= 0){
       delete paramsObjectStringified.category;
     }
   };
-  if (paramsObject.brand instanceof Array && paramsObject.brand.length > 0){
-    paramsObjectStringified.brand = paramsObject.brand.join("-");
+  if (paramsObject.brand instanceof Array){
+    if (paramsObject.brand.length > 0){
+      paramsObjectStringified.brand = paramsObject.brand.join("-");
+    } else if (paramsObject.brand.length <= 0){
+      delete paramsObjectStringified.brand;
+    }
   };
-  if (paramsObject.price instanceof Array && paramsObject.price.length > 0){
-    paramsObjectStringified.price = paramsObject.price.join("-");
+  if (paramsObject.price instanceof Array){
+    if (paramsObject.price.length > 0) {
+      paramsObjectStringified.price = paramsObject.price.join("-");
+    } else if (paramsObject.price.length <= 0){
+      delete paramsObjectStringified.price;
+    }
   };
-  if (paramsObject.stock instanceof Array && paramsObject.stock.length > 0){
-    paramsObjectStringified.stock = paramsObject.stock.join("-");
+  if (paramsObject.stock instanceof Array ){
+    if (paramsObject.stock.length > 0) {
+      paramsObjectStringified.stock = paramsObject.stock.join("-");
+    } else if (paramsObject.stock.length <= 0){
+      delete paramsObjectStringified.stock;
+    }
   };
 
   // assigning stringified object as a parameter of searchParams function and then stringifying it
   searchParams = new URLSearchParams(paramsObjectStringified);
   queryString = searchParams.toString();
   //window.location.href = window.location.href + `#${queryString}`;
-  
-  const url = new URL(window.location);
-  url.searchParams.set('foo', 'bar');
-  window.history.pushState({}, '', url);
-  
 
+  const queryParams = new URLSearchParams(window.location.search);
+  for (let key in paramsObjectStringified){
+    queryParams.set(key, paramsObjectStringified[key as keyof IParamsObjectStringified]!)
+  };
+  window.history.pushState({}, '', `?${queryString}`);
 
   currentURL = new URL (window.location.href);
 } 
