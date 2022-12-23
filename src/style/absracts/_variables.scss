@@ -5,3 +5,10 @@
 // Сооответсвенно лучше называть свои переменные более абстрактно, напр @brandColor, нежели @orangeColor
 
 // https://sass-guidelin.es/ru/#section-46/
+
+$button-color: rgb(207, 180, 231); // пока такой цвет, потом поменяем)
+$background-form-color: white;
+$background-form-invalid: red;
+$background-form-valid: rgb(0, 255, 42);
+
+$form-border: black;

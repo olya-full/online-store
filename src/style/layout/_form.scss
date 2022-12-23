@@ -1,0 +1,103 @@
+.card-form {
+    width: 500px;
+    height: 500px;
+    z-index: 15;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    z-index: 20;
+    background: $background-form-color;
+    border-radius: 15px;
+    @include flex-colomn;
+    align-items: center;
+
+    
+    border: 1px solid $form-border;
+}
+
+.form {
+    width: 100%;
+    height: 100%;
+    @include flex-colomn;
+    align-items: center;
+}
+
+.form__text, 
+.form__card-section__title {
+    height: 30px;
+    @include flex-center;
+}
+
+.form__input,
+.form__submit {
+    width: 300px;
+    height: 40px;
+    border-radius: 5px;
+    outline: none;
+    text-align: center;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.form__submit {
+    text-transform: uppercase;
+    margin-top: 10px;
+}
+
+.form__input:required:valid {
+    outline: $background-form-valid;
+    color: $background-form-valid;
+}
+
+.form__input:invalid {
+    outline: $background-form-invalid;
+    color: $background-form-invalid;
+}
+
+.form__card-section__card {
+    width: 250px;
+    height: 150px;
+    border-radius: 15px;
+    padding: 10px;
+    border: 1px solid $form-border;
+}
+
+.form__payment-system {
+    width: 40px;
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid $form-border;
+}
+
+.form__number-card {
+    width: 170px;
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid $form-border;
+}
+
+.form__card-box {
+    @include flex-space-between;
+}
+
+.form__payment-system_visa,
+.form__payment-system_mastercard,
+.form__payment-system_mir {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.form__expiration-date,
+.form__CVV {
+    width: 75px;
+    height: 30px;
+    border: 1px solid $form-border;
+}
+
+.form__CVV {
+    width: 50px;
+}

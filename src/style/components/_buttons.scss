@@ -1,1 +1,13 @@
 // В компонентах собираютя подблоки - какие-то части блока - например кнопки, блок с логотипом, навигация в хедере и тд
+
+.button_buy {
+    width: 80px;
+    height: 30px;
+    border: 1px black solid;
+    background: $button-color;
+    @include flex-center;
+
+
+    margin-top: 100px;
+}
+
