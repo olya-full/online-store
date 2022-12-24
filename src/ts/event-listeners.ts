@@ -1,7 +1,7 @@
 import { currentGoods, showAllGoods, sortGoodsPriceUp, sortGoodsPriceDown,
          sortGoodsRatingUp, sortGoodsRatingDown, searchGoods, showGoods, changeLayout } from './show-goods';
 import { IEventTargetValue } from './interfaces'
-import { setQueryParameters } from './query-handler'
+import { setQueryParameters, clearQueryParameters, removeQueryParameters } from './query-handler'
 
 
 // commencing JS on the page
@@ -10,6 +10,7 @@ window.addEventListener("DOMContentLoaded", () => {
   listenSortGoods();
   listenSearchGoods();
   listenLayoutCheckbox();
+  listenResetButton();
 });
 
 // listener for goods sorting
@@ -50,7 +51,7 @@ const listenSearchGoods = function(): void {
 }
 
 // listener for layout changer
-const listenLayoutCheckbox = function (): void {
+const listenLayoutCheckbox = function(): void {
   const layoutCheckbox: HTMLInputElement = document.getElementById("content__control__layout_checkbox") as HTMLInputElement;
   layoutCheckbox.addEventListener("click", () => {
     if (layoutCheckbox.checked == true){
@@ -58,6 +59,14 @@ const listenLayoutCheckbox = function (): void {
     } else if (layoutCheckbox.checked == false){
       changeLayout();
     }
+  })
+}
+
+// listener for layout changer
+const listenResetButton = function(): void {
+  const resetButton: HTMLElement = document.getElementById("filters__control__reset") as HTMLElement;
+  resetButton.addEventListener("click", () => {
+    clearQueryParameters();
   })
 }
 

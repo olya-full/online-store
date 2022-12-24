@@ -7,3 +7,9 @@
 .filters__options {
     @include flex-colomn;
 }
+
+.filters__control {
+    @include flex-space-between;
+    flex-direction: row;
+    margin: 2px 5px;
+}
