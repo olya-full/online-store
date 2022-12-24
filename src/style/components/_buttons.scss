@@ -6,8 +6,17 @@
     border: 1px black solid;
     background: $button-color;
     @include flex-center;
+    cursor: pointer;
 
 
     margin-top: 100px;
 }
 
+.button {
+    width: 80px;
+    height: 30px;
+    border: 1px black solid;
+    background: $button-color;
+    @include flex-center;
+    cursor: pointer;
+}
