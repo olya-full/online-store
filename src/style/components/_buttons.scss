@@ -13,10 +13,20 @@
 }
 
 .button {
-    width: 100px;
-    height: 30px;
     border: 1px black solid;
     background: $button-color;
     @include flex-center;
     cursor: pointer;
+}
+
+.button_filters {
+    width: 45%;
+    height: 30px;
+    display: inline;
+    @include flex-center;
+}
+
+.button_product {
+    width: 90%;
+    height: 40%;
 }

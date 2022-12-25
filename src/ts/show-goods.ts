@@ -1,7 +1,7 @@
 import { goodsList, IGoodsList } from './goods-list';
 import { IShowGoods, IOneProduct, IGoodsInfo } from './interfaces';
 import { setQueryParameters, currentURL } from './query-handler';
-import { mainSearch } from './event-listeners';
+import { mainSearch, listenGoodsDescription } from './event-listeners';
 
 // declaring global variable for the goods array which is changed by sorting and filtering 
 let currentGoods: IGoodsList;
@@ -108,6 +108,10 @@ const hideDetailedInfo: () => void = function(){
 
 //////////// ______________AUXILIARY FUNCTION______________ ////////////
 const showGoods: IShowGoods = function(localGoods): IGoodsList {
+  // make sure the other areas like cart and product info are not displayed
+  let goodsDetails: HTMLElement = document.getElementById("goods__details") as HTMLElement;
+  goodsDetails.style.display = "none";
+  
   let noGoodsText: HTMLElement = document.getElementById("noGoodsText") as HTMLElement;
   noGoodsText.style.display = "none";
   
@@ -120,7 +124,6 @@ const showGoods: IShowGoods = function(localGoods): IGoodsList {
 
   // populate "Count"
   let countValue: HTMLElement | null = document.querySelector(".content__control__count__value");
-  let outerProductsWrapper: HTMLElement = document.getElementById("content__products__wrapper") as HTMLElement;
   if (countValue instanceof HTMLElement){
     countValue.innerHTML = "";
     countValue.innerHTML = localGoods.length + "";
@@ -190,18 +193,19 @@ const showGoods: IShowGoods = function(localGoods): IGoodsList {
     cartDetailsWrapper.innerHTML = "";
 
     const productCart: HTMLElement = document.createElement("div");
-    productCart.classList.add("content__products__product__cart");
+    productCart.classList.add("content__products__product__cart", "button_product", "button");
     productCart.innerHTML = "";
     productCart.innerHTML = "ADD TO CART";
 
     const productDetails: HTMLElement = document.createElement("div");
-    productDetails.classList.add("content__products__product__details");
+    productDetails.classList.add("content__products__product__details", "button_product", "button");
     productDetails.innerHTML = "";
     productDetails.innerHTML = "DETAILS";
 
     productCard.append(productTitle, productInfo, cartDetailsWrapper);
     cartDetailsWrapper.append(productCart, productDetails);
   }
+  listenGoodsDescription();
   return localGoods;
 }
 
