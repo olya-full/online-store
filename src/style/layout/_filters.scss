@@ -119,4 +119,9 @@
 
 .checkselect__items {
     width: 130px;
+
+.filters__control {
+    @include flex-space-between;
+    flex-direction: row;
+    margin: 2px 5px;
 }

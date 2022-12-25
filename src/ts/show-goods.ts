@@ -10,6 +10,7 @@ let currentGoods: IGoodsList;
 // initial function triggered by "DOMContentLoaded" event
 const showAllGoods: IShowGoods = function(localGoods: IGoodsList){
   localGoods = goodsList;
+  currentGoods = localGoods.sort((a, b) => {return a.id - b.id});
   showGoods(localGoods);
   currentGoods = showGoods(localGoods);
   return currentGoods;
@@ -17,7 +18,7 @@ const showAllGoods: IShowGoods = function(localGoods: IGoodsList){
 
 // sorting functions in the control panel, triggered by selecting an item from the drop-down list
 const sortGoodsPriceUp: IShowGoods = function(localGoods: IGoodsList){
-  currentGoods = localGoods.sort((a, b) => {return a.price - b.price})
+  currentGoods = localGoods.sort((a, b) => {return a.price - b.price});
   showGoods(currentGoods);
   searchGoods(currentGoods, mainSearch.value);
   setQueryParameters("sort", "priceUp");
@@ -25,7 +26,7 @@ const sortGoodsPriceUp: IShowGoods = function(localGoods: IGoodsList){
 }
 
 const sortGoodsPriceDown: IShowGoods = function(localGoods: IGoodsList){
-  currentGoods = localGoods.sort((a, b) => {return b.price - a.price})
+  currentGoods = localGoods.sort((a, b) => {return b.price - a.price});
   showGoods(currentGoods);
   searchGoods(currentGoods, mainSearch.value);
   setQueryParameters("sort", "priceDown");
@@ -33,7 +34,7 @@ const sortGoodsPriceDown: IShowGoods = function(localGoods: IGoodsList){
 }
 
 const sortGoodsRatingUp: IShowGoods = function(localGoods: IGoodsList){
-  currentGoods = localGoods.sort((a, b) => {return a.rating - b.rating})
+  currentGoods = localGoods.sort((a, b) => {return a.rating - b.rating});
   showGoods(currentGoods);
   searchGoods(currentGoods, mainSearch.value);
   setQueryParameters("sort", "ratingUp");
@@ -41,7 +42,7 @@ const sortGoodsRatingUp: IShowGoods = function(localGoods: IGoodsList){
 }
 
 const sortGoodsRatingDown: IShowGoods = function(localGoods: IGoodsList){
-  currentGoods = localGoods.sort((a, b) => {return b.rating - a.rating})
+  currentGoods = localGoods.sort((a, b) => {return b.rating - a.rating});
   showGoods(currentGoods);
   searchGoods(currentGoods, mainSearch.value);
   setQueryParameters("sort", "ratingDown");
