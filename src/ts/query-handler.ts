@@ -1,6 +1,8 @@
-import { IParamsObject, IParamsObjectStringified, IGoodsInfo } from './interfaces';
-import { showAllGoods, currentGoods, hideDetailedInfo } from './show-goods';
+import { IParamsObject, IParamsObjectStringified, IGoodsInfo, IEventTargetValue } from './interfaces';
+import { showAllGoods, currentGoods, hideDetailedInfo, sortGoodsPriceUp, sortGoodsPriceDown,
+         sortGoodsRatingUp, sortGoodsRatingDown, searchGoods } from './show-goods';
 import { goodsList } from './goods-list';
+import { mainSearch } from './event-listeners';
 
 let currentURL: URL = new URL (window.location.href);
 let searchParams: URLSearchParams | string;
@@ -13,7 +15,7 @@ let paramsObject: IParamsObject = {
 let paramsObjectStringified: IParamsObjectStringified;
 let queryString: string;
 
-// parsing query string and putting the values into paramsObject
+// parsing query string, putting the values into paramsObject, restoring the page state
 const parseQueryString: () => void = function(){
   queryString = window.location.search;
   console.log(queryString);
@@ -30,10 +32,60 @@ const parseQueryString: () => void = function(){
       splitByEqual!.push(temp);
     });
     console.log(splitByEqual);
+
+    splitByEqual.forEach((e) => {
+      switch (e[0]){
+        case "sort":
+          paramsObject.sort = e[1];
+          let mainSort: HTMLSelectElement = document.getElementById("main_sort") as HTMLSelectElement;
+          // переделать в будущем часть ниже, т.к. я, скорее всего, буду вызывать
+        // Настину функцию, которая будет включать поиск и сортировку 
+        // КРОМЕ mainSort.selectedIndex = !!!!!!!!!!!!!
+          switch (e[1]){
+            case "priceUp":
+              mainSort.selectedIndex = 1;
+              sortGoodsPriceUp(currentGoods);
+              break;
+            case "priceDown":
+              mainSort.selectedIndex = 2;
+              sortGoodsPriceDown(currentGoods);
+              break;
+            case "ratingUp":
+              mainSort.selectedIndex = 3;
+              sortGoodsRatingUp(currentGoods);
+              break;
+            case "ratingDown":
+              mainSort.selectedIndex = 4;
+              sortGoodsRatingDown(currentGoods);
+              break;
+          };
+          break;
+
+        case "search":
+          paramsObject.search = e[1];
+          mainSearch.value = e[1];
+          // переделать в будущем часть ниже
+          searchGoods(currentGoods, mainSearch.value);
+          break;
+
+        case "layout":
+          paramsObject.layout = e[1];
+          if (e[1] === "large"){
+            setQueryParameters("layout", "large");
+          }
+          if (e[1] === "small"){
+            const goodsContentWrapper: HTMLElement = document.getElementById("content__products")!;
+            goodsContentWrapper.classList.remove("large");
+            goodsContentWrapper.classList.add("small");
+            setQueryParameters("layout", "small");
+            hideDetailedInfo();
+          }
+          break;
+        // СЮДА ДОБАВИТЬ ОБРАБОТКУ ФИЛЬТРОВ НАСТИ
+      }
+    })
   }
 };
-
-// restoring the page state depending on the paramsObject
 
 // copying the URL into
 const copyToClipboard: () => void = function(){

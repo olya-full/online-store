@@ -108,6 +108,9 @@ const hideDetailedInfo: () => void = function(){
 
 //////////// ______________AUXILIARY FUNCTION______________ ////////////
 const showGoods: IShowGoods = function(localGoods): IGoodsList {
+  let noGoodsText: HTMLElement = document.getElementById("noGoodsText") as HTMLElement;
+  noGoodsText.style.display = "none";
+  
   const contentProducts: HTMLElement | null = document.getElementById("content__products");
   if (contentProducts instanceof HTMLElement){
     contentProducts.innerHTML = "";
@@ -118,8 +121,6 @@ const showGoods: IShowGoods = function(localGoods): IGoodsList {
   // populate "Count"
   let countValue: HTMLElement | null = document.querySelector(".content__control__count__value");
   let outerProductsWrapper: HTMLElement = document.getElementById("content__products__wrapper") as HTMLElement;
-  let noGoodsText: HTMLElement = document.getElementById("noGoodsText") as HTMLElement;
-  noGoodsText.style.display = "none";
   if (countValue instanceof HTMLElement){
     countValue.innerHTML = "";
     countValue.innerHTML = localGoods.length + "";
