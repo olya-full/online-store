@@ -1,10 +1,11 @@
-import { IParamsObject, IParamsObjectStringified } from './interfaces';
-import { showAllGoods, currentGoods } from './show-goods';
+import { IParamsObject, IParamsObjectStringified, IGoodsInfo, IEventTargetValue } from './interfaces';
+import { showAllGoods, currentGoods, hideDetailedInfo, sortGoodsPriceUp, sortGoodsPriceDown,
+         sortGoodsRatingUp, sortGoodsRatingDown, searchGoods } from './show-goods';
 import { goodsList } from './goods-list';
 import { mainSearch } from './event-listeners';
 
 let currentURL: URL = new URL (window.location.href);
-let searchParams: URLSearchParams;
+let searchParams: URLSearchParams | string;
 let paramsObject: IParamsObject = {
   category: [],
   brand: [],
@@ -13,6 +14,88 @@ let paramsObject: IParamsObject = {
 };
 let paramsObjectStringified: IParamsObjectStringified;
 let queryString: string;
+
+// parsing query string, putting the values into paramsObject, restoring the page state
+const parseQueryString: () => void = function(){
+  queryString = window.location.search;
+  console.log(queryString);
+
+  let noQuestionMark: string | Array<string>;
+  let splitByEqual: Array<Array<string>> | undefined = [];
+  if (queryString.length > 1){
+    noQuestionMark = queryString.slice(1);
+    noQuestionMark = noQuestionMark.split("&");
+    console.log(noQuestionMark);
+
+    noQuestionMark.forEach((e) => {
+      let temp: Array<string> = e.split("=");
+      splitByEqual!.push(temp);
+    });
+    console.log(splitByEqual);
+
+    splitByEqual.forEach((e) => {
+      switch (e[0]){
+        case "sort":
+          paramsObject.sort = e[1];
+          let mainSort: HTMLSelectElement = document.getElementById("main_sort") as HTMLSelectElement;
+          // переделать в будущем часть ниже, т.к. я, скорее всего, буду вызывать
+        // Настину функцию, которая будет включать поиск и сортировку 
+        // КРОМЕ mainSort.selectedIndex = !!!!!!!!!!!!!
+          switch (e[1]){
+            case "priceUp":
+              mainSort.selectedIndex = 1;
+              sortGoodsPriceUp(currentGoods);
+              break;
+            case "priceDown":
+              mainSort.selectedIndex = 2;
+              sortGoodsPriceDown(currentGoods);
+              break;
+            case "ratingUp":
+              mainSort.selectedIndex = 3;
+              sortGoodsRatingUp(currentGoods);
+              break;
+            case "ratingDown":
+              mainSort.selectedIndex = 4;
+              sortGoodsRatingDown(currentGoods);
+              break;
+          };
+          break;
+
+        case "search":
+          paramsObject.search = e[1];
+          mainSearch.value = e[1];
+          // переделать в будущем часть ниже
+          searchGoods(currentGoods, mainSearch.value);
+          break;
+
+        case "layout":
+          paramsObject.layout = e[1];
+          if (e[1] === "large"){
+            setQueryParameters("layout", "large");
+          }
+          if (e[1] === "small"){
+            const goodsContentWrapper: HTMLElement = document.getElementById("content__products")!;
+            goodsContentWrapper.classList.remove("large");
+            goodsContentWrapper.classList.add("small");
+            setQueryParameters("layout", "small");
+            hideDetailedInfo();
+          }
+          break;
+        // СЮДА ДОБАВИТЬ ОБРАБОТКУ ФИЛЬТРОВ НАСТИ
+      }
+    })
+  }
+};
+
+// copying the URL into
+const copyToClipboard: () => void = function(){
+  navigator.clipboard.writeText(window.location.href);
+  const copyButton: HTMLButtonElement = document.getElementById("filters__control__copy") as HTMLButtonElement;
+  let interimText: string = copyButton.innerHTML;
+  copyButton.innerHTML = "";
+  copyButton.innerHTML = "Success";
+  setTimeout(() => { copyButton.innerHTML = interimText}, 1000);
+}
 
 // функция setQueryParameters(key, value) кладёт пару key=value в адресную строку в качестве query-строки
 const setQueryParameters = function(key: string, value: string | number): void{
@@ -163,12 +246,6 @@ const removeQueryParameters = function(key: string, value: string | number): voi
 
   paramsObjectStringified = JSON.parse(JSON.stringify(paramsObject));
   
-  // НАСТЯ, эти if'ы внизу для твоей фильтрации, можешь переделывать по желанию.
-
-
-  
-
-
   // assigning stringified object as a parameter of searchParams function and then stringifying it
   searchParams = new URLSearchParams(paramsObjectStringified);
   queryString = searchParams.toString();
@@ -183,19 +260,16 @@ const removeQueryParameters = function(key: string, value: string | number): voi
 }
 
 // просто удаляем все параметры сортировки, фильтрации и поиска
-const clearQueryParameters = function(): void{
-  delete paramsObject.sort;
-  delete paramsObject.search;
-  delete paramsObject.layout;
+const clearAllFilters = function(): void{
   paramsObject.category = [];
   paramsObject.brand = [];
   paramsObject.price = [];
   paramsObject.stock = [];
-  mainSearch.value = "";
-  const mainSort: HTMLInputElement = document.getElementById("main_sort") as HTMLInputElement;
-  mainSort.value = "Sort";
+
+
   showAllGoods(goodsList);
   setQueryParameters("", "");
 }
 
-export { currentURL, setQueryParameters,searchParams, paramsObject, clearQueryParameters, removeQueryParameters }
+export { currentURL, setQueryParameters,searchParams, paramsObject, clearAllFilters, removeQueryParameters, parseQueryString, 
+         copyToClipboard }

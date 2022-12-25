@@ -22,8 +22,8 @@
             <main class="main" id="main">
                 <div class="filters">
                     <div class="filters__options filters__control">
-                        <div class="button filters__control__reset" id="filters__control__reset">Reset All</div>
-                        <div class="button filters__control__copy">Copy Link</div>
+                        <div class="button filters__control__reset" id="filters__control__reset">Clear Filters</div>
+                        <div class="button filters__control__copy" id="filters__control__copy">Copy Link</div>
                     </div>
                     <div class="filters__options filters__category">
                         <div class="filters__category__name">Category</div>
@@ -61,10 +61,11 @@
                             <input type="checkbox" id="content__control__layout_checkbox">
                         </div>
                     </div>
-                    <div class="content__products__wrapper">
+                    <div class="content__products__wrapper" id="content__products__wrapper">
                         <div class="content__products large" id="content__products">
                             
                         </div>
+                        <div id="noGoodsText">No products found according to your search parameters.</div>
                     </div>
                 </div>
             </main>

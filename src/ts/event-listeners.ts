@@ -1,7 +1,7 @@
 import { currentGoods, showAllGoods, sortGoodsPriceUp, sortGoodsPriceDown,
-         sortGoodsRatingUp, sortGoodsRatingDown, searchGoods, showGoods, changeLayout } from './show-goods';
+         sortGoodsRatingUp, sortGoodsRatingDown, searchGoods, showGoods, changeLayout, hideDetailedInfo } from './show-goods';
 import { IEventTargetValue } from './interfaces'
-import { setQueryParameters, clearQueryParameters, removeQueryParameters } from './query-handler'
+import { setQueryParameters, clearAllFilters, removeQueryParameters, parseQueryString, copyToClipboard } from './query-handler'
 
 
 // commencing JS on the page
@@ -11,6 +11,8 @@ window.addEventListener("DOMContentLoaded", () => {
   listenSearchGoods();
   listenLayoutCheckbox();
   listenResetButton();
+  parseQueryString();
+  listenCopyToClipboard();
 });
 
 // listener for goods sorting
@@ -44,6 +46,7 @@ const listenSearchGoods = function(): void {
 
     } else if (mainSearch.value.length <= 0){
       showGoods(currentGoods);
+      hideDetailedInfo();
       setQueryParameters("search", `${mainSearch.value}`);
     }
   })
@@ -62,11 +65,19 @@ const listenLayoutCheckbox = function(): void {
   })
 }
 
-// listener for layout changer
+// listener for "Reset All (filters)" button
 const listenResetButton = function(): void {
-  const resetButton: HTMLElement = document.getElementById("filters__control__reset") as HTMLElement;
+  const resetButton: HTMLButtonElement = document.getElementById("filters__control__reset") as HTMLButtonElement;
   resetButton.addEventListener("click", () => {
-    clearQueryParameters();
+    clearAllFilters();
+  })
+}
+
+// listener for copying the URL
+const listenCopyToClipboard = function() : void {
+  const copyButton: HTMLButtonElement = document.getElementById("filters__control__copy") as HTMLButtonElement;
+  copyButton.addEventListener("click", () => {
+    copyToClipboard();
   })
 }
 
