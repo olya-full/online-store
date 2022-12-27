@@ -1,4 +1,5 @@
 import { goodsList, IGoodsList } from './goods-list';
+import { goodsResult } from './filter-category';
 
 
 function createCategoryFilters () {
@@ -7,7 +8,7 @@ function createCategoryFilters () {
 
     for (let i=0; i < goodsList.length; i++) {
         if (!(categoryItems.includes(goodsList[i].category))) {
-            categoryItems.push(goodsList[i].category)
+            categoryItems.push(goodsList[i].category);
         }
     }
 
@@ -17,6 +18,7 @@ function createCategoryFilters () {
 
     for (let i=0; i < categoryItems.length; i++) {
         const label = document.createElement('label') as HTMLLabelElement;
+        label.classList.add(categoryItems[i]);
 
         const input = document.createElement('input') as HTMLInputElement;
         input.type = 'checkbox';
@@ -30,26 +32,29 @@ function createCategoryFilters () {
         const divCount = document.createElement('div') as HTMLDivElement;
         divCount.classList.add('checkselect__count');
         
-        const divStock = document.createElement('div') as HTMLDivElement;
-        divStock.classList.add('checkselect__count__stok');
-
+        const divCountAll = document.createElement('div') as HTMLDivElement;
+        divCountAll.classList.add('checkselect__count__all');
+        divCountAll.textContent = String(countCategoryGoodsAll(categoryItems[i]));
+        
         const divSeparator = document.createElement('div') as HTMLDivElement;
         divSeparator.textContent = '/';
 
         const divShow = document.createElement('div') as HTMLDivElement;
         divShow.classList.add('checkselect__count__show');
+        divShow.textContent = String(countCategoryGoodsShow(categoryItems[i], goodsList));
 
         label.appendChild(input);
         label.appendChild(div);
         label.appendChild(divCount);
         divCount.appendChild(divShow);
         divCount.appendChild(divSeparator);
-        divCount.appendChild(divStock);
+        divCount.appendChild(divCountAll);
         divCheckselect.appendChild(label);
     }
 
     filtersCategory?.appendChild(divCheckselect);
 }
+
 
 function createBrandFilters () {
     const brandItems: Array<string> = [];
@@ -67,6 +72,8 @@ function createBrandFilters () {
 
     for (let i=0; i < brandItems.length; i++) {
         const label = document.createElement('label') as HTMLLabelElement;
+        
+        label.id = brandItems[i];
 
         const input = document.createElement('input') as HTMLInputElement;
         input.type = 'checkbox';
@@ -80,25 +87,47 @@ function createBrandFilters () {
         const divCount = document.createElement('div') as HTMLDivElement;
         divCount.classList.add('checkselect__count');
         
-        const divStock = document.createElement('div') as HTMLDivElement;
-        divStock.classList.add('checkselect__count__stok');
+        const divCountAll = document.createElement('div') as HTMLDivElement;
+        divCountAll.classList.add('checkselect__count__stok');
+        divCountAll.textContent = String(countBrandGoodsAll(brandItems[i]));
 
         const divSeparator = document.createElement('div') as HTMLDivElement;
         divSeparator.textContent = '/';
 
         const divShow = document.createElement('div') as HTMLDivElement;
         divShow.classList.add('checkselect__count__show');
+        divShow.textContent = String(countBrandGoodsShow(brandItems[i], goodsList));
 
         label.appendChild(input);
         label.appendChild(div);
         label.appendChild(divCount);
         divCount.appendChild(divShow);
         divCount.appendChild(divSeparator);
-        divCount.appendChild(divStock);
+        divCount.appendChild(divCountAll);
         divCheckselect.appendChild(label);
     }
 
     filtersBrand?.appendChild(divCheckselect);
+}
+
+
+function countCategoryGoodsAll (value: string) {
+    return goodsList.filter(item => item.category === value).length;
+}
+
+
+function countCategoryGoodsShow (value: string, obj: IGoodsList) {
+    return obj.filter(item => item.category === value).length;
+}
+
+
+function countBrandGoodsAll (value: string) {
+    return goodsList.filter(item => item.brand === value).length;
+}
+
+
+function countBrandGoodsShow (value: string, obj: IGoodsList) {
+    return obj.filter(item => item.brand === value).length;
 }
 
 

@@ -3,5 +3,6 @@ import './index.html';
 import './ts/form';
 import './ts/show-goods';
 import './ts/event-listeners';
-import './ts/create-category-filters';
+import './ts/create-filters';
+import './ts/filter-category';
 
