@@ -1,5 +1,6 @@
 import { goodsList, IGoodsList } from './goods-list';
 import { goodsResult } from './filter-category';
+import { filterCategoryGoods, filterBrandGoods } from './filter-category'
 
 
 function createCategoryFilters () {
@@ -53,6 +54,7 @@ function createCategoryFilters () {
     }
 
     filtersCategory?.appendChild(divCheckselect);
+    filterCategoryGoods ();
 }
 
 
@@ -108,6 +110,7 @@ function createBrandFilters () {
     }
 
     filtersBrand?.appendChild(divCheckselect);
+    filterBrandGoods();
 }
 
 

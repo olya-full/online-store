@@ -3,6 +3,7 @@ import { currentGoods, showAllGoods, sortGoodsPriceUp, sortGoodsPriceDown,
 import { IEventTargetValue } from './interfaces'
 import { setQueryParameters, clearAllFilters, removeQueryParameters, parseQueryString, copyToClipboard } from './query-handler'
 import { openGoodsDescription } from './goods-description';
+import { goodsResult, getGoodsResult } from './filter-category';
 
 // commencing JS on the page
 window.addEventListener("DOMContentLoaded", () => {
@@ -22,16 +23,16 @@ const listenSortGoods = function(): void {
     const target: IEventTargetValue = e.target as IEventTargetValue;
     switch (target.value) {
       case "PriceUp":
-        sortGoodsPriceUp(currentGoods);
+        sortGoodsPriceUp(getGoodsResult());
         break;
       case "PriceDown":
-        sortGoodsPriceDown(currentGoods);
+        sortGoodsPriceDown(getGoodsResult());
         break;
       case "RatingUp":
-        sortGoodsRatingUp(currentGoods);
+        sortGoodsRatingUp(getGoodsResult());
         break;
       case "RatingDown":
-        sortGoodsRatingDown(currentGoods);
+        sortGoodsRatingDown(getGoodsResult());
         break;
     };
   });
@@ -42,10 +43,10 @@ const mainSearch: HTMLInputElement = <HTMLInputElement>document.getElementById("
 const listenSearchGoods = function(): void {
   mainSearch.addEventListener("keyup", () => {
     if (mainSearch.value.length > 0){
-      searchGoods(currentGoods, mainSearch.value);
+      searchGoods(getGoodsResult(), mainSearch.value);
 
     } else if (mainSearch.value.length <= 0){
-      showGoods(currentGoods);
+      showGoods(getGoodsResult());
       hideDetailedInfo();
       setQueryParameters("search", `${mainSearch.value}`);
     }

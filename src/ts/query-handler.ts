@@ -7,12 +7,15 @@ import { mainSearch } from './event-listeners';
 let currentURL: URL = new URL (window.location.href);
 let searchParams: URLSearchParams | string;
 let paramsObject: IParamsObject = {
+  //sort: "",
+  //search: "",
+  //layout: "",
   category: [],
   brand: [],
   price: [],
   stock: [],
 };
-let paramsObjectStringified: IParamsObjectStringified;
+let paramsObjectStringified: IParamsObjectStringified = JSON.parse(JSON.stringify(paramsObject));
 let queryString: string;
 
 // parsing query string, putting the values into paramsObject, restoring the page state
@@ -105,16 +108,19 @@ const setQueryParameters = function(key: string, value: string | number): void{
     case "sort":
       if (typeof value === "string"){
       paramsObject.sort = value;
+      paramsObjectStringified = JSON.parse(JSON.stringify(paramsObject));
       };
       break;
     case "search":
       if (typeof value === "string"){
         paramsObject.search = value;
+        paramsObjectStringified = JSON.parse(JSON.stringify(paramsObject));
       };
       break;
     case "layout":
       if (value === "large"|| value === "small"){
         paramsObject.layout = value;
+        paramsObjectStringified = JSON.parse(JSON.stringify(paramsObject));
       };
       break;
     // НАСТЯ, действия ниже в части "switch" этой функции setQueryParameters() сделаны для твоей фильтрации
@@ -142,7 +148,7 @@ const setQueryParameters = function(key: string, value: string | number): void{
   }
 
   // creating an object with stringified values
-  paramsObjectStringified = JSON.parse(JSON.stringify(paramsObject));
+
 
   if (paramsObject.search != undefined && paramsObject.search.length <= 0){
       delete paramsObjectStringified.search;
@@ -205,8 +211,10 @@ const removeQueryParameters = function(key: string, value: string | number): voi
       };
       if (paramsObject.category.length > 0){
         paramsObjectStringified.category = paramsObject.category.join("-");
+        console.log(paramsObject);
       } else if (paramsObject.category.length <= 0){
         delete paramsObjectStringified.category;
+        console.log(paramsObjectStringified);
       };
       break;
     case "brand":
@@ -245,7 +253,7 @@ const removeQueryParameters = function(key: string, value: string | number): voi
       break;
   }
 
-  paramsObjectStringified = JSON.parse(JSON.stringify(paramsObject));
+  console.log("later", paramsObjectStringified);
   
   // assigning stringified object as a parameter of searchParams function and then stringifying it
   searchParams = new URLSearchParams(paramsObjectStringified);
@@ -266,6 +274,11 @@ const clearAllFilters = function(): void{
   paramsObject.brand = [];
   paramsObject.price = [];
   paramsObject.stock = [];
+
+  mainSearch.value = "";
+  delete paramsObject.search;
+
+  // Настя, куда-нибудь сюда сброс твоих фильтров?
 
 
   showAllGoods(goodsList);

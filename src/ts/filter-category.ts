@@ -1,7 +1,8 @@
 import { goodsList, IGoodsList } from './goods-list';
-import {showGoods} from './show-goods';
-import {paramsObject} from './query-handler';
+import {currentGoods, searchGoods, showGoods} from './show-goods';
+import {paramsObject, setQueryParameters, removeQueryParameters} from './query-handler';
 import {sortGoodsPriceUp, sortGoodsPriceDown, sortGoodsRatingUp, sortGoodsRatingDown} from './show-goods';
+import { mainSearch } from './event-listeners';
 
 
 let goodsForCategory: IGoodsList = []; //отфильтрованные товары по категории
@@ -37,19 +38,30 @@ function filterCategoryGoods () {
                     }
                 }
 
+
                 changeShowGoodsCategory();
                 changeShowGoodsBrand();
-                
-                //вызов функции setQueryParameters(key, value)
+
+                // Оля раскомментила функцию на строчке ниже, чтобы проверить, что она работает. она работает ;)
+                setQueryParameters("category", inputsCategory[i].name);
+                // Оля добавила search на строчке ниже, чтобы поиск работал после применения фильтра
+                searchGoods(getGoodsResult(), mainSearch.value);
             } else {
                 let index: number = category.indexOf(inputsCategory[i].name);
                 category.splice(index, 1);
                 removeFiltersGoods(inputsCategory[i].name);
                 showGoods(getGoodsResult());
-                //вызов функции removeQueryParameters(key, value)
+
+                // Оля раскомментила функцию на строчке ниже, чтобы проверить, что она работает. она работает ;)
+                removeQueryParameters("category", inputsCategory[i].name);
+                // Оля добавила search на строчке ниже, чтобы поиск работал после отмены применения фильтра
+                searchGoods(getGoodsResult(), mainSearch.value);
+
+                
 
                 changeShowGoodsCategory();
                 changeShowGoodsBrand()
+
             }
         })
     }
@@ -144,6 +156,10 @@ function getGoodsResult() {
     } else {
         goodsResult = goodsForCategory.filter(x => goodsForBrand.includes(x));
     }
+    // Оля добавила три строчки ниже, чтобы после отмены всех фильтров показывались товары
+    if (goodsResult.length === 0) {
+        return currentGoods;
+    }
     return goodsResult;
 }
 
@@ -199,11 +215,11 @@ function changeShowGoodsBrand() { //изменение количества по
     }
 }
 
+// Оля это закомментила :Р
+//filterCategoryGoods();
+//filterBrandGoods();
 
-filterCategoryGoods();
-filterBrandGoods();
-
-export { goodsResult }
+export { goodsResult, filterCategoryGoods, filterBrandGoods, getGoodsResult }
 
 
 
