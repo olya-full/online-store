@@ -2,7 +2,7 @@ import { currentGoods, showAllGoods, sortGoodsPriceUp, sortGoodsPriceDown,
          sortGoodsRatingUp, sortGoodsRatingDown, searchGoods, showGoods, changeLayout, hideDetailedInfo } from './show-goods';
 import { IEventTargetValue } from './interfaces'
 import { setQueryParameters, clearAllFilters, removeQueryParameters, parseQueryString, copyToClipboard } from './query-handler'
-
+import { openGoodsDescription } from './goods-description';
 
 // commencing JS on the page
 window.addEventListener("DOMContentLoaded", () => {
@@ -81,4 +81,23 @@ const listenCopyToClipboard = function() : void {
   })
 }
 
-export { mainSearch }
+// listener for opening a product description page
+const listenGoodsDescription: () => void = function(){
+  const allGoodsCards = document.querySelectorAll(".content__products__product");
+  let productID: number;
+  
+  allGoodsCards.forEach(elem => {
+    elem.addEventListener("click", (event) => {
+      let currentTarget = event.currentTarget as HTMLElement;
+      let target = event.target as HTMLElement;
+      productID = Number(currentTarget.id);
+      if (target.classList.contains("content__products__product__cart")){
+        console.log("ADD PRODUCT TO THE CART");
+      } else {
+        openGoodsDescription(productID);
+      }
+    });
+  });
+}
+
+export { mainSearch, listenGoodsDescription }

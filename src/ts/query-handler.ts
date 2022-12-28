@@ -22,7 +22,7 @@ const parseQueryString: () => void = function(){
 
   let noQuestionMark: string | Array<string>;
   let splitByEqual: Array<Array<string>> | undefined = [];
-  if (queryString.length > 1){
+  if (queryString.length > 1 && queryString[0] === "?"){
     noQuestionMark = queryString.slice(1);
     noQuestionMark = noQuestionMark.split("&");
     console.log(noQuestionMark);
@@ -69,11 +69,12 @@ const parseQueryString: () => void = function(){
           break;
 
         case "layout":
-          paramsObject.layout = e[1];
           if (e[1] === "large"){
+            paramsObject.layout = e[1];
             setQueryParameters("layout", "large");
           }
           if (e[1] === "small"){
+            paramsObject.layout = e[1];
             const goodsContentWrapper: HTMLElement = document.getElementById("content__products")!;
             goodsContentWrapper.classList.remove("large");
             goodsContentWrapper.classList.add("small");
@@ -112,7 +113,7 @@ const setQueryParameters = function(key: string, value: string | number): void{
       };
       break;
     case "layout":
-      if (typeof value === "string"){
+      if (value === "large"|| value === "small"){
         paramsObject.layout = value;
       };
       break;

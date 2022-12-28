@@ -26,7 +26,7 @@ type IGoodsList = {
   images: string[];
 }[];
 
-type IOneProduct= {
+type IOneProduct = {
   id: number;
   title: string;
   description: string;
@@ -44,7 +44,7 @@ type IOneProduct= {
 interface IParamsObject {
   sort?: string,
   search?: string,
-  layout?: string,
+  layout?: "large" | "small",
 
   // НАСТЯ, значения этого интерфейса объекта ниже - для тебя. я предположила, 
   //что ты будешь всё хранить в массивах, но это при необходимости можно изменить на, допустим, объект для
