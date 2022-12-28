@@ -44,7 +44,7 @@ type IOneProduct = {
 interface IParamsObject {
   sort?: string,
   search?: string,
-  layout?: "large" | "small",
+  layout?: string,
 
   // НАСТЯ, значения этого интерфейса объекта ниже - для тебя. я предположила, 
   //что ты будешь всё хранить в массивах, но это при необходимости можно изменить на, допустим, объект для
