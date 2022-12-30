@@ -30,3 +30,9 @@
     width: 90%;
     height: 40%;
 }
+
+.button_buy:hover,
+.button:hover {
+    transform: scale(1.02);
+    transition: transform 0.25s;
+}

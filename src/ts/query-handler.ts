@@ -3,6 +3,7 @@ import { showAllGoods, currentGoods, hideDetailedInfo, sortGoodsPriceUp, sortGoo
          sortGoodsRatingUp, sortGoodsRatingDown, searchGoods } from './show-goods';
 import { goodsList } from './goods-list';
 import { mainSearch } from './event-listeners';
+import { openGoodsDescription } from './goods-description'
 
 let currentURL: URL = new URL (window.location.href);
 let searchParams: URLSearchParams | string;
@@ -18,8 +19,20 @@ let paramsObject: IParamsObject = {
 let paramsObjectStringified: IParamsObjectStringified = JSON.parse(JSON.stringify(paramsObject));
 let queryString: string;
 
+// removing everything that goes after hash basically clearing URL string
+function removeHash (): void { 
+  history.pushState("", document.title, window.location.pathname + window.location.search);
+}
+
+// setting new URL parameters when opening a new page (e.g. Main, Details, Cart)
+const setNewPageURL: (arg: string) => void = function(newURLParameters) {
+  //let params = new URLSearchParams(window.location.search);
+  window.history.pushState({}, '', `/#/${newURLParameters}`);
+}
+
+
 // parsing query string, putting the values into paramsObject, restoring the page state
-const parseQueryString: () => void = function(){
+const parseQueryString: () => void = function() {
   queryString = window.location.search;
   console.log(queryString);
 
@@ -88,6 +101,11 @@ const parseQueryString: () => void = function(){
         // СЮДА ДОБАВИТЬ ОБРАБОТКУ ФИЛЬТРОВ НАСТИ
       }
     })
+  }
+  let hash = window.location.hash;
+  if (hash[2] == "p"){
+    let productIdHash = Number(hash.split("/")[hash.split("/").length-1]);
+    openGoodsDescription(productIdHash);
   }
 };
 
@@ -211,10 +229,8 @@ const removeQueryParameters = function(key: string, value: string | number): voi
       };
       if (paramsObject.category.length > 0){
         paramsObjectStringified.category = paramsObject.category.join("-");
-        console.log(paramsObject);
       } else if (paramsObject.category.length <= 0){
         delete paramsObjectStringified.category;
-        console.log(paramsObjectStringified);
       };
       break;
     case "brand":
@@ -252,8 +268,6 @@ const removeQueryParameters = function(key: string, value: string | number): voi
       };
       break;
   }
-
-  console.log("later", paramsObjectStringified);
   
   // assigning stringified object as a parameter of searchParams function and then stringifying it
   searchParams = new URLSearchParams(paramsObjectStringified);
@@ -274,16 +288,19 @@ const clearAllFilters = function(): void{
   paramsObject.brand = [];
   paramsObject.price = [];
   paramsObject.stock = [];
+  
 
   mainSearch.value = "";
   delete paramsObject.search;
+  setQueryParameters("search", "");
 
   // Настя, куда-нибудь сюда сброс твоих фильтров?
 
 
-  showAllGoods(goodsList);
+  
   setQueryParameters("", "");
+  showAllGoods(goodsList);
 }
 
 export { currentURL, setQueryParameters,searchParams, paramsObject, clearAllFilters, removeQueryParameters, parseQueryString, 
-         copyToClipboard }
+         copyToClipboard, setNewPageURL, paramsObjectStringified, queryString, removeHash }

@@ -18,3 +18,10 @@ html {
 *, *::before, *::after {
     box-sizing: inherit;
 }
+
+a,
+a:visited {
+    color: unset;
+    text-decoration: none;
+    cursor: pointer;
+}

@@ -6,3 +6,20 @@
     align-self: center;
     border: 1px solid green;
 }
+
+.github {
+    height: 35px;
+    width: 35px;
+    background-image: url("./images/github.svg");
+    background-size: cover;
+    margin: 2px 2px 2px 5px;
+}
+
+.rsshool{
+    height: 70px;
+    width: 70px;
+    background-image: url("./images/rs.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 2px 5px 2px 2px;
+}
