@@ -1,8 +1,8 @@
 import { goodsList, IGoodsList } from './goods-list';
 import { IShowGoods, IOneProduct, IGoodsInfo } from './interfaces';
-import { setQueryParameters, currentURL } from './query-handler';
+import { setQueryParameters, currentURL, paramsObjectStringified, queryString } from './query-handler';
 import { mainSearch, listenGoodsDescription } from './event-listeners';
-import { goodsResult } from './filter-category';
+import { goodsResult, getGoodsResult } from './filter-category';
 
 // declaring global variable for the goods array which is changed by sorting and filtering 
 let currentGoods: IGoodsList;
@@ -12,8 +12,8 @@ let currentGoods: IGoodsList;
 const showAllGoods: IShowGoods = function(localGoods: IGoodsList){
   localGoods = goodsList;
   currentGoods = showGoods(localGoods);
-  if (mainSearch.value.length > 0){
-    searchGoods(currentGoods, mainSearch.value);
+  if (queryString && queryString.length > 0){
+    searchGoods(getGoodsResult(), mainSearch.value);
   } else {
     showGoods(localGoods);  
   }
@@ -110,7 +110,7 @@ const hideDetailedInfo: () => void = function(){
 //////////// ______________AUXILIARY FUNCTION______________ ////////////
 const showGoods: IShowGoods = function(localGoods): IGoodsList {
   // make sure the other areas like cart and product info are not displayed
-  let goodsDetails: HTMLElement = document.getElementById("goods__details") as HTMLElement;
+  const goodsDetails: HTMLElement = document.getElementById("goods__details") as HTMLElement;
   goodsDetails.style.display = "none";
   
   let noGoodsText: HTMLElement = document.getElementById("noGoodsText") as HTMLElement;
@@ -154,6 +154,8 @@ const showGoods: IShowGoods = function(localGoods): IGoodsList {
     productTitle.innerHTML = localGoods[i].title;
 
     // products info
+    const productInfoWrapper: HTMLElement = document.createElement("div");
+
     const productInfo: HTMLElement = document.createElement("div");
     productInfo.classList.add("content__products__product__info");
     
@@ -203,7 +205,8 @@ const showGoods: IShowGoods = function(localGoods): IGoodsList {
     productDetails.innerHTML = "";
     productDetails.innerHTML = "DETAILS";
 
-    productCard.append(productTitle, productInfo, cartDetailsWrapper);
+    productCard.append(productTitle, productInfoWrapper, cartDetailsWrapper);
+    productInfoWrapper.append(productInfo);
     cartDetailsWrapper.append(productCart, productDetails);
   }
   listenGoodsDescription();

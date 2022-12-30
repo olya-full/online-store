@@ -15,12 +15,13 @@
 }
 
 @mixin regular-borders {
-    border: 2px solid rgb(0, 110, 15);
+    border: 1px solid #6495ED;
+    box-shadow: 0 0 2px 1px #7B68EE
 }
 
 @mixin selected-item {
-    box-shadow: 0 0 5px 2px rgb(255, 253, 117);
-    border: 1px solid rgb(255, 251, 0);
+    box-shadow: 0 0 1px 1px #EE82EE;
+    border: 1px solid #BA55D3;
 }
 
 @mixin grid-4-rows {

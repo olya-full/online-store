@@ -21,20 +21,22 @@ const listenSortGoods = function(): void {
   const mainSort: HTMLElement = document.getElementById("main_sort") as HTMLElement;
   mainSort.addEventListener("click", (e: Event) => {
     const target: IEventTargetValue = e.target as IEventTargetValue;
-    switch (target.value) {
-      case "PriceUp":
-        sortGoodsPriceUp(getGoodsResult());
-        break;
-      case "PriceDown":
-        sortGoodsPriceDown(getGoodsResult());
-        break;
-      case "RatingUp":
-        sortGoodsRatingUp(getGoodsResult());
-        break;
-      case "RatingDown":
-        sortGoodsRatingDown(getGoodsResult());
-        break;
-    };
+    if (target.value !== mainSort.innerHTML){
+      switch (target.value) {
+        case "PriceUp":
+          sortGoodsPriceUp(getGoodsResult());
+          break;
+        case "PriceDown":
+          sortGoodsPriceDown(getGoodsResult());
+          break;
+        case "RatingUp":
+          sortGoodsRatingUp(getGoodsResult());
+          break;
+        case "RatingDown":
+          sortGoodsRatingDown(getGoodsResult());
+          break;
+        };
+      }
   });
 };
 
@@ -57,13 +59,7 @@ const listenSearchGoods = function(): void {
 // listener for layout changer
 const listenLayoutCheckbox = function(): void {
   const layoutCheckbox: HTMLInputElement = document.getElementById("content__control__layout_checkbox") as HTMLInputElement;
-  layoutCheckbox.addEventListener("click", () => {
-    if (layoutCheckbox.checked == true){
-      changeLayout();
-    } else if (layoutCheckbox.checked == false){
-      changeLayout();
-    }
-  })
+  layoutCheckbox.addEventListener("click", () => changeLayout());
 }
 
 // listener for "Reset All (filters)" button
@@ -93,7 +89,20 @@ const listenGoodsDescription: () => void = function(){
       let target = event.target as HTMLElement;
       productID = Number(currentTarget.id);
       if (target.classList.contains("content__products__product__cart")){
-        console.log("ADD PRODUCT TO THE CART");
+        let targetSuperParent = target.parentElement;
+        targetSuperParent = targetSuperParent!.parentElement;        
+        targetSuperParent = targetSuperParent!.parentElement;
+        if (target.innerHTML === "ADD TO CART"){
+          console.log("ADDED PRODUCT TO THE CART");
+          targetSuperParent?.classList.add("added");
+          target.innerHTML = "";
+          target.innerHTML = "DROP FROM CART";
+        } else if (target.innerHTML === "DROP FROM CART"){
+          console.log("REMOVED PRODUCT FROM THE CART");
+          targetSuperParent?.classList.remove("added");
+          target.innerHTML = "";
+          target.innerHTML = "ADD TO CART";
+        }
       } else {
         openGoodsDescription(productID);
       }

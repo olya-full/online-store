@@ -1,0 +1,117 @@
+.goods__details {
+  @include flex-center;
+}
+.goods__details__wrapper {
+  margin: 2%;
+  min-width: 90%;
+  min-height: 500px;
+}
+
+.goods__details__breadcrumbs {
+  @include flex-space-between;
+}
+.goods__details__breadcrumb {
+  font-style: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.goods__details__product {
+  margin-top: 30px;
+  padding: 1px;
+}
+
+
+.goods__details__product__header {
+  @include flex-center;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+//маленькие картиночки
+.goods__details__product__minipicswrapper{
+  @include flex-center;
+  gap: 20px;
+  height: 60px
+}
+
+.goods__details__product__minipics_outer {
+  box-sizing: border-box;
+  overflow: hidden;
+  height: 100%;
+  aspect-ratio: 1;
+  @include regular-borders;
+  cursor: pointer;
+}
+
+.goods__details__product__minipics {
+  width: 100%;
+  height: 100%;
+  -webkit-animation: fadein 1s;
+  -moz-animation: fadein 1s;
+   -ms-animation: fadein 1s;
+    -o-animation: fadein 1s;
+       animation: fadein 1s;
+}
+
+.goods__details__product__info {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr;
+  gap: 5px;
+}
+
+.product__info0_wrapper {
+  aspect-ratio: 1;
+  @include regular-borders;
+}
+
+.product__info0_img {
+  aspect-ratio: 1;
+  -webkit-animation: fadein 1s;
+  -moz-animation: fadein 1s;
+   -ms-animation: fadein 1s;
+    -o-animation: fadein 1s;
+       animation: fadein 1s;
+}
+
+.product__info1_wrapper {
+  margin-left: 10px;
+  @include flex-space-between;
+  flex-direction: column;
+  height: 100%;
+}
+
+.infodesc {
+  white-space: pre-line;
+  @include regular-borders;
+  padding: 1px 1px 1px 3px;
+}
+
+.goods__details__product__info2 {
+  display: flex;
+}
+
+.product__info2__price {
+  align-self: center;
+}
+
+.product__info2_wrapper {
+  @include flex-space-between;
+  flex-direction: column;
+  height: 30%;
+  width: 85%;
+  margin: auto;
+  text-align: center;
+  user-select: none;
+}
+
+.product__info2__price {
+  font-size: 1.5rem;
+  font-weight: 900;
+}
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
