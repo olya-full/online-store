@@ -126,3 +126,39 @@
     flex-direction: row;
     margin: 2px 5px;
 }
+
+//price-filter
+
+.filters__price__container {
+	border: 1px solid black;
+	border-radius: 5px;
+	@include flex-colomn;
+	padding: 15px;
+}
+
+.range_container {
+	height: 50px;
+}
+
+.filters__snap__container {
+	@include flex-space-between;
+	margin-top: 10px;
+}
+
+//stock-filter
+
+.filters__stock__container {
+	border: 1px solid black;
+	border-radius: 5px;
+	@include flex-colomn;
+	padding: 15px;
+}
+
+.range_container {
+	height: 50px;
+}
+
+.filters__snap__container {
+	@include flex-space-between;
+	margin-top: 10px;
+}

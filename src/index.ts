@@ -5,4 +5,6 @@ import './ts/show-goods';
 import './ts/event-listeners';
 import './ts/create-filters';
 import './ts/filter-category';
+// import './ts/create-price-slider';
+// import './ts/filter-price';
 

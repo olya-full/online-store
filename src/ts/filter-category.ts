@@ -1,11 +1,17 @@
 import { goodsList, IGoodsList } from './goods-list';
-import {showGoods} from './show-goods';
-import {paramsObject} from './query-handler';
-import {sortGoodsPriceUp, sortGoodsPriceDown, sortGoodsRatingUp, sortGoodsRatingDown} from './show-goods';
+import { showGoods } from './show-goods';
+import { paramsObject } from './query-handler';
+import { sortGoodsPriceUp, sortGoodsPriceDown, sortGoodsRatingUp, sortGoodsRatingDown } from './show-goods';
+
+
+import * as noUiSlider from 'nouislider';
+import 'nouislider/dist/nouislider.css';
 
 
 let goodsForCategory: IGoodsList = []; //отфильтрованные товары по категории
 let goodsForBrand: IGoodsList = []; //отфильтрованные товары по бренду
+let goodsForPrice: IGoodsList = goodsList; //отфильтрованные товары по цене
+let goodsForStock: IGoodsList = goodsList; //отфильтрованные товары по цене
 const category: Array<string> = []; //выбранные категории фильтрации по категории
 const brand: Array<string> = []; //выбранные категории фильтрации по бренду
 
@@ -24,8 +30,8 @@ function filterCategoryGoods () {
                     // showGoods(goodsForCategory);
                     showGoods(getGoodsResult());
 
+                    console.log(getGoodsResult());
                 } else {
-                    // console.log('goodsResult', goodsResult)
                     if (paramsObject.sort === 'priceUp') {
                         sortGoodsPriceUp(getGoodsResult());
                     } else if (paramsObject.sort === 'priceDown') {
@@ -134,19 +140,40 @@ function removeBrandGoods(valueOfBrand: string) {
 
 let goodsResult: IGoodsList = [];
 
+
 function getGoodsResult() {
     if (goodsForCategory.length === 0 && goodsForBrand.length === 0) {
-        goodsResult = [];
+        goodsResult = goodsList;
     } else if (goodsForCategory.length === 0) {
         goodsResult = goodsForBrand;
     } else if (goodsForBrand.length === 0) {
         goodsResult = goodsForCategory;
-    } else {
+    } else if (goodsForBrand.length !== 0 && goodsForCategory.length !== 0) {
         goodsResult = goodsForCategory.filter(x => goodsForBrand.includes(x));
+    } 
+
+    if (goodsForPrice.length !== 0) {
+        goodsResult = goodsForPrice.filter(x => goodsResult.includes(x));
+    } else {
+        goodsResult = [];
     }
+
+    if (goodsForStock.length !== 0) {
+        goodsResult = goodsForStock.filter(x => goodsResult.includes(x));
+    } else {
+        goodsResult = [];
+    }
+
+    // if (goodsResult.length === 0) {
+    //     return goodsList;
+    // }
+
     return goodsResult;
 }
 
+interface LFilterDict {
+    [index: string]: number;
+}
 
 function changeShowGoodsCategory() { //изменение количества показанных товаров
     const filtersCategory = document.querySelector('.filters__category');
@@ -155,7 +182,7 @@ function changeShowGoodsCategory() { //изменение количества �
     for (let i = 0; i < countShowGoods?.length; i ++) {
         countShowGoods[i].textContent = '0';
     }
-
+    
     let count;
 
     for (let j = 0; j < category.length; j ++) {
@@ -171,6 +198,26 @@ function changeShowGoodsCategory() { //изменение количества �
             showCount.textContent = String(count);
         }
     }
+
+    if (category.length === 0 && brand.length === 0) {
+        
+        let categoryDict: LFilterDict = {};
+
+        for (let j = 0; j < getGoodsResult().length; j ++) {
+            let currentCategory: string = getGoodsResult()[j].category;
+
+            if (!(currentCategory in categoryDict)) {
+                categoryDict[currentCategory] = 1;
+            } else {
+                categoryDict[currentCategory] = categoryDict[currentCategory] + 1;
+            }
+
+            let showCountCategory = document.querySelector(`.${currentCategory}`)?.querySelector('.checkselect__count__show');
+            if (showCountCategory) {
+                showCountCategory.textContent = String(categoryDict[currentCategory]);
+            }
+        }
+    }
 }
 
 
@@ -181,7 +228,7 @@ function changeShowGoodsBrand() { //изменение количества по
     for (let i = 0; i < countShowGoods?.length; i ++) {
         countShowGoods[i].textContent = '0';
     }
-
+    
     let count;
 
     for (let j = 0; j < brand.length; j ++) {
@@ -197,13 +244,179 @@ function changeShowGoodsBrand() { //изменение количества по
             showCount.textContent = String(count);
         }
     }
+
+    if (category.length === 0 && brand.length === 0) {
+        let brandDict: LFilterDict = {};
+
+        for (let j = 0; j < getGoodsResult().length; j ++) {
+            let currentBrand: string = getGoodsResult()[j].brand;
+
+            if (!(currentBrand in brandDict)) {
+                brandDict[currentBrand] = 1;
+            } else {
+                brandDict[currentBrand] = brandDict[currentBrand] + 1;
+            }
+
+            let showCountBrand = document.getElementById(`${currentBrand}`)?.querySelector('.checkselect__count__show');
+
+            if (showCountBrand) {
+                showCountBrand.textContent = String(brandDict[currentBrand]);
+            }
+        }
+    }
+}
+
+
+// PriceSlider
+
+
+function createPriceSlider () {
+    const sliderPrice = document.querySelector('.filters__price');
+    const snapSlider = document.querySelector('.slider-snap-price') as noUiSlider.target;
+    const small = smallPrice();
+    const big = bigPrice();
+    
+
+    noUiSlider.create(snapSlider, {
+        start: [small, big],
+        snap: false,
+        connect: true,
+        range: {
+            'min': small,
+            '10%': (big - small) * 0.1,
+            '20%': (big - small) * 0.2,
+            '30%': (big - small) * 0.3,
+            '40%': (big - small) * 0.4,
+            '50%': (big - small) * 0.5,
+            '60%': (big - small) * 0.6,
+            '70%': (big - small) * 0.7,
+            '80%': (big - small) * 0.8,
+            '90%': (big - small) * 0.9,
+            'max': big
+        }
+    });
+
+    const snapValues = [
+        sliderPrice?.querySelector('.slider-snap-value-lower') as HTMLElement,
+        sliderPrice?.querySelector('.slider-snap-value-upper') as HTMLElement
+    ];
+
+    if (snapSlider !== undefined) {
+        snapSlider.noUiSlider?.on('update', function (values, handle) {
+            if (snapValues) {
+                snapValues[handle].innerHTML = values[handle] as string;
+                let currentMinPrice = Number(snapValues[0].textContent);
+                let currentMaxPrice = Number(snapValues[1].textContent);
+                addPriceGoods(currentMinPrice, currentMaxPrice);
+                showGoods(getGoodsResult());
+
+                changeShowGoodsCategory();
+                changeShowGoodsBrand();
+            }
+        });
+    }
+}
+
+
+const smallPrice = function () {
+    let sortPriceGoods = getGoodsResult().sort((a, b) => {return a.price - b.price});
+    return sortPriceGoods[0].price;
+}
+
+
+const bigPrice = function () {
+    let sortPriceGoods = getGoodsResult().sort((a, b) => {return a.price - b.price});
+    return sortPriceGoods[sortPriceGoods.length - 1].price;
+}
+
+
+function addPriceGoods (min: number, max: number) {
+    goodsForPrice = [];
+    for (let i = 0; i < goodsList.length; i ++) {
+        if (goodsList[i].price >= min && goodsList[i].price <= max) {
+            goodsForPrice.push(goodsList[i])
+        }
+    }    
+}
+
+createPriceSlider();
+
+
+// create stock slider
+
+function createStockSlider () {
+    const sliderStock = document.querySelector('.filters__stock');
+    const snapSlider = sliderStock?.querySelector('.slider-snap-stock') as noUiSlider.target;
+    const small = smallStock();
+    const big = bigStock();
+    
+
+    noUiSlider.create(snapSlider, {
+        start: [small, big],
+        snap: false,
+        connect: true,
+        range: {
+            'min': small,
+            '10%': (big - small) * 0.1,
+            '20%': (big - small) * 0.2,
+            '30%': (big - small) * 0.3,
+            '40%': (big - small) * 0.4,
+            '50%': (big - small) * 0.5,
+            '60%': (big - small) * 0.6,
+            '70%': (big - small) * 0.7,
+            '80%': (big - small) * 0.8,
+            '90%': (big - small) * 0.9,
+            'max': big
+        }
+    });
+
+    const snapValues = [
+        sliderStock?.querySelector('.slider-snap-value-lower') as HTMLElement,
+        sliderStock?.querySelector('.slider-snap-value-upper') as HTMLElement
+    ];
+
+    if (snapSlider !== undefined) {
+        snapSlider.noUiSlider?.on('update', function (values, handle) {
+            if (snapValues) {
+                snapValues[handle].innerHTML = values[handle] as string;
+                let currentMinStock = Number(snapValues[0].textContent);
+                let currentMaxStock = Number(snapValues[1].textContent);
+                addStockGoods(currentMinStock, currentMaxStock);
+                showGoods(getGoodsResult());
+
+                changeShowGoodsCategory();
+                changeShowGoodsBrand();
+            }
+        });
+    }
+}
+
+const smallStock = function () {
+    let sortStockGoods = getGoodsResult().sort((a, b) => {return a.stock - b.stock});
+    return sortStockGoods[0].stock;
+}
+
+const bigStock = function () {
+    let sortStockGoods = getGoodsResult().sort((a, b) => {return a.stock - b.stock});
+    return sortStockGoods[sortStockGoods.length - 1].stock;
+}
+
+function addStockGoods (min: number, max: number) {
+    goodsForStock = [];
+    for (let i = 0; i < goodsList.length; i ++) {
+        if (goodsList[i].stock >= min && goodsList[i].stock <= max) {
+            goodsForStock.push(goodsList[i])
+        }
+    }
 }
 
 
 filterCategoryGoods();
 filterBrandGoods();
+createStockSlider();
+ 
 
-export { goodsResult }
+export { goodsResult, getGoodsResult };
 
 
 

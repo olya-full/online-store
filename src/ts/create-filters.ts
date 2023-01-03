@@ -1,5 +1,4 @@
 import { goodsList, IGoodsList } from './goods-list';
-import { goodsResult } from './filter-category';
 
 
 function createCategoryFilters () {
@@ -41,6 +40,8 @@ function createCategoryFilters () {
 
         const divShow = document.createElement('div') as HTMLDivElement;
         divShow.classList.add('checkselect__count__show');
+        // console.log(categoryItems[i])
+        // console.log(String(countCategoryGoodsShow(categoryItems[i], goodsList)))
         divShow.textContent = String(countCategoryGoodsShow(categoryItems[i], goodsList));
 
         label.appendChild(input);
@@ -72,8 +73,11 @@ function createBrandFilters () {
 
     for (let i=0; i < brandItems.length; i++) {
         const label = document.createElement('label') as HTMLLabelElement;
-        
+        // label.classList.add(brandItems[i]);
         label.id = brandItems[i];
+
+        // const label = document.createElement('label') as HTMLLabelElement;
+        // label.classList.add(categoryItems[i]);
 
         const input = document.createElement('input') as HTMLInputElement;
         input.type = 'checkbox';
@@ -133,3 +137,6 @@ function countBrandGoodsShow (value: string, obj: IGoodsList) {
 
 createCategoryFilters();
 createBrandFilters();
+
+
+export { createCategoryFilters }
