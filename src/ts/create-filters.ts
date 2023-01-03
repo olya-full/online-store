@@ -1,6 +1,8 @@
 import { goodsList, IGoodsList } from './goods-list';
+
+// -------------- Строчка1 Оли? -------------------//
 import { goodsResult } from './filter-category';
-import { filterCategoryGoods, filterBrandGoods } from './filter-category'
+import { filterCategoryGoods, filterBrandGoods } from './filter-category';
 
 
 function createCategoryFilters () {
@@ -42,6 +44,8 @@ function createCategoryFilters () {
 
         const divShow = document.createElement('div') as HTMLDivElement;
         divShow.classList.add('checkselect__count__show');
+        // console.log(categoryItems[i])
+        // console.log(String(countCategoryGoodsShow(categoryItems[i], goodsList)))
         divShow.textContent = String(countCategoryGoodsShow(categoryItems[i], goodsList));
 
         label.appendChild(input);
@@ -54,6 +58,8 @@ function createCategoryFilters () {
     }
 
     filtersCategory?.appendChild(divCheckselect);
+    
+    // -------------- Строчка2 Оли? -------------------//
     filterCategoryGoods ();
 }
 
@@ -74,8 +80,11 @@ function createBrandFilters () {
 
     for (let i=0; i < brandItems.length; i++) {
         const label = document.createElement('label') as HTMLLabelElement;
-        
+        // label.classList.add(brandItems[i]);
         label.id = brandItems[i];
+
+        // const label = document.createElement('label') as HTMLLabelElement;
+        // label.classList.add(categoryItems[i]);
 
         const input = document.createElement('input') as HTMLInputElement;
         input.type = 'checkbox';
@@ -110,6 +119,8 @@ function createBrandFilters () {
     }
 
     filtersBrand?.appendChild(divCheckselect);
+    
+    // -------------- Строчка3 Оли? -------------------//
     filterBrandGoods();
 }
 
@@ -136,3 +147,6 @@ function countBrandGoodsShow (value: string, obj: IGoodsList) {
 
 createCategoryFilters();
 createBrandFilters();
+
+
+export { createCategoryFilters }
