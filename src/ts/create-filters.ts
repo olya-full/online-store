@@ -1,5 +1,9 @@
 import { goodsList, IGoodsList } from './goods-list';
 
+// -------------- Строчка1 Оли? -------------------//
+// import { goodsResult } from './filter-category';
+// import { filterCategoryGoods, filterBrandGoods } from './filter-category';
+
 
 function createCategoryFilters () {
     const categoryItems: Array<string> = [];
@@ -54,6 +58,9 @@ function createCategoryFilters () {
     }
 
     filtersCategory?.appendChild(divCheckselect);
+    
+    // -------------- Строчка2 Оли? -------------------//
+    //filterCategoryGoods ();
 }
 
 
@@ -112,6 +119,9 @@ function createBrandFilters () {
     }
 
     filtersBrand?.appendChild(divCheckselect);
+    
+    // -------------- Строчка3 Оли? -------------------//
+    //filterBrandGoods();
 }
 
 

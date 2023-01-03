@@ -6,6 +6,10 @@ import { sortGoodsPriceUp, sortGoodsPriceDown, sortGoodsRatingUp, sortGoodsRatin
 
 import * as noUiSlider from 'nouislider';
 import 'nouislider/dist/nouislider.css';
+import {currentGoods, searchGoods, showGoods} from './show-goods';
+import {paramsObject, setQueryParameters, removeQueryParameters} from './query-handler';
+import {sortGoodsPriceUp, sortGoodsPriceDown, sortGoodsRatingUp, sortGoodsRatingDown} from './show-goods';
+import { mainSearch } from './event-listeners';
 
 
 let goodsForCategory: IGoodsList = []; //отфильтрованные товары по категории
@@ -43,19 +47,28 @@ function filterCategoryGoods () {
                     }
                 }
 
+
                 changeShowGoodsCategory();
                 changeShowGoodsBrand();
+
+                // ----------------------- Строчка1, 2 Оли ---------------------------//
+                // setQueryParameters("category", inputsCategory[i].name);
+                // searchGoods(getGoodsResult(), mainSearch.value);
                 
-                //вызов функции setQueryParameters(key, value)
             } else {
                 let index: number = category.indexOf(inputsCategory[i].name);
                 category.splice(index, 1);
                 removeFiltersGoods(inputsCategory[i].name);
                 showGoods(getGoodsResult());
-                //вызов функции removeQueryParameters(key, value)
 
+                // ----------------------- Строчка3, 4 Оли ---------------------------//
+                // removeQueryParameters("category", inputsCategory[i].name);
+                // searchGoods(getGoodsResult(), mainSearch.value);
+
+                
                 changeShowGoodsCategory();
                 changeShowGoodsBrand()
+
             }
         })
     }
@@ -164,10 +177,10 @@ function getGoodsResult() {
         goodsResult = [];
     }
 
+    // Оля добавила три строчки ниже, чтобы после отмены всех фильтров показывались товары
     // if (goodsResult.length === 0) {
-    //     return goodsList;
-    // }
-
+        //return currentGoods;
+    //}
     return goodsResult;
 }
 
@@ -410,6 +423,10 @@ function addStockGoods (min: number, max: number) {
     }
 }
 
+// ----------------------- Строчка5, 6 Оли ---------------------------//
+//filterCategoryGoods();
+//filterBrandGoods();
+
 
 filterCategoryGoods();
 filterBrandGoods();
@@ -417,6 +434,7 @@ createStockSlider();
  
 
 export { goodsResult, getGoodsResult };
+export { goodsResult, filterCategoryGoods, filterBrandGoods, getGoodsResult };
 
 
 

@@ -26,7 +26,7 @@ type IGoodsList = {
   images: string[];
 }[];
 
-type IOneProduct= {
+type IOneProduct = {
   id: number;
   title: string;
   description: string;

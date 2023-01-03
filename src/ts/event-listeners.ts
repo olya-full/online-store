@@ -2,7 +2,8 @@ import { currentGoods, showAllGoods, sortGoodsPriceUp, sortGoodsPriceDown,
          sortGoodsRatingUp, sortGoodsRatingDown, searchGoods, showGoods, changeLayout, hideDetailedInfo } from './show-goods';
 import { IEventTargetValue } from './interfaces'
 import { setQueryParameters, clearAllFilters, removeQueryParameters, parseQueryString, copyToClipboard } from './query-handler'
-
+import { openGoodsDescription } from './goods-description';
+import { goodsResult, getGoodsResult } from './filter-category';
 
 // commencing JS on the page
 window.addEventListener("DOMContentLoaded", () => {
@@ -20,20 +21,22 @@ const listenSortGoods = function(): void {
   const mainSort: HTMLElement = document.getElementById("main_sort") as HTMLElement;
   mainSort.addEventListener("click", (e: Event) => {
     const target: IEventTargetValue = e.target as IEventTargetValue;
-    switch (target.value) {
-      case "PriceUp":
-        sortGoodsPriceUp(currentGoods);
-        break;
-      case "PriceDown":
-        sortGoodsPriceDown(currentGoods);
-        break;
-      case "RatingUp":
-        sortGoodsRatingUp(currentGoods);
-        break;
-      case "RatingDown":
-        sortGoodsRatingDown(currentGoods);
-        break;
-    };
+    if (target.value !== mainSort.innerHTML){
+      switch (target.value) {
+        case "PriceUp":
+          sortGoodsPriceUp(getGoodsResult());
+          break;
+        case "PriceDown":
+          sortGoodsPriceDown(getGoodsResult());
+          break;
+        case "RatingUp":
+          sortGoodsRatingUp(getGoodsResult());
+          break;
+        case "RatingDown":
+          sortGoodsRatingDown(getGoodsResult());
+          break;
+        };
+      }
   });
 };
 
@@ -42,10 +45,10 @@ const mainSearch: HTMLInputElement = <HTMLInputElement>document.getElementById("
 const listenSearchGoods = function(): void {
   mainSearch.addEventListener("keyup", () => {
     if (mainSearch.value.length > 0){
-      searchGoods(currentGoods, mainSearch.value);
+      searchGoods(getGoodsResult(), mainSearch.value);
 
     } else if (mainSearch.value.length <= 0){
-      showGoods(currentGoods);
+      showGoods(getGoodsResult());
       hideDetailedInfo();
       setQueryParameters("search", `${mainSearch.value}`);
     }
@@ -56,13 +59,7 @@ const listenSearchGoods = function(): void {
 // listener for layout changer
 const listenLayoutCheckbox = function(): void {
   const layoutCheckbox: HTMLInputElement = document.getElementById("content__control__layout_checkbox") as HTMLInputElement;
-  layoutCheckbox.addEventListener("click", () => {
-    if (layoutCheckbox.checked == true){
-      changeLayout();
-    } else if (layoutCheckbox.checked == false){
-      changeLayout();
-    }
-  })
+  layoutCheckbox.addEventListener("click", () => changeLayout());
 }
 
 // listener for "Reset All (filters)" button
@@ -81,4 +78,36 @@ const listenCopyToClipboard = function() : void {
   })
 }
 
-export { mainSearch }
+// listener for opening a product description page
+const listenGoodsDescription: () => void = function(){
+  const allGoodsCards = document.querySelectorAll(".content__products__product");
+  let productID: number;
+  
+  allGoodsCards.forEach(elem => {
+    elem.addEventListener("click", (event) => {
+      let currentTarget = event.currentTarget as HTMLElement;
+      let target = event.target as HTMLElement;
+      productID = Number(currentTarget.id);
+      if (target.classList.contains("content__products__product__cart")){
+        let targetSuperParent = target.parentElement;
+        targetSuperParent = targetSuperParent!.parentElement;        
+        targetSuperParent = targetSuperParent!.parentElement;
+        if (target.innerHTML === "ADD TO CART"){
+          console.log("ADDED PRODUCT TO THE CART");
+          targetSuperParent?.classList.add("added");
+          target.innerHTML = "";
+          target.innerHTML = "DROP FROM CART";
+        } else if (target.innerHTML === "DROP FROM CART"){
+          console.log("REMOVED PRODUCT FROM THE CART");
+          targetSuperParent?.classList.remove("added");
+          target.innerHTML = "";
+          target.innerHTML = "ADD TO CART";
+        }
+      } else {
+        openGoodsDescription(productID);
+      }
+    });
+  });
+}
+
+export { mainSearch, listenGoodsDescription }
