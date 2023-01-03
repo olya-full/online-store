@@ -1,9 +1,11 @@
 import { IParamsObject, IParamsObjectStringified, IGoodsInfo, IEventTargetValue } from './interfaces';
 import { showAllGoods, currentGoods, hideDetailedInfo, sortGoodsPriceUp, sortGoodsPriceDown,
-         sortGoodsRatingUp, sortGoodsRatingDown, searchGoods } from './show-goods';
+         sortGoodsRatingUp, sortGoodsRatingDown, searchGoods, showGoods } from './show-goods';
 import { goodsList } from './goods-list';
 import { mainSearch } from './event-listeners';
-import { openGoodsDescription } from './goods-description'
+import { openGoodsDescription } from './goods-description';
+import { getGoodsResult, category, addCategoryGoods, changeShowGoodsBrand, changeShowGoodsCategory,
+         brand, addBrandGoods } from './filter-category';
 
 let currentURL: URL = new URL (window.location.href);
 let searchParams: URLSearchParams | string;
@@ -47,7 +49,7 @@ const parseQueryString: () => void = function() {
       let temp: Array<string> = e.split("=");
       splitByEqual!.push(temp);
     });
-    console.log(splitByEqual);
+    console.log("splitByEqual", splitByEqual);
 
     splitByEqual.forEach((e) => {
       switch (e[0]){
@@ -60,7 +62,7 @@ const parseQueryString: () => void = function() {
           switch (e[1]){
             case "priceUp":
               mainSort.selectedIndex = 1;
-              sortGoodsPriceUp(currentGoods);
+              sortGoodsPriceUp(getGoodsResult());
               break;
             case "priceDown":
               mainSort.selectedIndex = 2;
@@ -80,8 +82,7 @@ const parseQueryString: () => void = function() {
         case "search":
           paramsObject.search = e[1];
           mainSearch.value = e[1];
-          // переделать в будущем часть ниже
-          searchGoods(currentGoods, mainSearch.value);
+          searchGoods(getGoodsResult(), mainSearch.value);
           break;
 
         case "layout":
@@ -99,6 +100,47 @@ const parseQueryString: () => void = function() {
           }
           break;
         // СЮДА ДОБАВИТЬ ОБРАБОТКУ ФИЛЬТРОВ НАСТИ
+        /*case "category":
+          const filtersCategoryItems = document.querySelector('.filters__category__items') as HTMLDivElement;
+          const inputsCategory = filtersCategoryItems.querySelectorAll('input');
+          let categoryArray = e[1].split("-");
+          console.log("categoryArray:", categoryArray);
+
+          categoryArray.forEach(elem => {
+            for (let i = 0; i < inputsCategory.length; i++) {
+              if (elem === inputsCategory[i].name){
+                inputsCategory[i].checked = true;
+                category.push(inputsCategory[i].name);
+                addCategoryGoods();
+              }
+            }
+            setQueryParameters("category", elem);
+          });
+          
+          changeShowGoodsCategory();
+          showGoods(getGoodsResult());
+          break;
+        
+        case "brand":
+          const filtersBrandItems = document.querySelector('.filters__brand__items') as HTMLDivElement;
+          const inputsBrand = filtersBrandItems.querySelectorAll('input');
+
+          let brandArray = e[1].split("-");
+          brandArray.forEach(elem => {
+            for (let i = 0; i < inputsBrand.length; i++) {
+              if (elem === inputsBrand[i].name){
+                inputsBrand[i].checked = true;
+                brand.push(inputsBrand[i].name);
+                addBrandGoods();
+              }
+            }
+            setQueryParameters("brand", elem);
+          });
+          
+          changeShowGoodsBrand();
+          showGoods(getGoodsResult());
+          break;
+          */
       }
     })
   }

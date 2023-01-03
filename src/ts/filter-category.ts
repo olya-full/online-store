@@ -157,9 +157,9 @@ function getGoodsResult() {
         goodsResult = goodsForCategory.filter(x => goodsForBrand.includes(x));
     }
     // Оля добавила три строчки ниже, чтобы после отмены всех фильтров показывались товары
-    if (goodsResult.length === 0) {
-        return currentGoods;
-    }
+    //if (goodsResult.length === 0) {
+    //    return currentGoods;
+    //}
     return goodsResult;
 }
 
@@ -219,7 +219,8 @@ function changeShowGoodsBrand() { //изменение количества по
 //filterCategoryGoods();
 //filterBrandGoods();
 
-export { goodsResult, filterCategoryGoods, filterBrandGoods, getGoodsResult }
+export { goodsResult, filterCategoryGoods, filterBrandGoods, getGoodsResult, category, addCategoryGoods,
+         changeShowGoodsCategory, changeShowGoodsBrand, brand, addBrandGoods }
 
 
 

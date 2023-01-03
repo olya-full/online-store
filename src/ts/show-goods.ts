@@ -99,8 +99,8 @@ const changeLayout: () => void = function(){
 // function removing detailed product info from the product card when the view is set to "small icons"
 const hideDetailedInfo: () => void = function(){
   const goodsContentWrapper: HTMLElement = document.getElementById("content__products")!;
-  const goodsInfo: IGoodsInfo = document.querySelectorAll<HTMLElement>(".content__products__product__info");
   if (goodsContentWrapper.classList.contains("small")){
+    const goodsInfo: IGoodsInfo = document.querySelectorAll<HTMLElement>(".content__products__product__info");
     goodsInfo.forEach(e => e.style.display = "none");
     const layoutCheckbox: HTMLInputElement = document.getElementById("content__control__layout_checkbox") as HTMLInputElement;
     layoutCheckbox.checked = true;
