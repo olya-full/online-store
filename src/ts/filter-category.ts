@@ -1,8 +1,4 @@
 import { goodsList, IGoodsList } from './goods-list';
-import { showGoods } from './show-goods';
-import { paramsObject } from './query-handler';
-import { sortGoodsPriceUp, sortGoodsPriceDown, sortGoodsRatingUp, sortGoodsRatingDown } from './show-goods';
-
 
 import * as noUiSlider from 'nouislider';
 import 'nouislider/dist/nouislider.css';
@@ -352,7 +348,8 @@ function addPriceGoods (min: number, max: number) {
     }    
 }
 
-createPriceSlider();
+// Оля закомментила строчку ниже
+//createPriceSlider();
 
 
 // create stock slider
@@ -423,18 +420,10 @@ function addStockGoods (min: number, max: number) {
     }
 }
 
-// ----------------------- Строчка5, 6 Оли ---------------------------//
+// ----------------------- Строчка5, 6, 7 Оли ---------------------------//
 //filterCategoryGoods();
 //filterBrandGoods();
-
-
-filterCategoryGoods();
-filterBrandGoods();
-createStockSlider();
+//createStockSlider();
  
 
-export { goodsResult, getGoodsResult };
-export { goodsResult, filterCategoryGoods, filterBrandGoods, getGoodsResult };
-
-
-
+export { goodsResult, filterCategoryGoods, filterBrandGoods, getGoodsResult, createPriceSlider, createStockSlider };

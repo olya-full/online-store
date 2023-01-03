@@ -3,7 +3,8 @@ import { currentGoods, showAllGoods, sortGoodsPriceUp, sortGoodsPriceDown,
 import { IEventTargetValue } from './interfaces'
 import { setQueryParameters, clearAllFilters, removeQueryParameters, parseQueryString, copyToClipboard } from './query-handler'
 import { openGoodsDescription } from './goods-description';
-import { goodsResult, getGoodsResult } from './filter-category';
+import { goodsResult, getGoodsResult, createPriceSlider, createStockSlider } from './filter-category';
+
 
 // commencing JS on the page
 window.addEventListener("DOMContentLoaded", () => {
@@ -14,6 +15,8 @@ window.addEventListener("DOMContentLoaded", () => {
   listenResetButton();
   parseQueryString();
   listenCopyToClipboard();
+  createPriceSlider();
+  createStockSlider();
 });
 
 // listener for goods sorting

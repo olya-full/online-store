@@ -1,8 +1,8 @@
 import { goodsList, IGoodsList } from './goods-list';
 
 // -------------- Строчка1 Оли? -------------------//
-// import { goodsResult } from './filter-category';
-// import { filterCategoryGoods, filterBrandGoods } from './filter-category';
+import { goodsResult } from './filter-category';
+import { filterCategoryGoods, filterBrandGoods } from './filter-category';
 
 
 function createCategoryFilters () {
@@ -60,7 +60,7 @@ function createCategoryFilters () {
     filtersCategory?.appendChild(divCheckselect);
     
     // -------------- Строчка2 Оли? -------------------//
-    //filterCategoryGoods ();
+    filterCategoryGoods ();
 }
 
 
@@ -121,7 +121,7 @@ function createBrandFilters () {
     filtersBrand?.appendChild(divCheckselect);
     
     // -------------- Строчка3 Оли? -------------------//
-    //filterBrandGoods();
+    filterBrandGoods();
 }
 
 
