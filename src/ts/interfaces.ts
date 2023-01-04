@@ -63,8 +63,8 @@ interface IParamsObject {
   }
   для преобразования массива или объекта в строку нужно будет сделать дополнительный метод
   */
-  price: Array<number>,
-  stock: Array<number>,
+  price: Array<string>,
+  stock: Array<string>,
 }
 
 type IParamsObjectStringified = {

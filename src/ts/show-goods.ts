@@ -5,7 +5,7 @@ import { mainSearch, listenGoodsDescription } from './event-listeners';
 import { goodsResult, getGoodsResult } from './filter-category';
 
 // declaring global variable for the goods array which is changed by sorting and filtering 
-let currentGoods: IGoodsList;
+let currentGoods: IGoodsList = goodsList;
 
 
 // initial function triggered by "DOMContentLoaded" event
@@ -59,6 +59,12 @@ const sortGoodsRatingDown: IShowGoods = function(localGoods: IGoodsList){
 
 // searching for goods in the control panel
 const searchGoods = function(localGoods: IGoodsList, searchKey: string){
+  // check if goodsResult.length = 0
+  if (goodsResult.length === 0){
+    localGoods = currentGoods;
+  } else localGoods = goodsResult;
+
+console.log(goodsResult);
   let searchResultGoods = (function(currentGoods: IGoodsList, searchKey: string){
     localGoods = currentGoods;
     return localGoods.filter((obj: IOneProduct) => { return Object.keys(obj).some(key => { 
@@ -72,7 +78,9 @@ const searchGoods = function(localGoods: IGoodsList, searchKey: string){
         return obj[key as keyof IOneProduct].toString().toLowerCase().includes(searchKey.toLowerCase());
       }
     })});
-  }(localGoods, searchKey));  
+  }(localGoods, searchKey));
+
+
   showGoods(searchResultGoods);
   setQueryParameters("search", `${searchKey}`);
   hideDetailedInfo();
@@ -122,6 +130,8 @@ const showGoods: IShowGoods = function(localGoods): IGoodsList {
   };
 
   hideDetailedInfo();
+
+
 
   // populate "Count"
   let countValue: HTMLElement | null = document.querySelector(".content__control__count__value");

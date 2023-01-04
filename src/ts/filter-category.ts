@@ -48,8 +48,8 @@ function filterCategoryGoods () {
                 changeShowGoodsBrand();
 
                 // ----------------------- Строчка1, 2 Оли ---------------------------//
-                // setQueryParameters("category", inputsCategory[i].name);
-                // searchGoods(getGoodsResult(), mainSearch.value);
+                setQueryParameters("category", inputsCategory[i].name);
+                searchGoods(getGoodsResult(), mainSearch.value);
                 
             } else {
                 let index: number = category.indexOf(inputsCategory[i].name);
@@ -58,8 +58,8 @@ function filterCategoryGoods () {
                 showGoods(getGoodsResult());
 
                 // ----------------------- Строчка3, 4 Оли ---------------------------//
-                // removeQueryParameters("category", inputsCategory[i].name);
-                // searchGoods(getGoodsResult(), mainSearch.value);
+                removeQueryParameters("category", inputsCategory[i].name);
+                searchGoods(getGoodsResult(), mainSearch.value);
 
                 
                 changeShowGoodsCategory();
@@ -95,10 +95,12 @@ function filterBrandGoods () {
                     }
                 }
 
+                setQueryParameters("brand", inputsBrand[i].name);
+                searchGoods(getGoodsResult(), mainSearch.value);
+
                 changeShowGoodsCategory();
                 changeShowGoodsBrand()
                 
-                //вызов функции setQueryParameters(key, value)
             } else {
                 let index: number = brand.indexOf(inputsBrand[i].name);
                 brand.splice(index, 1);
@@ -108,7 +110,8 @@ function filterBrandGoods () {
                 changeShowGoodsCategory();
                 changeShowGoodsBrand();
 
-                //вызов функции removeQueryParameters(key, value)
+                removeQueryParameters("brand", inputsBrand[i].name);
+                searchGoods(getGoodsResult(), mainSearch.value);
             }
         })
     }
@@ -172,11 +175,6 @@ function getGoodsResult() {
     } else {
         goodsResult = [];
     }
-
-    // Оля добавила три строчки ниже, чтобы после отмены всех фильтров показывались товары
-    // if (goodsResult.length === 0) {
-        //return currentGoods;
-    //}
     return goodsResult;
 }
 
@@ -319,6 +317,13 @@ function createPriceSlider () {
                 addPriceGoods(currentMinPrice, currentMaxPrice);
                 showGoods(getGoodsResult());
 
+                // Оля вставила 4 строчки ниже
+                //if (currentMinPrice > 10 || currentMaxPrice < 1749 && currentMaxPrice !== 0){
+                 //   setQueryParameters("price", "");
+                 //   setQueryParameters("price", `${currentMinPrice}-${currentMaxPrice}`);
+               // };
+              
+                
                 changeShowGoodsCategory();
                 changeShowGoodsBrand();
             }

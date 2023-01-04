@@ -80,9 +80,11 @@ const parseQueryString: () => void = function() {
           break;
 
         case "search":
+ 
           paramsObject.search = e[1];
+          console.log(paramsObject);
           mainSearch.value = e[1];
-          searchGoods(getGoodsResult(), mainSearch.value);
+          searchGoods(goodsList, mainSearch.value);
           break;
 
         case "layout":
@@ -99,8 +101,9 @@ const parseQueryString: () => void = function() {
             hideDetailedInfo();
           }
           break;
-        // СЮДА ДОБАВИТЬ ОБРАБОТКУ ФИЛЬТРОВ НАСТИ
-        /*case "category":
+        
+        case "category":
+          console.log("meow")
           const filtersCategoryItems = document.querySelector('.filters__category__items') as HTMLDivElement;
           const inputsCategory = filtersCategoryItems.querySelectorAll('input');
           let categoryArray = e[1].split("-");
@@ -119,6 +122,7 @@ const parseQueryString: () => void = function() {
           
           changeShowGoodsCategory();
           showGoods(getGoodsResult());
+          searchGoods(getGoodsResult(), mainSearch.value);
           break;
         
         case "brand":
@@ -139,11 +143,14 @@ const parseQueryString: () => void = function() {
           
           changeShowGoodsBrand();
           showGoods(getGoodsResult());
+          searchGoods(getGoodsResult(), mainSearch.value);
           break;
-          */
+          
       }
     })
   }
+
+  // парсинг страницы goods description
   let hash = window.location.hash;
   if (hash[2] == "p"){
     let productIdHash = Number(hash.split("/")[hash.split("/").length-1]);
@@ -162,7 +169,7 @@ const copyToClipboard: () => void = function(){
 }
 
 // функция setQueryParameters(key, value) кладёт пару key=value в адресную строку в качестве query-строки
-const setQueryParameters = function(key: string, value: string | number): void{
+const setQueryParameters = function(key: string, value: string): void{
   // кладём ключ key со значением value в объект paramsObject в зависимости от выбранной фильтрации, сортировки и т.д.
   switch (key) {
     case "sort":
@@ -196,12 +203,12 @@ const setQueryParameters = function(key: string, value: string | number): void{
       break;
     // НАСТЯ, возможно, надо изменить в случае, если price и stock будут записываться в объект
     case "price":
-      if (typeof value === "number"){
+      if (typeof value === "string"){
         paramsObject.price.push(value);
       };
       break;
     case "stock":
-      if (typeof value === "number"){
+      if (typeof value === "string"){
         paramsObject.stock.push(value);
       };
       break;
@@ -288,7 +295,7 @@ const removeQueryParameters = function(key: string, value: string | number): voi
       break;
     // НАСТЯ, возможно, надо изменить в случае, если price и stock будут записываться в объект
     case "price":
-      index = paramsObject.price.indexOf(value as number);
+      index = paramsObject.price.indexOf(value as string);
       if (index > -1){
         paramsObject.price.splice(index, 1);
       };
@@ -299,7 +306,7 @@ const removeQueryParameters = function(key: string, value: string | number): voi
       };
       break;
     case "stock":
-      index = paramsObject.stock.indexOf(value as number);
+      index = paramsObject.stock.indexOf(value as string);
       if (index > -1){
         paramsObject.stock.splice(index, 1);
       };
