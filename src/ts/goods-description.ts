@@ -9,7 +9,7 @@ const openGoodsDescription = function(productID: number) {
   if (productID >= 0 && productID <= 100){
     displayNoneMain();
     displayBlockDetails();
-    removeHash();    
+    removeHash();
 
     const product = goodsList.find((obj: IOneProduct) => obj.id === productID);
     

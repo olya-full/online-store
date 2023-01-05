@@ -3,7 +3,7 @@ import { goodsList, IGoodsList } from './goods-list';
 import * as noUiSlider from 'nouislider';
 import 'nouislider/dist/nouislider.css';
 import {currentGoods, searchGoods, showGoods} from './show-goods';
-import {paramsObject, setQueryParameters, removeQueryParameters} from './query-handler';
+import {paramsObject, setQueryParameters, removeQueryParameters, paramsObjectStringified} from './query-handler';
 import {sortGoodsPriceUp, sortGoodsPriceDown, sortGoodsRatingUp, sortGoodsRatingDown} from './show-goods';
 import { mainSearch } from './event-listeners';
 
@@ -30,7 +30,6 @@ function filterCategoryGoods () {
                     // showGoods(goodsForCategory);
                     showGoods(getGoodsResult());
 
-                    console.log(getGoodsResult());
                 } else {
                     if (paramsObject.sort === 'priceUp') {
                         sortGoodsPriceUp(getGoodsResult());
@@ -48,8 +47,8 @@ function filterCategoryGoods () {
                 changeShowGoodsBrand();
 
                 // ----------------------- Строчка1, 2 Оли ---------------------------//
-                // setQueryParameters("category", inputsCategory[i].name);
-                // searchGoods(getGoodsResult(), mainSearch.value);
+                setQueryParameters("category", inputsCategory[i].name);
+                searchGoods(getGoodsResult(), mainSearch.value);
                 
             } else {
                 let index: number = category.indexOf(inputsCategory[i].name);
@@ -58,8 +57,8 @@ function filterCategoryGoods () {
                 showGoods(getGoodsResult());
 
                 // ----------------------- Строчка3, 4 Оли ---------------------------//
-                // removeQueryParameters("category", inputsCategory[i].name);
-                // searchGoods(getGoodsResult(), mainSearch.value);
+                removeQueryParameters("category", inputsCategory[i].name);
+                searchGoods(getGoodsResult(), mainSearch.value);
 
                 
                 changeShowGoodsCategory();
@@ -95,10 +94,12 @@ function filterBrandGoods () {
                     }
                 }
 
+                setQueryParameters("brand", inputsBrand[i].name);
+                searchGoods(getGoodsResult(), mainSearch.value);
+
                 changeShowGoodsCategory();
                 changeShowGoodsBrand()
                 
-                //вызов функции setQueryParameters(key, value)
             } else {
                 let index: number = brand.indexOf(inputsBrand[i].name);
                 brand.splice(index, 1);
@@ -108,7 +109,8 @@ function filterBrandGoods () {
                 changeShowGoodsCategory();
                 changeShowGoodsBrand();
 
-                //вызов функции removeQueryParameters(key, value)
+                removeQueryParameters("brand", inputsBrand[i].name);
+                searchGoods(getGoodsResult(), mainSearch.value);
             }
         })
     }
@@ -172,11 +174,6 @@ function getGoodsResult() {
     } else {
         goodsResult = [];
     }
-
-    // Оля добавила три строчки ниже, чтобы после отмены всех фильтров показывались товары
-    // if (goodsResult.length === 0) {
-        //return currentGoods;
-    //}
     return goodsResult;
 }
 
@@ -319,8 +316,16 @@ function createPriceSlider () {
                 addPriceGoods(currentMinPrice, currentMaxPrice);
                 showGoods(getGoodsResult());
 
+
+
                 changeShowGoodsCategory();
                 changeShowGoodsBrand();
+                // Оля вставила 4 строчки ниже
+                if (currentMaxPrice !== 0){
+                    setQueryParameters("price", `${currentMinPrice}_${currentMaxPrice}`);
+                };
+                searchGoods(getGoodsResult(), mainSearch.value);
+                //
             }
         });
     }
@@ -328,13 +333,13 @@ function createPriceSlider () {
 
 
 const smallPrice = function () {
-    let sortPriceGoods = getGoodsResult().sort((a, b) => {return a.price - b.price});
+    let sortPriceGoods = goodsList.sort((a, b) => {return a.price - b.price});
     return sortPriceGoods[0].price;
 }
 
 
 const bigPrice = function () {
-    let sortPriceGoods = getGoodsResult().sort((a, b) => {return a.price - b.price});
+    let sortPriceGoods = goodsList.sort((a, b) => {return a.price - b.price});
     return sortPriceGoods[sortPriceGoods.length - 1].price;
 }
 
@@ -347,10 +352,6 @@ function addPriceGoods (min: number, max: number) {
         }
     }    
 }
-
-// Оля закомментила строчку ниже
-//createPriceSlider();
-
 
 // create stock slider
 
@@ -394,6 +395,13 @@ function createStockSlider () {
                 addStockGoods(currentMinStock, currentMaxStock);
                 showGoods(getGoodsResult());
 
+                // Оля вставила 4 строчки ниже
+                if (currentMaxStock !== 0){
+                    setQueryParameters("stock", `${currentMinStock}_${currentMaxStock}`);
+                };
+                searchGoods(getGoodsResult(), mainSearch.value);
+                //
+
                 changeShowGoodsCategory();
                 changeShowGoodsBrand();
             }
@@ -402,12 +410,12 @@ function createStockSlider () {
 }
 
 const smallStock = function () {
-    let sortStockGoods = getGoodsResult().sort((a, b) => {return a.stock - b.stock});
+    let sortStockGoods = goodsList.sort((a, b) => {return a.stock - b.stock});
     return sortStockGoods[0].stock;
 }
 
 const bigStock = function () {
-    let sortStockGoods = getGoodsResult().sort((a, b) => {return a.stock - b.stock});
+    let sortStockGoods = goodsList.sort((a, b) => {return a.stock - b.stock});
     return sortStockGoods[sortStockGoods.length - 1].stock;
 }
 
@@ -420,10 +428,7 @@ function addStockGoods (min: number, max: number) {
     }
 }
 
-// ----------------------- Строчка5, 6, 7 Оли ---------------------------//
-//filterCategoryGoods();
-//filterBrandGoods();
-//createStockSlider();
- 
 
-export { goodsResult, filterCategoryGoods, filterBrandGoods, getGoodsResult, createPriceSlider, createStockSlider };
+export { goodsResult, filterCategoryGoods, filterBrandGoods, getGoodsResult, category, addCategoryGoods,
+         changeShowGoodsCategory, changeShowGoodsBrand, brand, addBrandGoods, createPriceSlider, createStockSlider, 
+         removeFiltersGoods, removeBrandGoods }
