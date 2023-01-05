@@ -1,6 +1,6 @@
 import { goodsList, IGoodsList } from './goods-list';
 import { IShowGoods, IOneProduct, IGoodsInfo } from './interfaces';
-import { setQueryParameters, currentURL, paramsObjectStringified, queryString } from './query-handler';
+import { setQueryParameters, currentURL, paramsObjectStringified, queryString, paramsObject } from './query-handler';
 import { mainSearch, listenGoodsDescription } from './event-listeners';
 import { goodsResult, getGoodsResult } from './filter-category';
 
@@ -22,7 +22,12 @@ const showAllGoods: IShowGoods = function(localGoods: IGoodsList){
 
 // sorting functions in the control panel, triggered by selecting an item from the drop-down list
 const sortGoodsPriceUp: IShowGoods = function(localGoods: IGoodsList){
-  let innerGoods = localGoods.sort((a, b) => {return a.price - b.price}); 
+  let innerGoods;
+  if (getGoodsResult().length === 0) {
+    innerGoods = currentGoods.sort((a, b) => {return a.price - b.price}); 
+  } else innerGoods = localGoods.sort((a, b) => {return a.price - b.price}); 
+  
+  //currentGoods = innerGoods;
   showGoods(innerGoods);
   searchGoods(innerGoods, mainSearch.value);
   setQueryParameters("sort", "priceUp");
@@ -31,7 +36,12 @@ const sortGoodsPriceUp: IShowGoods = function(localGoods: IGoodsList){
 }
 
 const sortGoodsPriceDown: IShowGoods = function(localGoods: IGoodsList){
-  let innerGoods = localGoods.sort((a, b) => {return b.price - a.price});
+  let innerGoods;
+  if (getGoodsResult().length === 0) {
+    innerGoods = currentGoods.sort((a, b) => {return b.price - a.price});
+  } else innerGoods = localGoods.sort((a, b) => {return b.price - a.price}); 
+
+  //currentGoods = innerGoods;
   showGoods(innerGoods);
   searchGoods(innerGoods, mainSearch.value);
   setQueryParameters("sort", "priceDown");
@@ -40,7 +50,12 @@ const sortGoodsPriceDown: IShowGoods = function(localGoods: IGoodsList){
 }
 
 const sortGoodsRatingUp: IShowGoods = function(localGoods: IGoodsList){
-  let innerGoods = localGoods.sort((a, b) => {return a.rating - b.rating});
+  let innerGoods;
+  if (getGoodsResult().length === 0) {
+    innerGoods = currentGoods.sort((a, b) => {return a.rating - b.rating});
+  } else innerGoods = localGoods.sort((a, b) => {return a.rating - b.rating});
+
+  //currentGoods = innerGoods;
   showGoods(innerGoods);
   searchGoods(innerGoods, mainSearch.value);
   setQueryParameters("sort", "ratingUp");
@@ -49,7 +64,12 @@ const sortGoodsRatingUp: IShowGoods = function(localGoods: IGoodsList){
 }
 
 const sortGoodsRatingDown: IShowGoods = function(localGoods: IGoodsList){
-  let innerGoods = localGoods.sort((a, b) => {return b.rating - a.rating});
+  let innerGoods;
+  if (getGoodsResult().length === 0) {
+    innerGoods = currentGoods.sort((a, b) => {return b.rating - a.rating});
+  } else innerGoods = localGoods.sort((a, b) => {return b.rating - a.rating});
+
+  //currentGoods = innerGoods;
   showGoods(innerGoods);
   searchGoods(innerGoods, mainSearch.value);
   setQueryParameters("sort", "ratingDown");
@@ -59,12 +79,6 @@ const sortGoodsRatingDown: IShowGoods = function(localGoods: IGoodsList){
 
 // searching for goods in the control panel
 const searchGoods = function(localGoods: IGoodsList, searchKey: string){
-  // check if goodsResult.length = 0
-  if (goodsResult.length === 0){
-    localGoods = currentGoods;
-  } else localGoods = goodsResult;
-
-console.log(goodsResult);
   let searchResultGoods = (function(currentGoods: IGoodsList, searchKey: string){
     localGoods = currentGoods;
     return localGoods.filter((obj: IOneProduct) => { return Object.keys(obj).some(key => { 
@@ -82,6 +96,7 @@ console.log(goodsResult);
 
 
   showGoods(searchResultGoods);
+
   setQueryParameters("search", `${searchKey}`);
   hideDetailedInfo();
   return searchResultGoods;

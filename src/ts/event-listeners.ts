@@ -1,7 +1,7 @@
 import { currentGoods, showAllGoods, sortGoodsPriceUp, sortGoodsPriceDown,
          sortGoodsRatingUp, sortGoodsRatingDown, searchGoods, showGoods, changeLayout, hideDetailedInfo } from './show-goods';
 import { IEventTargetValue } from './interfaces'
-import { setQueryParameters, clearAllFilters, removeQueryParameters, parseQueryString, copyToClipboard } from './query-handler'
+import { setQueryParameters, clearAllFilters, removeQueryParameters, parseQueryString, copyToClipboard, paramsObject } from './query-handler'
 import { openGoodsDescription } from './goods-description';
 import { goodsResult, getGoodsResult, createPriceSlider, createStockSlider } from './filter-category';
 
@@ -9,14 +9,17 @@ import { goodsResult, getGoodsResult, createPriceSlider, createStockSlider } fro
 // commencing JS on the page
 window.addEventListener("DOMContentLoaded", () => {
   showAllGoods(currentGoods);
+  parseQueryString();
+
+  createPriceSlider();
+  createStockSlider();
   listenSortGoods();
   listenSearchGoods();
   listenLayoutCheckbox();
   listenResetButton();
-  parseQueryString();
   listenCopyToClipboard();
-  createPriceSlider();
-  createStockSlider();
+
+
 });
 
 // listener for goods sorting
@@ -48,12 +51,28 @@ const mainSearch: HTMLInputElement = <HTMLInputElement>document.getElementById("
 const listenSearchGoods = function(): void {
   mainSearch.addEventListener("keyup", () => {
     if (mainSearch.value.length > 0){
-      searchGoods(getGoodsResult(), mainSearch.value);
+      searchGoods(goodsResult, mainSearch.value);
 
     } else if (mainSearch.value.length <= 0){
-      showGoods(getGoodsResult());
+      showGoods(goodsResult);
       hideDetailedInfo();
       setQueryParameters("search", `${mainSearch.value}`);
+
+      if (paramsObject.sort === undefined) {
+        // showGoods(goodsForCategory);
+        showGoods(getGoodsResult());
+    } else {
+        if (paramsObject.sort === 'priceUp') {
+            sortGoodsPriceUp(getGoodsResult());
+        } else if (paramsObject.sort === 'priceDown') {
+            sortGoodsPriceDown(getGoodsResult());
+        } else if (paramsObject.sort === 'ratingUp') {
+            sortGoodsRatingUp(getGoodsResult());
+        } else if (paramsObject.sort === 'ratingDown') {
+            sortGoodsRatingDown(getGoodsResult());
+        }
+    }
+    
     }
   })
 

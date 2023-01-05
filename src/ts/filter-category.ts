@@ -3,7 +3,7 @@ import { goodsList, IGoodsList } from './goods-list';
 import * as noUiSlider from 'nouislider';
 import 'nouislider/dist/nouislider.css';
 import {currentGoods, searchGoods, showGoods} from './show-goods';
-import {paramsObject, setQueryParameters, removeQueryParameters} from './query-handler';
+import {paramsObject, setQueryParameters, removeQueryParameters, paramsObjectStringified} from './query-handler';
 import {sortGoodsPriceUp, sortGoodsPriceDown, sortGoodsRatingUp, sortGoodsRatingDown} from './show-goods';
 import { mainSearch } from './event-listeners';
 
@@ -30,7 +30,6 @@ function filterCategoryGoods () {
                     // showGoods(goodsForCategory);
                     showGoods(getGoodsResult());
 
-                    console.log(getGoodsResult());
                 } else {
                     if (paramsObject.sort === 'priceUp') {
                         sortGoodsPriceUp(getGoodsResult());
@@ -317,15 +316,16 @@ function createPriceSlider () {
                 addPriceGoods(currentMinPrice, currentMaxPrice);
                 showGoods(getGoodsResult());
 
-                // Оля вставила 4 строчки ниже
-                //if (currentMinPrice > 10 || currentMaxPrice < 1749 && currentMaxPrice !== 0){
-                 //   setQueryParameters("price", "");
-                 //   setQueryParameters("price", `${currentMinPrice}-${currentMaxPrice}`);
-               // };
-              
-                
+
+
                 changeShowGoodsCategory();
                 changeShowGoodsBrand();
+                // Оля вставила 4 строчки ниже
+                if (currentMaxPrice !== 0){
+                    setQueryParameters("price", `${currentMinPrice}_${currentMaxPrice}`);
+                };
+                searchGoods(getGoodsResult(), mainSearch.value);
+                //
             }
         });
     }
@@ -333,13 +333,13 @@ function createPriceSlider () {
 
 
 const smallPrice = function () {
-    let sortPriceGoods = getGoodsResult().sort((a, b) => {return a.price - b.price});
+    let sortPriceGoods = goodsList.sort((a, b) => {return a.price - b.price});
     return sortPriceGoods[0].price;
 }
 
 
 const bigPrice = function () {
-    let sortPriceGoods = getGoodsResult().sort((a, b) => {return a.price - b.price});
+    let sortPriceGoods = goodsList.sort((a, b) => {return a.price - b.price});
     return sortPriceGoods[sortPriceGoods.length - 1].price;
 }
 
@@ -352,10 +352,6 @@ function addPriceGoods (min: number, max: number) {
         }
     }    
 }
-
-// Оля закомментила строчку ниже
-//createPriceSlider();
-
 
 // create stock slider
 
@@ -399,6 +395,13 @@ function createStockSlider () {
                 addStockGoods(currentMinStock, currentMaxStock);
                 showGoods(getGoodsResult());
 
+                // Оля вставила 4 строчки ниже
+                if (currentMaxStock !== 0){
+                    setQueryParameters("stock", `${currentMinStock}_${currentMaxStock}`);
+                };
+                searchGoods(getGoodsResult(), mainSearch.value);
+                //
+
                 changeShowGoodsCategory();
                 changeShowGoodsBrand();
             }
@@ -407,12 +410,12 @@ function createStockSlider () {
 }
 
 const smallStock = function () {
-    let sortStockGoods = getGoodsResult().sort((a, b) => {return a.stock - b.stock});
+    let sortStockGoods = goodsList.sort((a, b) => {return a.stock - b.stock});
     return sortStockGoods[0].stock;
 }
 
 const bigStock = function () {
-    let sortStockGoods = getGoodsResult().sort((a, b) => {return a.stock - b.stock});
+    let sortStockGoods = goodsList.sort((a, b) => {return a.stock - b.stock});
     return sortStockGoods[sortStockGoods.length - 1].stock;
 }
 
@@ -425,10 +428,7 @@ function addStockGoods (min: number, max: number) {
     }
 }
 
-// ----------------------- Строчка5, 6, 7 Оли ---------------------------//
-//filterCategoryGoods();
-//filterBrandGoods();
-
 
 export { goodsResult, filterCategoryGoods, filterBrandGoods, getGoodsResult, category, addCategoryGoods,
-         changeShowGoodsCategory, changeShowGoodsBrand, brand, addBrandGoods, createPriceSlider, createStockSlider  }
+         changeShowGoodsCategory, changeShowGoodsBrand, brand, addBrandGoods, createPriceSlider, createStockSlider, 
+         removeFiltersGoods, removeBrandGoods }
