@@ -9,16 +9,14 @@ import { goodsResult, getGoodsResult, createPriceSlider, createStockSlider } fro
 // commencing JS on the page
 window.addEventListener("DOMContentLoaded", () => {
   showAllGoods(currentGoods);
-  parseQueryString();
-
-  createPriceSlider();
-  createStockSlider();
   listenSortGoods();
   listenSearchGoods();
   listenLayoutCheckbox();
   listenResetButton();
   listenCopyToClipboard();
-
+  createPriceSlider();
+  createStockSlider();
+  parseQueryString();
 
 });
 

@@ -321,10 +321,11 @@ function createPriceSlider () {
                 changeShowGoodsCategory();
                 changeShowGoodsBrand();
                 // Оля вставила 4 строчки ниже
-                if (currentMaxPrice !== 0){
+                if (currentMaxPrice !== 0 && window.location.hash[2] !== "p"){
                     setQueryParameters("price", `${currentMinPrice}_${currentMaxPrice}`);
+                    searchGoods(getGoodsResult(), mainSearch.value);
                 };
-                searchGoods(getGoodsResult(), mainSearch.value);
+                
                 //
             }
         });
@@ -396,10 +397,11 @@ function createStockSlider () {
                 showGoods(getGoodsResult());
 
                 // Оля вставила 4 строчки ниже
-                if (currentMaxStock !== 0){
+                if (currentMaxStock !== 0 && window.location.hash[2] !== "p"){
                     setQueryParameters("stock", `${currentMinStock}_${currentMaxStock}`);
+                    searchGoods(getGoodsResult(), mainSearch.value);
                 };
-                searchGoods(getGoodsResult(), mainSearch.value);
+                
                 //
 
                 changeShowGoodsCategory();

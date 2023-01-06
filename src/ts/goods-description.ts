@@ -1,7 +1,7 @@
 import { IGoodsList, IOneProduct } from "./interfaces";
 import { goodsList } from "./goods-list";
 import { displayBlockDetails, displayNoneMain, displayNonekDetails, displayBlocKMain } from "./hide-display-sections";
-import { setQueryParameters, setNewPageURL, removeHash } from "./query-handler";
+import { setQueryParameters, setNewPageURL, removeHash, paramsObject } from "./query-handler";
 
 
 
@@ -12,9 +12,9 @@ const openGoodsDescription = function(productID: number) {
     removeHash();
 
     const product = goodsList.find((obj: IOneProduct) => obj.id === productID);
-    
+    console.log(product);
     setNewPageURL(`product/${productID}`);
-
+    console.log(paramsObject);
     const breadCrumb0: HTMLElement = document.getElementById("goods__details__breadcrumb0")!;
     const breadCrumb1: HTMLElement = document.getElementById("goods__details__breadcrumb1")!;
     const breadCrumb2: HTMLElement = document.getElementById("goods__details__breadcrumb2")!;

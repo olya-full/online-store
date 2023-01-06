@@ -14,9 +14,18 @@
     align-items: center;
 }
 
+@mixin button-borders {
+    border: 1px solid $second-color;
+    border-radius: 5px;
+    color: white;
+    background: $main-color;
+}
 @mixin regular-borders {
-    border: 1px solid #6495ED;
-    box-shadow: 0 0 2px 1px #7B68EE
+    border: 3px solid $second-color;
+    box-shadow: 0 0 3px 2px $third-color;
+    border-radius: 5px;
+    //color: white;
+    background: white;
 }
 
 @mixin selected-item {
