@@ -95,7 +95,7 @@ function createForm () {
     inputEmail.name = 'email';
     inputEmail.setAttribute('required', 'true'); 
 
-    buttonSubmit.classList.add('form__submit');
+    buttonSubmit.classList.add('form__submit', 'button');
     buttonSubmit.textContent = 'confirm';
 
     cardSection.classList.add('form__card-section');

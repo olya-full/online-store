@@ -1,14 +1,17 @@
 import { currentGoods, showAllGoods, sortGoodsPriceUp, sortGoodsPriceDown,
          sortGoodsRatingUp, sortGoodsRatingDown, searchGoods, showGoods, changeLayout, hideDetailedInfo } from './show-goods';
 import { IEventTargetValue } from './interfaces'
-import { setQueryParameters, clearAllFilters, removeQueryParameters, parseQueryString, copyToClipboard, paramsObject } from './query-handler'
+import { setQueryParameters, clearAllFilters, removeQueryParameters, parseQueryString, copyToClipboard, 
+         paramsObject, removeHash, setNewPageURL } from './query-handler'
 import { openGoodsDescription } from './goods-description';
 import { goodsResult, getGoodsResult, createPriceSlider, createStockSlider } from './filter-category';
+import { displayNoneMain, displayBlockDetails, displayBlocKMain, displayNonekDetails } from './hide-display-sections';
 
 
 // commencing JS on the page
 window.addEventListener("DOMContentLoaded", () => {
-  showAllGoods(currentGoods);
+  parseQueryString();
+  //showAllGoods(currentGoods);
   listenSortGoods();
   listenSearchGoods();
   listenLayoutCheckbox();
@@ -16,7 +19,7 @@ window.addEventListener("DOMContentLoaded", () => {
   listenCopyToClipboard();
   createPriceSlider();
   createStockSlider();
-  parseQueryString();
+  listenLogo();
 
 });
 
@@ -129,5 +132,16 @@ const listenGoodsDescription: () => void = function(){
     });
   });
 }
+// listener for the logo clicks
+const listenLogo: () => void = function() {
+  const logo: HTMLElement = document.querySelector(".logo") as HTMLElement;
+  logo.addEventListener("click", () => {
+    removeHash();
+    displayBlocKMain();
+    displayNonekDetails();
+    clearAllFilters();
+  })
+}
+
 
 export { mainSearch, listenGoodsDescription }

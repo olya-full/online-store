@@ -1,7 +1,6 @@
 .filters {
-    width: 30%;
-
-    border: 1px dashed rgb(187, 41, 41);
+    width: 25%;
+		@include azure-borders;
 }
 
 .filters__options {
@@ -16,7 +15,7 @@
     height: 150px;
     overflow-y: scroll;
 	
-    border: 1px solid black;
+  @include azure-borders;
 	border-radius: 5px;
 }
 
@@ -66,7 +65,7 @@
 	position: relative;
 	display: block;
 	margin: 0;
-	padding: 4px 6px 4px 25px;
+	padding: 4px 6px 4px 15px;
 	font-weight: normal;
 	font-size: 1em;
 	line-height: 1.1;
@@ -130,7 +129,7 @@
 //price-filter
 
 .filters__price__container {
-	border: 1px solid black;
+	@include azure-borders;
 	border-radius: 5px;
 	@include flex-colomn;
 	padding: 15px;
@@ -148,7 +147,7 @@
 //stock-filter
 
 .filters__stock__container {
-	border: 1px solid black;
+	@include azure-borders;
 	border-radius: 5px;
 	@include flex-colomn;
 	padding: 15px;
@@ -161,4 +160,12 @@
 .filters__snap__container {
 	@include flex-space-between;
 	margin-top: 10px;
+}
+
+.filters__category__name,
+.filters__brand__name,
+.filters__price__name,
+.filters__stock__name {
+	font-weight: 900;
+	margin-left: 10px;
 }
