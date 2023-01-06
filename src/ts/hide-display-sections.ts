@@ -21,7 +21,7 @@ const displayNonekDetails: () => void = function() {
 
 const displayBlockDetails: () => void = function() {
   const goodsDetailsPage: HTMLElement = document.getElementById("goods__details") as HTMLElement;
-  goodsDetailsPage.style.display = "block";
+  goodsDetailsPage.style.display = "flex";
 }
 
 export { displayNoneMain, displayBlockDetails, displayBlocKMain, displayNonekDetails }

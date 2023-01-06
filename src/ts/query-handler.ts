@@ -37,7 +37,7 @@ const setNewPageURL: (arg: string) => void = function(newURLParameters) {
 
 // parsing query string, putting the values into paramsObject, restoring the page state
 const parseQueryString: () => void = function() {
-  let queryString = window.location.search;
+  queryString = window.location.search;
 
   let noQuestionMark: string | Array<string>;
   let splitByEqual: Array<Array<string>> | undefined = [];
@@ -187,11 +187,13 @@ const parseQueryString: () => void = function() {
       }
     })
   }
-
+console.log(window.location.hash)
   // парсинг страницы goods description
   let hash = window.location.hash;
-  if (hash[2] === "p" && hash[4] === "o"){
+  if (hash[2] === "p"){
+
     let productIdHash = Number(hash.split("/")[hash.split("/").length-1]);
+
     openGoodsDescription(productIdHash);
   }
 };
