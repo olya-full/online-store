@@ -2,6 +2,7 @@ import { IGoodsList, IOneProduct } from "./interfaces";
 import { goodsList } from "./goods-list";
 import { displayBlockDetails, displayNoneMain, displayNonekDetails, displayBlocKMain } from "./hide-display-sections";
 import { setQueryParameters, setNewPageURL, removeHash } from "./query-handler";
+import { addGoodsToCart } from './cart';
 
 
 
@@ -121,7 +122,8 @@ const openGoodsDescription = function(productID: number) {
     info2Price.innerHTML = "";
     info2Price.innerHTML = `€ ${product!.price}`;
     const info2Cart: HTMLElement = document.createElement("div");
-    info2Cart.classList.add("product__info2__cart", "button");
+    // --------------------  Настя добавила класс "add-to-cart_descr" -----------------------------//
+    info2Cart.classList.add("product__info2__cart", "button", "add-to-cart_descr");
     info2Cart.id = "product__info2__cart";
     info2Cart.innerHTML = "";
     info2Cart.innerHTML = "ADD TO CART";
@@ -152,7 +154,10 @@ const openGoodsDescription = function(productID: number) {
     });
 
     info2Wrapper.append(info2Price, info2Cart, info2Buy);
-    info2.append(info2Wrapper);  
+    info2.append(info2Wrapper);
+    
+    // -----------------Настя добавила вызов функции для добавления товаров в корзину ---------------------//
+    addGoodsToCart();
   }
 }
 

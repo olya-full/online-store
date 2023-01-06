@@ -3,6 +3,7 @@ import { IShowGoods, IOneProduct, IGoodsInfo } from './interfaces';
 import { setQueryParameters, currentURL, paramsObjectStringified, queryString } from './query-handler';
 import { mainSearch, listenGoodsDescription } from './event-listeners';
 import { goodsResult, getGoodsResult } from './filter-category';
+import { addGoodsToCart, getIdGoodDescr } from './cart';
 
 // declaring global variable for the goods array which is changed by sorting and filtering 
 let currentGoods: IGoodsList;
@@ -196,7 +197,10 @@ const showGoods: IShowGoods = function(localGoods): IGoodsList {
     cartDetailsWrapper.innerHTML = "";
 
     const productCart: HTMLElement = document.createElement("div");
-    productCart.classList.add("content__products__product__cart", "button_product", "button");
+
+    // -------------------------- Настя добавила класс "add-to-cart" -------------------------------//
+    
+    productCart.classList.add("content__products__product__cart", "button_product", "button", "add-to-cart");
     productCart.innerHTML = "";
     productCart.innerHTML = "ADD TO CART";
 
@@ -210,6 +214,9 @@ const showGoods: IShowGoods = function(localGoods): IGoodsList {
     cartDetailsWrapper.append(productCart, productDetails);
   }
   listenGoodsDescription();
+  // ------------------------Настя добавила вызов функции для добавления товаров в корзину -----------------------//
+  addGoodsToCart();
+  getIdGoodDescr();
   return localGoods;
 }
 

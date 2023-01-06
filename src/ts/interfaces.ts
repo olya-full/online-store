@@ -78,5 +78,23 @@ type IParamsObjectStringified = {
 }
 
 
+type ICartList = {
+  id: number;
+  count: number;
+  price: number;
+  totalPrice: number;
+  stock: number;
+}[]
+
+type ICartGood = {
+  id: number;
+  count: number;
+  price: number;
+  totalPrice: number;
+  stock: number;
+}
+
+
+
 export { IEventTargetValue, IShowGoods, IGoodsList, IParamsObject, IParamsObjectStringified, IOneProduct,
-         IGoodsInfo }
+         IGoodsInfo, ICartList, ICartGood }
