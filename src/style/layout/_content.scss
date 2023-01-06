@@ -1,5 +1,5 @@
 .content {
-    width: 70%;
+    width: 75%;
     @include flex-colomn;
-    border: 1px dashed rgb(113, 32, 189);
+    @include azure-borders;
 }

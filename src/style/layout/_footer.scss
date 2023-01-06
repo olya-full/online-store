@@ -5,8 +5,8 @@
     align-items: center;
     align-self: center;
     flex: 0 0 auto;
-
-    border: 1px solid green;
+    border-top: 5px solid $main-color;
+    margin-top: 10px;
 }
 
 .github {
@@ -25,4 +25,8 @@
     background-position: center;
     margin: 2px 5px 2px 2px;
     filter: hue-rotate(-100deg);
+}
+
+.info__year {
+    font-weight: 900;
 }

@@ -1,5 +1,5 @@
 import { goodsList, IGoodsList } from './goods-list';
-import { IShowGoods, IOneProduct, IGoodsInfo } from './interfaces';
+import { IShowGoods, IOneProduct, IGoodsInfo, IUpper } from './interfaces';
 import { setQueryParameters, currentURL, paramsObjectStringified, queryString, paramsObject } from './query-handler';
 import { mainSearch, listenGoodsDescription } from './event-listeners';
 import { goodsResult, getGoodsResult } from './filter-category';
@@ -134,8 +134,10 @@ const hideDetailedInfo: () => void = function(){
 //////////// ______________AUXILIARY FUNCTION______________ ////////////
 const showGoods: IShowGoods = function(localGoods): IGoodsList {
   // make sure the other areas like cart and product info are not displayed
-  const goodsDetails: HTMLElement = document.getElementById("goods__details") as HTMLElement;
-  goodsDetails.style.display = "none";
+  if (window.location.hash[2] !== "p"){
+    const goodsDetails: HTMLElement = document.getElementById("goods__details") as HTMLElement;
+    goodsDetails.style.display = "none";
+  }
   
   let noGoodsText: HTMLElement = document.getElementById("noGoodsText") as HTMLElement;
   noGoodsText.style.display = "none";
@@ -173,11 +175,11 @@ const showGoods: IShowGoods = function(localGoods): IGoodsList {
     productCard.style.background = `url(${localGoods[i].thumbnail}) 0% / cover`;
     productWrapper.append(productCard);
 
-    // product title
+    // product title     
     const productTitle: HTMLElement = document.createElement("div");
     productTitle.classList.add("content__products__product__title");
     productTitle.innerHTML = "";
-    productTitle.innerHTML = localGoods[i].title;
+    productTitle.innerHTML = localGoods[i].title.toUpperCase();
 
     // products info
     const productInfoWrapper: HTMLElement = document.createElement("div");

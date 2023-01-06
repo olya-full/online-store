@@ -3,14 +3,21 @@
     @include flex-space-between;
     align-items: center;
     height: 70px;
+    margin-bottom: 10px;
 
-    border: 1px dashed rgb(17, 128, 17);
+    border-bottom: 5px solid $main-color;
 }
 
 .basket {
     display: flex;
     align-items: center;
     margin-right: 10px;
+    cursor: pointer;
+}
+
+.basket__value,
+.total-card__text {
+    font-weight: 900;
 }
 
 .logo {
@@ -20,7 +27,7 @@
     background-size: cover;
     margin: 5px 2px 10px 5px;
     box-sizing: content-box;
-
+    cursor: pointer;
 }
 
 .basket__img {
@@ -30,4 +37,10 @@
     background-size: cover;
     margin: 5px 2px 10px 5px;
     box-sizing: content-box;
+}
+
+.logo:hover, 
+.basket__img:hover {
+    transform: scale(1.02);
+    transition: transform 0.25s;
 }

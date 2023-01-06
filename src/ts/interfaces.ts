@@ -1,3 +1,5 @@
+type IUpper<T extends string> = Uppercase<T>;
+
 // for event-listeners.ts
 interface IEventTargetValue extends EventTarget {
   value: string;
@@ -81,4 +83,4 @@ type ICartGood = {
 
 
 export { IEventTargetValue, IShowGoods, IGoodsList, IParamsObject, IParamsObjectStringified, IOneProduct,
-         IGoodsInfo, ICartList, ICartGood }
+         IGoodsInfo, ICartList, ICartGood, IUpper }

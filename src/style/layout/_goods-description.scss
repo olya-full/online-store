@@ -54,6 +54,11 @@
        animation: fadein 1s;
 }
 
+.goods__details__product__minipics_outer:hover {
+  transform: scale(1.02);
+  transition: transform 0.25s;
+}
+
 .goods__details__product__info {
   margin-top: 20px;
   display: grid;
@@ -86,6 +91,7 @@
   white-space: pre-line;
   @include regular-borders;
   padding: 1px 1px 1px 3px;
+  background-color: $third-color;
 }
 
 .goods__details__product__info2 {

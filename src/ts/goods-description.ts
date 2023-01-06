@@ -12,9 +12,7 @@ const openGoodsDescription = function(productID: number) {
     removeHash();
 
     const product = goodsList.find((obj: IOneProduct) => obj.id === productID);
-    console.log(product);
     setNewPageURL(`product/${productID}`);
-    console.log(paramsObject);
     const breadCrumb0: HTMLElement = document.getElementById("goods__details__breadcrumb0")!;
     const breadCrumb1: HTMLElement = document.getElementById("goods__details__breadcrumb1")!;
     const breadCrumb2: HTMLElement = document.getElementById("goods__details__breadcrumb2")!;
@@ -28,8 +26,8 @@ const openGoodsDescription = function(productID: number) {
     breadCrumb2.innerHTML = product!.brand.toUpperCase();
     breadCrumb3.innerHTML = product!.title.toUpperCase();
     breadCrumb0.addEventListener("click", () => {
-      displayNonekDetails();
       removeHash();
+      displayNonekDetails();
       setNewPageURL("");
       displayBlocKMain();
     });
@@ -154,7 +152,8 @@ const openGoodsDescription = function(productID: number) {
 
     info2Wrapper.append(info2Price, info2Cart, info2Buy);
     info2.append(info2Wrapper);
-    
+    displayBlockDetails();
+
     // -----------------Настя добавила вызов функции для добавления товаров в корзину ---------------------//
     addGoodsToCart();
   }

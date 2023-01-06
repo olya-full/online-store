@@ -8,6 +8,7 @@ import { getGoodsResult, category, addCategoryGoods, changeShowGoodsBrand, chang
          brand, addBrandGoods, goodsResult, removeFiltersGoods, removeBrandGoods, createPriceSlider, createStockSlider } from './filter-category';
 import * as noUiSlider from 'nouislider';
 import 'nouislider/dist/nouislider.css';
+import { displayBlockDetails } from './hide-display-sections';
 
 let currentURL: URL = new URL (window.location.href);
 let searchParams: URLSearchParams | string;
@@ -187,13 +188,13 @@ const parseQueryString: () => void = function() {
       }
     })
   }
-console.log(window.location.hash)
+
   // парсинг страницы goods description
   let hash = window.location.hash;
   if (hash[2] === "p"){
 
     let productIdHash = Number(hash.split("/")[hash.split("/").length-1]);
-
+    displayBlockDetails();
     openGoodsDescription(productIdHash);
   }
 };

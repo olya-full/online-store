@@ -21,16 +21,16 @@
     background: $main-color;
 }
 @mixin regular-borders {
-    border: 3px solid $second-color;
-    box-shadow: 0 0 3px 2px $third-color;
+    border: 1px solid $second-color;
     border-radius: 5px;
-    //color: white;
-    background: white;
+}
+
+@mixin azure-borders {
+    border: 2px solid $main-color;
 }
 
 @mixin selected-item {
-    box-shadow: 0 0 1px 1px #EE82EE;
-    border: 1px solid #BA55D3;
+    box-shadow: 0 0 4px 4px $third-color;
 }
 
 @mixin grid-4-rows {
