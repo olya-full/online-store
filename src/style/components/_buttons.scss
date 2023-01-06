@@ -3,9 +3,8 @@
 .button_buy {
     width: 80px;
     height: 30px;
-    border: 1px black solid;
-    background: $button-color;
     @include flex-center;
+    @include button-borders;
     cursor: pointer;
 
 
@@ -13,9 +12,8 @@
 }
 
 .button {
-    border: 1px black solid;
-    background: $button-color;
     @include flex-center;
+    @include button-borders;
     cursor: pointer;
 }
 

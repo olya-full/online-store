@@ -1,12 +1,12 @@
 import { goodsList, IGoodsList } from './goods-list';
 import { IShowGoods, IOneProduct, IGoodsInfo } from './interfaces';
-import { setQueryParameters, currentURL, paramsObjectStringified, queryString } from './query-handler';
+import { setQueryParameters, currentURL, paramsObjectStringified, queryString, paramsObject } from './query-handler';
 import { mainSearch, listenGoodsDescription } from './event-listeners';
 import { goodsResult, getGoodsResult } from './filter-category';
 import { addGoodsToCart, getIdGoodDescr } from './cart';
 
 // declaring global variable for the goods array which is changed by sorting and filtering 
-let currentGoods: IGoodsList;
+let currentGoods: IGoodsList = goodsList;
 
 
 // initial function triggered by "DOMContentLoaded" event
@@ -23,7 +23,12 @@ const showAllGoods: IShowGoods = function(localGoods: IGoodsList){
 
 // sorting functions in the control panel, triggered by selecting an item from the drop-down list
 const sortGoodsPriceUp: IShowGoods = function(localGoods: IGoodsList){
-  let innerGoods = localGoods.sort((a, b) => {return a.price - b.price}); 
+  let innerGoods;
+  if (getGoodsResult().length === 0) {
+    innerGoods = currentGoods.sort((a, b) => {return a.price - b.price}); 
+  } else innerGoods = localGoods.sort((a, b) => {return a.price - b.price}); 
+  
+  //currentGoods = innerGoods;
   showGoods(innerGoods);
   searchGoods(innerGoods, mainSearch.value);
   setQueryParameters("sort", "priceUp");
@@ -32,7 +37,12 @@ const sortGoodsPriceUp: IShowGoods = function(localGoods: IGoodsList){
 }
 
 const sortGoodsPriceDown: IShowGoods = function(localGoods: IGoodsList){
-  let innerGoods = localGoods.sort((a, b) => {return b.price - a.price});
+  let innerGoods;
+  if (getGoodsResult().length === 0) {
+    innerGoods = currentGoods.sort((a, b) => {return b.price - a.price});
+  } else innerGoods = localGoods.sort((a, b) => {return b.price - a.price}); 
+
+  //currentGoods = innerGoods;
   showGoods(innerGoods);
   searchGoods(innerGoods, mainSearch.value);
   setQueryParameters("sort", "priceDown");
@@ -41,7 +51,12 @@ const sortGoodsPriceDown: IShowGoods = function(localGoods: IGoodsList){
 }
 
 const sortGoodsRatingUp: IShowGoods = function(localGoods: IGoodsList){
-  let innerGoods = localGoods.sort((a, b) => {return a.rating - b.rating});
+  let innerGoods;
+  if (getGoodsResult().length === 0) {
+    innerGoods = currentGoods.sort((a, b) => {return a.rating - b.rating});
+  } else innerGoods = localGoods.sort((a, b) => {return a.rating - b.rating});
+
+  //currentGoods = innerGoods;
   showGoods(innerGoods);
   searchGoods(innerGoods, mainSearch.value);
   setQueryParameters("sort", "ratingUp");
@@ -50,7 +65,12 @@ const sortGoodsRatingUp: IShowGoods = function(localGoods: IGoodsList){
 }
 
 const sortGoodsRatingDown: IShowGoods = function(localGoods: IGoodsList){
-  let innerGoods = localGoods.sort((a, b) => {return b.rating - a.rating});
+  let innerGoods;
+  if (getGoodsResult().length === 0) {
+    innerGoods = currentGoods.sort((a, b) => {return b.rating - a.rating});
+  } else innerGoods = localGoods.sort((a, b) => {return b.rating - a.rating});
+
+  //currentGoods = innerGoods;
   showGoods(innerGoods);
   searchGoods(innerGoods, mainSearch.value);
   setQueryParameters("sort", "ratingDown");
@@ -73,8 +93,11 @@ const searchGoods = function(localGoods: IGoodsList, searchKey: string){
         return obj[key as keyof IOneProduct].toString().toLowerCase().includes(searchKey.toLowerCase());
       }
     })});
-  }(localGoods, searchKey));  
+  }(localGoods, searchKey));
+
+
   showGoods(searchResultGoods);
+
   setQueryParameters("search", `${searchKey}`);
   hideDetailedInfo();
   return searchResultGoods;
@@ -100,8 +123,8 @@ const changeLayout: () => void = function(){
 // function removing detailed product info from the product card when the view is set to "small icons"
 const hideDetailedInfo: () => void = function(){
   const goodsContentWrapper: HTMLElement = document.getElementById("content__products")!;
-  const goodsInfo: IGoodsInfo = document.querySelectorAll<HTMLElement>(".content__products__product__info");
   if (goodsContentWrapper.classList.contains("small")){
+    const goodsInfo: IGoodsInfo = document.querySelectorAll<HTMLElement>(".content__products__product__info");
     goodsInfo.forEach(e => e.style.display = "none");
     const layoutCheckbox: HTMLInputElement = document.getElementById("content__control__layout_checkbox") as HTMLInputElement;
     layoutCheckbox.checked = true;
@@ -123,6 +146,8 @@ const showGoods: IShowGoods = function(localGoods): IGoodsList {
   };
 
   hideDetailedInfo();
+
+
 
   // populate "Count"
   let countValue: HTMLElement | null = document.querySelector(".content__control__count__value");

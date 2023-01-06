@@ -12,7 +12,7 @@
 .github {
     height: 35px;
     width: 35px;
-    background-image: url("./images/github.svg");
+    background-image: url("./images/github.png");
     background-size: cover;
     margin: 2px 2px 2px 5px;
 }
@@ -24,4 +24,5 @@
     background-repeat: no-repeat;
     background-position: center;
     margin: 2px 5px 2px 2px;
+    filter: hue-rotate(-100deg);
 }
