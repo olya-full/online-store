@@ -4,6 +4,8 @@
     @include flex-space-between;
     align-items: center;
     align-self: center;
+    flex: 0 0 auto;
+
     border: 1px solid green;
 }
 
