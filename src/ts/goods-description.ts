@@ -1,6 +1,6 @@
 import { IGoodsList, IOneProduct } from "./interfaces";
 import { goodsList } from "./goods-list";
-import { displayBlockDetails, displayNoneMain, displayNonekDetails, displayBlocKMain } from "./hide-display-sections";
+import { displayBlockDetails, displayNoneMain, displayNoneDetails, displayBlocKMain } from "./hide-display-sections";
 import { addGoodsToCart } from './cart';
 import { setQueryParameters, setNewPageURL, removeHash, paramsObject } from "./query-handler";
 
@@ -27,7 +27,7 @@ const openGoodsDescription = function(productID: number) {
     breadCrumb3.innerHTML = product!.title.toUpperCase();
     breadCrumb0.addEventListener("click", () => {
       removeHash();
-      displayNonekDetails();
+      displayNoneDetails();
       setNewPageURL("");
       displayBlocKMain();
     });
