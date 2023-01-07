@@ -69,6 +69,8 @@ function addGoodsToCart () { //добавление и удаление това
                 cart.push(currentAddGood);
 
                 showGoodsInCart();
+                showTotalCount();
+                showTotalPrice();
             } else {
                 let isInCart: boolean = false;
                 for (let i = 0; i < cart.length; i ++) {
@@ -80,11 +82,15 @@ function addGoodsToCart () { //добавление и удаление това
                     cart.push(currentAddGood);
 
                     showGoodsInCart();
+                    showTotalCount();
+                    showTotalPrice();
                 } else {
                     const index = cart.findIndex(currentAddGood => currentAddGood.id === id);
                     cart.splice(index, 1);
 
                     showGoodsInCart();
+                    showTotalCount();
+                    showTotalPrice();
                 }
             }
         })
@@ -104,6 +110,8 @@ function addGoodsToCart () { //добавление и удаление това
             cart.push(currentAddGood);
 
             showGoodsInCart();
+            showTotalCount();
+            showTotalPrice();
         } else {
             let isInCart: boolean = false;
             for (let i = 0; i < cart.length; i ++) {
@@ -115,11 +123,15 @@ function addGoodsToCart () { //добавление и удаление това
                 cart.push(currentAddGood);
 
                 showGoodsInCart();
+                showTotalCount();
+                showTotalPrice();
             } else {
                 const index = cart.findIndex(currentAddGood => currentAddGood.id === id);
                 cart.splice(index, 1);
 
                 showGoodsInCart();
+                showTotalCount();
+                showTotalPrice();
             }
         }
     })
@@ -215,7 +227,7 @@ function showGoodsInCart() {
 
         const divStock = document.createElement('div') as HTMLDivElement;
         divStock.classList.add('cart__item__stock');
-        divStock.textContent = `Stock: ${stock}%`;
+        divStock.textContent = `Stock: ${stock}`;
 
         const divContainer2 = document.createElement('div') as HTMLDivElement;
         divContainer2.classList.add('cart__item__container__second');
@@ -253,24 +265,158 @@ function showGoodsInCart() {
         divContainer2.appendChild(divMore);
         divWrapper2.appendChild(divTotalPrice);
     }
+    addGoodsInCart();
+    removeGoodsInCart();
 }
 
+
+let totalCount: number;
+let totalPrice: number;
+
+
+function countItemsCart () {
+    totalCount = 0;
+    for (let i = 0; i < cart.length; i++) {
+        totalCount = totalCount + cart[i].count;
+    }
+    return totalCount;
+}
+
+
+function showTotalCount () {
+    const headerCount = document.querySelector('.basket__value') as HTMLDivElement;
+    if (headerCount) {
+        headerCount.textContent = String(countItemsCart());
+    }
+}
+
+
+function countTotalPrice () {
+    totalPrice = 0;
+    for (let i = 0; i < cart.length; i++) {
+        totalPrice = totalPrice + cart[i].totalPrice;
+    }
+    return totalPrice;
+}
+
+
+function showTotalPrice () {
+    const headerTotalPrice = document.querySelector('.total-card__value') as HTMLDivElement;
+    if (headerTotalPrice) {
+        headerTotalPrice.textContent = String(countTotalPrice());
+    }
+}
+
+
+function addGoodsInCart () {
+    const buttonsMore = document.querySelectorAll('.cart__item__more') as NodeListOf<Node>;
+
+    for (let i = 0; i < buttonsMore.length; i++) {
+        buttonsMore[i].addEventListener('click', () => {
+
+            let goodCard = buttonsMore[i] as HTMLElement;
+
+            while (!goodCard.classList.contains('cart__item')) {
+                if (goodCard) {
+                    goodCard = goodCard.parentElement as HTMLElement;
+                }
+                if (!goodCard) {
+                  break;
+                }
+            }
+
+            let number: number = Number(goodCard.querySelector('.cart__item__number')?.textContent) - 1;
+
+            if (cart[number].stock > cart[number].count) { 
+                cart[number].count ++;
+                cart[number].totalPrice = cart[number].count * cart[number].price;
+                showTotalPrice();
+                showTotalCount();
+
+                const countGood = goodCard.querySelector('.cart__item__count') as HTMLDivElement;
+
+                if (countGood) {
+                    countGood.textContent = String(cart[number].count);
+                }
+
+                const totalPriceGood = goodCard.querySelector('.cart__item__total-price') as HTMLDivElement;
+
+                if (totalPriceGood) {
+                    totalPriceGood.textContent = String(cart[number].totalPrice);
+                }
+            }
+        }) 
+    }
+}
+
+
+function removeGoodsInCart () {
+    const buttonsSmaller = document.querySelectorAll('.cart__item__smaller') as NodeListOf<Node>;
+
+    for (let i = 0; i < buttonsSmaller.length; i++) {
+        buttonsSmaller[i].addEventListener('click', () => {
+            
+            let goodCard = buttonsSmaller[i] as HTMLElement;
+
+            while (!goodCard.classList.contains('cart__item')) {
+                if (goodCard) {
+                    goodCard = goodCard.parentElement as HTMLElement;
+                }
+                if (!goodCard) {
+                  break;
+                }
+            }
+
+            let number: number = Number(goodCard.querySelector('.cart__item__number')?.textContent) - 1;
+
+            if (cart[number].count > 0) { 
+                cart[number].count --;
+
+                if (cart[number].count === 0) {
+                    cart.splice(number, 1);
+                    showGoodsInCart();
+                    showTotalPrice();
+                    showTotalCount();
+                }
+
+                cart[number].totalPrice = cart[number].count * cart[number].price;
+                showTotalPrice();
+                showTotalCount();
+
+                const countGood = goodCard.querySelector('.cart__item__count') as HTMLDivElement;
+
+                if (countGood) {
+                    countGood.textContent = String(cart[number].count);
+                }
+
+                const totalPriceGood = goodCard.querySelector('.cart__item__total-price') as HTMLDivElement;
+
+                if (totalPriceGood) {
+                    totalPriceGood.textContent = String(cart[number].totalPrice);
+                }
+            }
+        }) 
+    }
+}
+
+
+
 // saving current cart in localStorage 
-document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "hidden") {
-        if (cart.length > 0) {
-            localStorage.bestGoodsObjectEver = JSON.stringify(cart);
-        } else if (cart.length === 0) {
-            localStorage.bestGoodsObjectEver = JSON.stringify([]);
-        }
-    }
-})
+// document.addEventListener("visibilitychange", () => {
+//     if (document.visibilityState === "hidden") {
+//         if (cart.length > 0) {
+//             localStorage.bestGoodsObjectEver = JSON.stringify(cart);
+//         } else if (cart.length === 0) {
+//             localStorage.bestGoodsObjectEver = JSON.stringify([]);
+//         }
+//     }
+// })
    
-window.addEventListener("DOMContentLoaded", () => {
-    if (JSON.parse(localStorage.bestGoodsObjectEver).length > 0){
-        cart = JSON.parse(localStorage.bestGoodsObjectEver);
-    }
-})
+// window.addEventListener("DOMContentLoaded", () => {
+//     if (JSON.parse(localStorage.bestGoodsObjectEver).length > 0){
+//         cart = JSON.parse(localStorage.bestGoodsObjectEver);
+//     }
+// })
 
 
 cartOpen ();
