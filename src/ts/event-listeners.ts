@@ -8,7 +8,6 @@ import { goodsResult, getGoodsResult, createPriceSlider, createStockSlider } fro
 import { displayNoneMain, displayBlockDetails, displayBlocKMain, displayNoneDetails } from './hide-display-sections';
 import { goodsList } from './goods-list';
 
-console.log("before", goodsList);
 // commencing JS on the page
 window.addEventListener("DOMContentLoaded", () => {
   parseQueryString();

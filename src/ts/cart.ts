@@ -255,8 +255,25 @@ function showGoodsInCart() {
     }
 }
 
+// saving current cart in localStorage 
+document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") {
+        if (cart.length > 0) {
+            localStorage.bestGoodsObjectEver = JSON.stringify(cart);
+        } else if (cart.length === 0) {
+            localStorage.bestGoodsObjectEver = JSON.stringify([]);
+        }
+    }
+})
+   
+window.addEventListener("DOMContentLoaded", () => {
+    if (JSON.parse(localStorage.bestGoodsObjectEver).length > 0){
+        cart = JSON.parse(localStorage.bestGoodsObjectEver);
+    }
+})
+
 
 cartOpen ();
 cartClose ();
 
-export { addGoodsToCart, getIdGoodDescr }
+export { addGoodsToCart, getIdGoodDescr, cart }

@@ -1,7 +1,7 @@
 import { IGoodsList, IOneProduct } from "./interfaces";
 import { goodsList } from "./goods-list";
 import { displayBlockDetails, displayNoneMain, displayNoneDetails, displayBlocKMain } from "./hide-display-sections";
-import { addGoodsToCart } from './cart';
+import { addGoodsToCart, cart } from './cart';
 import { setQueryParameters, setNewPageURL, removeHash, paramsObject } from "./query-handler";
 
 
@@ -123,7 +123,14 @@ const openGoodsDescription = function(productID: number) {
     info2Cart.classList.add("product__info2__cart", "button", "add-to-cart_descr");
     info2Cart.id = "product__info2__cart";
     info2Cart.innerHTML = "";
-    info2Cart.innerHTML = "ADD TO CART";
+
+    // choosing text for "add to cart" button depending on whether the car has this product
+    if (cart.some(e => e.id === productID)){
+      info2Cart.innerHTML = "DROP FROM CART";
+    } else {
+      info2Cart.innerHTML = "ADD TO CART";
+    }
+    
     // adding event listener
     info2Cart.addEventListener("click", () => {
       if (info2Cart.innerHTML === "ADD TO CART"){
