@@ -2,7 +2,8 @@ import { goodsList, IGoodsList } from './goods-list';
 import { IShowGoods, IOneProduct, IGoodsInfo, IUpper } from './interfaces';
 import { setQueryParameters, currentURL, paramsObjectStringified, queryString, paramsObject } from './query-handler';
 import { mainSearch, listenGoodsDescription } from './event-listeners';
-import { goodsResult, getGoodsResult } from './filter-category';
+import { goodsResult, getGoodsResult, applySortingAfterCheck, goodsForCategory, goodsForBrand,
+         goodsForPrice, goodsForStock} from './filter-category';
 import { addGoodsToCart, getIdGoodDescr, cart } from './cart';
 
 // declaring global variable for the goods array which is changed by sorting and filtering 
@@ -25,7 +26,11 @@ const showAllGoods: IShowGoods = function(localGoods: IGoodsList){
 const sortGoodsPriceUp: IShowGoods = function(localGoods: IGoodsList){
   let innerGoods;
   if (getGoodsResult().length === 0) {
-    innerGoods = currentGoods.sort((a, b) => {return a.price - b.price}); 
+    if (goodsForCategory.length === 0 && goodsForBrand.length === 0 && goodsForPrice.length === 0 && goodsForStock.length === 0) {
+      innerGoods = currentGoods.sort((a, b) => {return a.price - b.price});
+    } else {
+      innerGoods = localGoods.sort((a, b) => {return a.price - b.price});
+    }; 
   } else innerGoods = localGoods.sort((a, b) => {return a.price - b.price}); 
   
   //currentGoods = innerGoods;
@@ -38,8 +43,13 @@ const sortGoodsPriceUp: IShowGoods = function(localGoods: IGoodsList){
 
 const sortGoodsPriceDown: IShowGoods = function(localGoods: IGoodsList){
   let innerGoods;
+
   if (getGoodsResult().length === 0) {
-    innerGoods = currentGoods.sort((a, b) => {return b.price - a.price});
+    if (goodsForCategory.length === 0 && goodsForBrand.length === 0 && goodsForPrice.length === 0 && goodsForStock.length === 0) {
+      innerGoods = currentGoods.sort((a, b) => {return b.price - a.price});
+    } else {
+      innerGoods = localGoods.sort((a, b) => {return b.price - a.price});
+    }; 
   } else innerGoods = localGoods.sort((a, b) => {return b.price - a.price}); 
 
   //currentGoods = innerGoods;
@@ -52,9 +62,14 @@ const sortGoodsPriceDown: IShowGoods = function(localGoods: IGoodsList){
 
 const sortGoodsRatingUp: IShowGoods = function(localGoods: IGoodsList){
   let innerGoods;
+
   if (getGoodsResult().length === 0) {
-    innerGoods = currentGoods.sort((a, b) => {return a.rating - b.rating});
-  } else innerGoods = localGoods.sort((a, b) => {return a.rating - b.rating});
+    if (goodsForCategory.length === 0 && goodsForBrand.length === 0 && goodsForPrice.length === 0 && goodsForStock.length === 0) {
+      innerGoods = currentGoods.sort((a, b) => {return a.rating - b.rating});
+    } else {
+      innerGoods = localGoods.sort((a, b) => {return a.rating - b.rating});
+    }; 
+  } else innerGoods = localGoods.sort((a, b) => {return a.rating - b.rating}); 
 
   //currentGoods = innerGoods;
   showGoods(innerGoods);
@@ -66,10 +81,15 @@ const sortGoodsRatingUp: IShowGoods = function(localGoods: IGoodsList){
 
 const sortGoodsRatingDown: IShowGoods = function(localGoods: IGoodsList){
   let innerGoods;
-  if (getGoodsResult().length === 0) {
-    innerGoods = currentGoods.sort((a, b) => {return b.rating - a.rating});
-  } else innerGoods = localGoods.sort((a, b) => {return b.rating - a.rating});
 
+  if (getGoodsResult().length === 0) {
+    if (goodsForCategory.length === 0 && goodsForBrand.length === 0 && goodsForPrice.length === 0 && goodsForStock.length === 0) {
+      innerGoods = currentGoods.sort((a, b) => {return b.rating - a.rating});
+    } else {
+      innerGoods = localGoods.sort((a, b) => {return b.rating - a.rating});
+    }; 
+  } else innerGoods = localGoods.sort((a, b) => {return b.rating - a.rating}); 
+  
   //currentGoods = innerGoods;
   showGoods(innerGoods);
   searchGoods(innerGoods, mainSearch.value);
@@ -96,6 +116,7 @@ const searchGoods = function(localGoods: IGoodsList, searchKey: string){
   }(localGoods, searchKey));
 
 
+  
   showGoods(searchResultGoods);
 
   setQueryParameters("search", `${searchKey}`);
@@ -247,6 +268,7 @@ const showGoods: IShowGoods = function(localGoods): IGoodsList {
     cartDetailsWrapper.append(productCart, productDetails);
   }
   listenGoodsDescription();
+  
   // ------------------------Настя добавила вызов функции для добавления товаров в корзину -----------------------//
   addGoodsToCart();
   getIdGoodDescr();

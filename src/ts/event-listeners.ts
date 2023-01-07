@@ -4,7 +4,7 @@ import { IEventTargetValue } from './interfaces'
 import { setQueryParameters, clearAllFilters, removeQueryParameters, parseQueryString, copyToClipboard, 
          paramsObject, removeHash, setNewPageURL } from './query-handler'
 import { openGoodsDescription } from './goods-description';
-import { goodsResult, getGoodsResult, createPriceSlider, createStockSlider } from './filter-category';
+import { goodsResult, getGoodsResult, createPriceSlider, createStockSlider, applySortingAfterCheck } from './filter-category';
 import { displayNoneMain, displayBlockDetails, displayBlocKMain, displayNoneDetails } from './hide-display-sections';
 import { goodsList } from './goods-list';
 
@@ -53,27 +53,12 @@ const listenSearchGoods = function(): void {
   mainSearch.addEventListener("keyup", () => {
     if (mainSearch.value.length > 0){
       searchGoods(goodsResult, mainSearch.value);
-
+      applySortingAfterCheck();
     } else if (mainSearch.value.length <= 0){
       showGoods(goodsResult);
       hideDetailedInfo();
       setQueryParameters("search", `${mainSearch.value}`);
-
-      if (paramsObject.sort === undefined) {
-        // showGoods(goodsForCategory);
-        showGoods(getGoodsResult());
-    } else {
-        if (paramsObject.sort === 'priceUp') {
-            sortGoodsPriceUp(getGoodsResult());
-        } else if (paramsObject.sort === 'priceDown') {
-            sortGoodsPriceDown(getGoodsResult());
-        } else if (paramsObject.sort === 'ratingUp') {
-            sortGoodsRatingUp(getGoodsResult());
-        } else if (paramsObject.sort === 'ratingDown') {
-            sortGoodsRatingDown(getGoodsResult());
-        }
-    }
-    
+      applySortingAfterCheck();    
     }
   })
 

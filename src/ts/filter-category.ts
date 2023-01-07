@@ -2,9 +2,9 @@ import { goodsList, IGoodsList } from './goods-list';
 
 import * as noUiSlider from 'nouislider';
 import 'nouislider/dist/nouislider.css';
-import {currentGoods, searchGoods, showGoods} from './show-goods';
+import {currentGoods, showGoods} from './show-goods';
 import {paramsObject, setQueryParameters, removeQueryParameters, paramsObjectStringified} from './query-handler';
-import {sortGoodsPriceUp, sortGoodsPriceDown, sortGoodsRatingUp, sortGoodsRatingDown} from './show-goods';
+import {sortGoodsPriceUp, sortGoodsPriceDown, sortGoodsRatingUp, sortGoodsRatingDown, searchGoods} from './show-goods';
 import { mainSearch } from './event-listeners';
 
 
@@ -25,30 +25,14 @@ function filterCategoryGoods () {
             if (inputsCategory[i].checked) {
                 category.push(inputsCategory[i].name);
                 addCategoryGoods();
-
-                if (paramsObject.sort === undefined) {
-                    // showGoods(goodsForCategory);
-                    showGoods(getGoodsResult());
-
-                } else {
-                    if (paramsObject.sort === 'priceUp') {
-                        sortGoodsPriceUp(getGoodsResult());
-                    } else if (paramsObject.sort === 'priceDown') {
-                        sortGoodsPriceDown(getGoodsResult());
-                    } else if (paramsObject.sort === 'ratingUp') {
-                        sortGoodsRatingUp(getGoodsResult());
-                    } else if (paramsObject.sort === 'ratingDown') {
-                        sortGoodsRatingDown(getGoodsResult());
-                    }
-                }
-
+                showGoods(getGoodsResult());
 
                 changeShowGoodsCategory();
                 changeShowGoodsBrand();
 
                 // ----------------------- Строчка1, 2 Оли ---------------------------//
                 setQueryParameters("category", inputsCategory[i].name);
-                searchGoods(getGoodsResult(), mainSearch.value);
+                //searchGoods(getGoodsResult(), mainSearch.value);
                 
             } else {
                 let index: number = category.indexOf(inputsCategory[i].name);
@@ -58,13 +42,13 @@ function filterCategoryGoods () {
 
                 // ----------------------- Строчка3, 4 Оли ---------------------------//
                 removeQueryParameters("category", inputsCategory[i].name);
-                searchGoods(getGoodsResult(), mainSearch.value);
+                //searchGoods(getGoodsResult(), mainSearch.value);
 
                 
                 changeShowGoodsCategory();
-                changeShowGoodsBrand()
-
+                changeShowGoodsBrand();
             }
+            applySortingAfterCheck();
         })
     }
 }
@@ -79,23 +63,11 @@ function filterBrandGoods () {
             if (inputsBrand[i].checked) {
                 brand.push(inputsBrand[i].name);
                 addBrandGoods();
-
-                if (paramsObject.sort === undefined) {
-                    showGoods(getGoodsResult());
-                } else {
-                    if (paramsObject.sort === 'priceUp') {
-                        sortGoodsPriceUp(getGoodsResult());
-                    } else if (paramsObject.sort === 'priceDown') {
-                        sortGoodsPriceDown(getGoodsResult());
-                    } else if (paramsObject.sort === 'ratingUp') {
-                        sortGoodsRatingUp(getGoodsResult());
-                    } else if (paramsObject.sort === 'ratingDown') {
-                        sortGoodsRatingDown(getGoodsResult());
-                    }
-                }
+                showGoods(getGoodsResult());
+                
 
                 setQueryParameters("brand", inputsBrand[i].name);
-                searchGoods(getGoodsResult(), mainSearch.value);
+                //searchGoods(getGoodsResult(), mainSearch.value);
 
                 changeShowGoodsCategory();
                 changeShowGoodsBrand()
@@ -110,8 +82,9 @@ function filterBrandGoods () {
                 changeShowGoodsBrand();
 
                 removeQueryParameters("brand", inputsBrand[i].name);
-                searchGoods(getGoodsResult(), mainSearch.value);
+                //searchGoods(getGoodsResult(), mainSearch.value);
             }
+            applySortingAfterCheck();
         })
     }
 }
@@ -329,6 +302,7 @@ function createPriceSlider () {
                 //
             }
         });
+        applySortingAfterCheck();
     }
 }
 
@@ -406,6 +380,7 @@ function createStockSlider () {
                 changeShowGoodsBrand();
             }
         });
+        applySortingAfterCheck();
     }
 }
 
@@ -426,7 +401,27 @@ function addStockGoods (min: number, max: number) {
     }
 }
 
+// Оля вынесла этот код в отдельную функцию и применила функцию в category & brand вместо просто кода
+// и добавила в слайдеры price & stock, потому что без них сортировка не работала после перезагрузки страницы
+const applySortingAfterCheck: () => void = function() {
+    if (paramsObject.sort === undefined) {
+        showGoods(getGoodsResult());
+        searchGoods(getGoodsResult(), mainSearch.value);
+
+    } else {
+        if (paramsObject.sort === 'priceUp') {
+            sortGoodsPriceUp(getGoodsResult());
+        } else if (paramsObject.sort === 'priceDown') {
+            sortGoodsPriceDown(getGoodsResult());
+        } else if (paramsObject.sort === 'ratingUp') {
+            sortGoodsRatingUp(getGoodsResult());
+        } else if (paramsObject.sort === 'ratingDown') {
+            sortGoodsRatingDown(getGoodsResult());
+        }
+    }
+} 
 
 export { goodsResult, filterCategoryGoods, filterBrandGoods, getGoodsResult, category, addCategoryGoods,
          changeShowGoodsCategory, changeShowGoodsBrand, brand, addBrandGoods, createPriceSlider, createStockSlider, 
-         removeFiltersGoods, removeBrandGoods }
+         removeFiltersGoods, removeBrandGoods, applySortingAfterCheck, goodsForCategory, goodsForBrand,
+         goodsForPrice, goodsForStock }
