@@ -8,4 +8,5 @@ import './ts/filter-category';
 import './ts/cart';
 // import './ts/create-price-slider';
 // import './ts/filter-price';
+import './ts/local-storage';
 

@@ -3,7 +3,7 @@ import { IShowGoods, IOneProduct, IGoodsInfo, IUpper } from './interfaces';
 import { setQueryParameters, currentURL, paramsObjectStringified, queryString, paramsObject } from './query-handler';
 import { mainSearch, listenGoodsDescription } from './event-listeners';
 import { goodsResult, getGoodsResult } from './filter-category';
-import { addGoodsToCart, getIdGoodDescr } from './cart';
+import { addGoodsToCart, getIdGoodDescr, cart } from './cart';
 
 // declaring global variable for the goods array which is changed by sorting and filtering 
 let currentGoods: IGoodsList = goodsList;
@@ -229,7 +229,13 @@ const showGoods: IShowGoods = function(localGoods): IGoodsList {
     
     productCart.classList.add("content__products__product__cart", "button_product", "button", "add-to-cart");
     productCart.innerHTML = "";
-    productCart.innerHTML = "ADD TO CART";
+
+    // choosing text for "add to cart" button depending on whether the car has this product
+    if (cart.some(e => e.id === Number(productCard.id))){
+      productCart.innerHTML = "DROP FROM CART";
+    } else {
+      productCart.innerHTML = "ADD TO CART";
+    }   
 
     const productDetails: HTMLElement = document.createElement("div");
     productDetails.classList.add("content__products__product__details", "button_product", "button");
