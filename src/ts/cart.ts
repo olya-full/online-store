@@ -1,5 +1,7 @@
 import { ICartList, ICartGood } from './interfaces';
 import { goodsList2 } from './goods-list2';
+import { displayNoneMain, displayBlockDetails, displayBlocKMain, displayNoneDetails } from './hide-display-sections';
+import { setNewPageURL, removeHash } from './query-handler';
 
 let cartActive: boolean;
 
@@ -17,6 +19,10 @@ function cartOpen () {
         cartPopUp.classList.add('cart_active');
         main.classList.add('main_hidden');
         goodsDetails.style.display = 'none';
+        // Оля добавила три строчки снизу
+        removeHash();
+        setNewPageURL(`cart`);
+        displayNoneMain();
     })
 }
 

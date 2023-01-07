@@ -14,7 +14,7 @@ const displayBlocKMain: () => void = function() {
 }
 
 // functions for hiding/showing the Details page
-const displayNonekDetails: () => void = function() {
+const displayNoneDetails: () => void = function() {
   const goodsDetailsPage: HTMLElement = document.getElementById("goods__details") as HTMLElement;
   goodsDetailsPage.style.display = "none";
 }
@@ -24,4 +24,4 @@ const displayBlockDetails: () => void = function() {
   goodsDetailsPage.style.display = "flex";
 }
 
-export { displayNoneMain, displayBlockDetails, displayBlocKMain, displayNonekDetails }
+export { displayNoneMain, displayBlockDetails, displayBlocKMain, displayNoneDetails }

@@ -334,14 +334,12 @@ function createPriceSlider () {
 
 
 const smallPrice = function () {
-    let sortPriceGoods = goodsList.sort((a, b) => {return a.price - b.price});
-    return sortPriceGoods[0].price;
+    return 10;
 }
 
 
 const bigPrice = function () {
-    let sortPriceGoods = goodsList.sort((a, b) => {return a.price - b.price});
-    return sortPriceGoods[sortPriceGoods.length - 1].price;
+    return 1749;
 }
 
 
@@ -412,13 +410,11 @@ function createStockSlider () {
 }
 
 const smallStock = function () {
-    let sortStockGoods = goodsList.sort((a, b) => {return a.stock - b.stock});
-    return sortStockGoods[0].stock;
+    return 2;
 }
 
 const bigStock = function () {
-    let sortStockGoods = goodsList.sort((a, b) => {return a.stock - b.stock});
-    return sortStockGoods[sortStockGoods.length - 1].stock;
+    return 150;
 }
 
 function addStockGoods (min: number, max: number) {

@@ -5,13 +5,14 @@ import { setQueryParameters, clearAllFilters, removeQueryParameters, parseQueryS
          paramsObject, removeHash, setNewPageURL } from './query-handler'
 import { openGoodsDescription } from './goods-description';
 import { goodsResult, getGoodsResult, createPriceSlider, createStockSlider } from './filter-category';
-import { displayNoneMain, displayBlockDetails, displayBlocKMain, displayNonekDetails } from './hide-display-sections';
+import { displayNoneMain, displayBlockDetails, displayBlocKMain, displayNoneDetails } from './hide-display-sections';
+import { goodsList } from './goods-list';
 
-
+console.log("before", goodsList);
 // commencing JS on the page
 window.addEventListener("DOMContentLoaded", () => {
   parseQueryString();
-  //showAllGoods(currentGoods);
+  showAllGoods(goodsList);
   listenSortGoods();
   listenSearchGoods();
   listenLayoutCheckbox();
@@ -136,9 +137,9 @@ const listenGoodsDescription: () => void = function(){
 const listenLogo: () => void = function() {
   const logo: HTMLElement = document.querySelector(".logo") as HTMLElement;
   logo.addEventListener("click", () => {
-    removeHash();
     displayBlocKMain();
-    displayNonekDetails();
+    removeHash();
+    displayNoneDetails();
     clearAllFilters();
   })
 }
