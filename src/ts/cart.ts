@@ -1,5 +1,5 @@
 import { ICartList, ICartGood } from './interfaces';
-import { goodsList2 } from './goods-list2';
+import { goodsList } from './goods-list';
 import { displayNoneMain, displayBlockDetails, displayBlocKMain, displayNoneDetails } from './hide-display-sections';
 import { setNewPageURL, removeHash } from './query-handler';
 
@@ -41,7 +41,7 @@ function cartClose () {
 }
 
 
-function addGoodsToCart () { //добавление и удаление товаров с главной страницы
+function addGoodsToCart () { //добавление и удаление товаров с главной страницы, со страницы описания товаров
     const buttonAddToCard = document.querySelectorAll('.add-to-cart') as NodeListOf<Node>;
     const buttonAddToCardDescr = document.querySelector('.add-to-cart_descr') as HTMLDivElement;
 
@@ -61,9 +61,9 @@ function addGoodsToCart () { //добавление и удаление това
             let currentAddGood = {} as ICartGood;
             currentAddGood.id = id;
             currentAddGood.count = 1;
-            currentAddGood.price = goodsList2[id -1].price;
+            currentAddGood.price = goodsList[id -1].price;
             currentAddGood.totalPrice = currentAddGood.count * currentAddGood.price;
-            currentAddGood.stock = goodsList2[id -1].stock;
+            currentAddGood.stock = goodsList[id -1].stock;
             
             if (cart.length === 0) {
                 cart.push(currentAddGood);
@@ -81,7 +81,7 @@ function addGoodsToCart () { //добавление и удаление това
 
                     showGoodsInCart();
                 } else {
-                    const index: number = cart.indexOf(currentAddGood);
+                    const index = cart.findIndex(currentAddGood => currentAddGood.id === id);
                     cart.splice(index, 1);
 
                     showGoodsInCart();
@@ -96,9 +96,9 @@ function addGoodsToCart () { //добавление и удаление това
         let currentAddGood = {} as ICartGood;
         currentAddGood.id = id;
         currentAddGood.count = 1;
-        currentAddGood.price = goodsList2[id -1].price;
+        currentAddGood.price = goodsList[id -1].price;
         currentAddGood.totalPrice = currentAddGood.count * currentAddGood.price;
-        currentAddGood.stock = goodsList2[id -1].stock;
+        currentAddGood.stock = goodsList[id -1].stock;
 
         if (cart.length === 0) {
             cart.push(currentAddGood);
@@ -116,7 +116,7 @@ function addGoodsToCart () { //добавление и удаление това
 
                 showGoodsInCart();
             } else {
-                const index: number = cart.indexOf(currentAddGood);
+                const index = cart.findIndex(currentAddGood => currentAddGood.id === id);
                 cart.splice(index, 1);
 
                 showGoodsInCart();
@@ -127,49 +127,53 @@ function addGoodsToCart () { //добавление и удаление това
 
 function getIdGoodDescr () {
     const buttonShowDescr = document.querySelectorAll('.content__products__product__details') as NodeListOf<Node>;
+    const cardGood = document.querySelectorAll('.content__products__product__wrapper') as NodeListOf<Node>;
 
-    for (let i:number = 0; i < buttonShowDescr.length; i ++) {
-        buttonShowDescr[i].addEventListener('click', () => {
-            let element = buttonShowDescr[i] as HTMLElement;
-            while (!element.classList.contains('content__products__product')) {
-                if (element) {
-                    element = element.parentElement as HTMLElement;
-                }
-                if (!element) {
-                  break;
-                }
-            }
-            const id: number = Number(element.id);
+    for (let i:number = 0; i < cardGood.length; i ++) {
+        cardGood[i].addEventListener('click', () => {
+            let element = cardGood[i] as HTMLElement;
+            let elementId = element.querySelector('.content__products__product') as HTMLElement; 
+            const id: number = Number(elementId.id);
             idCartDescr = id;
         })
     }
+
+    // for (let i:number = 0; i < buttonShowDescr.length; i ++) {
+    //     buttonShowDescr[i].addEventListener('click', () => {
+    //         let element = buttonShowDescr[i] as HTMLElement;
+    //         while (!element.classList.contains('content__products__product')) {
+    //             if (element) {
+    //                 element = element.parentElement as HTMLElement;
+    //             }
+    //             if (!element) {
+    //               break;
+    //             }
+    //         }
+    //         const id: number = Number(element.id);
+    //         idCartDescr = id;
+    //     })
+    // }
 }
 
 
 function showGoodsInCart() {
     const cartItems = document.querySelector('.cart__items') as HTMLDivElement;
 
-    console.log(cart)
-
     while (cartItems.firstChild) {
         cartItems.removeChild(cartItems.firstChild);
     }
     
     for (let i = 0; i < cart.length; i ++) {
-        console.log(goodsList2)
-        console.log(goodsList2[0].id)
 
         const id: number = cart[i].id;
-        console.log(id)
-        const images = goodsList2[id - 1].images;
-        const title: string = goodsList2[id - 1].title;
+        const images = goodsList[id - 1].images;
+        const title: string = goodsList[id - 1].title;
         
-        console.log(title)
-        const description: string = goodsList2[id - 1].description;
-        const rating: number = goodsList2[id - 1].rating;
-        const discount: number = goodsList2[id - 1].discountPercentage;
-        const stock: number = goodsList2[id - 1].stock;
-        const price: number = goodsList2[id - 1].price;
+        const description: string = goodsList[id - 1].description;
+        const rating: number = goodsList[id - 1].rating;
+        const discount: number = goodsList[id - 1].discountPercentage;
+        const stock: number = goodsList[id - 1].stock;
+        const price: number = goodsList[id - 1].price;
         const totalPrice: number = cart[i].totalPrice;
         const count: number = cart[i].count;
 
