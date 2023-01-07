@@ -2,7 +2,7 @@
     @include flex-space-between;
     display: none;
     width: 100%;
-    height: 200px;
+    // height: 200px;
     margin: 30px 0;
 }
 
@@ -10,24 +10,22 @@
     display: flex;
     flex: 1 0 auto;
     z-index: 20;
-    background: $background-form-color;
 }
 
 .cart__goods {
-    width: 55%;
-    @include regular-borders;
+    width: 60%;
 }
 
 .cart__summary {
     width: 35%;
-    @include regular-borders;
 }
 
 .cart__title {
     @include flex-space-between;
-    height: 40px;
+    height: 50px;
     align-items: center;
     padding: 10px;
+    background: $main-color;
 }
 
 .cart__page {
@@ -51,3 +49,85 @@
 .cart__empty {
     display: none;
 }
+
+.cart__items {
+    // min-height: 30px;
+    width: 100%;
+}
+
+.cart__item {
+    width: 100%;
+    height: 100px;
+    border-bottom: 2px solid $main-color;
+    @include flex-space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.cart__item__img {
+    width: 60px;
+    height: 60px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.cart__item__wrapper {
+    width: 60%;
+    min-height: 100%;
+    @include flex-colomn;
+}
+
+.cart__item__title {
+    width: 100%;
+    height: 20px;
+    @include flex-center;
+    border-bottom: 1px solid $main-color;
+}
+
+.cart__item__description {
+    width: 100%;
+    min-height: 20px;
+    @include flex-center;
+}
+
+.cart__item__container {
+    width: 100%;
+    height: 20px;
+    @include flex-space-between;
+}
+
+.cart__item__rating,
+.cart__item__discount {
+    width: 50%;
+    height: 100%;
+    @include flex-center;
+}
+
+.cart__item__wrapper__second {
+    width: 20%;
+    min-height: 100%;
+    @include flex-colomn;
+    justify-content: space-between;
+}
+
+.cart__item__stock, 
+.cart__item__total-price {
+    width: 100%;
+    @include flex-center;
+}
+
+.cart__item__container__second {
+    width: 100%;
+    @include flex-space-between;
+}
+
+.cart__item__smaller, 
+.cart__item__more {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    @include flex-center;
+    background: $main-color;
+}
+
