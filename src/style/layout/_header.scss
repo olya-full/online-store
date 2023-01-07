@@ -4,7 +4,6 @@
     align-items: center;
     height: 70px;
     margin-bottom: 10px;
-
     border-bottom: 5px solid $main-color;
 }
 
@@ -43,4 +42,8 @@
 .basket__img:hover {
     transform: scale(1.02);
     transition: transform 0.25s;
+}
+
+.total-card {
+    @include flex-space-between;
 }
