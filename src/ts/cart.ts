@@ -269,7 +269,6 @@ document.addEventListener("visibilitychange", () => {
 window.addEventListener("DOMContentLoaded", () => {
     if (JSON.parse(localStorage.bestGoodsObjectEver).length > 0){
         cart = JSON.parse(localStorage.bestGoodsObjectEver);
-        console.log("loaded", cart);
     }
 })
 
