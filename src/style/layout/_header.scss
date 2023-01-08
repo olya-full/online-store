@@ -15,8 +15,23 @@
 }
 
 .basket__value,
-.total-card__text {
+.total-card__text,
+.total-card__value {
     font-weight: 900;
+}
+
+.basket__value {
+    width: 22px;
+    height: 22px;
+    -webkit-border-radius: 11px;
+    -moz-border-radius: 11px;
+    border-radius: 11px;
+    background: $third-color;
+    text-align: center;
+    padding-top: 2px;
+    margin-left: -20px;
+    margin-bottom: -20px;
+    z-index: 2;
 }
 
 .logo {

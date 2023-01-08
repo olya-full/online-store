@@ -32,8 +32,6 @@ function filterCategoryGoods () {
 
                 // ----------------------- Строчка1, 2 Оли ---------------------------//
                 setQueryParameters("category", inputsCategory[i].name);
-                //searchGoods(getGoodsResult(), mainSearch.value);
-                
             } else {
                 let index: number = category.indexOf(inputsCategory[i].name);
                 category.splice(index, 1);
@@ -42,13 +40,13 @@ function filterCategoryGoods () {
 
                 // ----------------------- Строчка3, 4 Оли ---------------------------//
                 removeQueryParameters("category", inputsCategory[i].name);
-                //searchGoods(getGoodsResult(), mainSearch.value);
 
-                
                 changeShowGoodsCategory();
                 changeShowGoodsBrand();
             }
-            applySortingAfterCheck();
+            if (window.location.hash[2] !== "p" && window.location.hash[2] !== "c") {
+                applySortingAfterCheck();
+            }
         })
     }
 }
@@ -65,9 +63,7 @@ function filterBrandGoods () {
                 addBrandGoods();
                 showGoods(getGoodsResult());
                 
-
                 setQueryParameters("brand", inputsBrand[i].name);
-                //searchGoods(getGoodsResult(), mainSearch.value);
 
                 changeShowGoodsCategory();
                 changeShowGoodsBrand()
@@ -82,9 +78,10 @@ function filterBrandGoods () {
                 changeShowGoodsBrand();
 
                 removeQueryParameters("brand", inputsBrand[i].name);
-                //searchGoods(getGoodsResult(), mainSearch.value);
             }
-            applySortingAfterCheck();
+            if (window.location.hash[2] !== "p" && window.location.hash[2] !== "c") {
+                applySortingAfterCheck();
+            }
         })
     }
 }
@@ -302,7 +299,9 @@ function createPriceSlider () {
                 //
             }
         });
-        applySortingAfterCheck();
+        if (window.location.hash[2] !== "p" && window.location.hash[2] !== "c") {
+            applySortingAfterCheck();
+        }
     }
 }
 
@@ -380,7 +379,9 @@ function createStockSlider () {
                 changeShowGoodsBrand();
             }
         });
-        applySortingAfterCheck();
+        if (window.location.hash[2] !== "p" && window.location.hash[2] !== "c") {
+            applySortingAfterCheck();
+        }
     }
 }
 

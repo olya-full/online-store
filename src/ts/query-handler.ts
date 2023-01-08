@@ -8,7 +8,8 @@ import { getGoodsResult, category, addCategoryGoods, changeShowGoodsBrand, chang
          brand, addBrandGoods, goodsResult, removeFiltersGoods, removeBrandGoods, createPriceSlider, createStockSlider } from './filter-category';
 import * as noUiSlider from 'nouislider';
 import 'nouislider/dist/nouislider.css';
-import { displayBlockDetails } from './hide-display-sections';
+import { displayBlockDetails, displayNoneDetails, displayBlocKMain, displayNoneMain } from './hide-display-sections';
+import { cartOpen } from './cart';
 
 let currentURL: URL = new URL (window.location.href);
 let searchParams: URLSearchParams | string;
@@ -39,13 +40,13 @@ const setNewPageURL: (arg: string) => void = function(newURLParameters) {
 // parsing query string, putting the values into paramsObject, restoring the page state
 const parseQueryString: () => void = function() {
   queryString = window.location.search;
-
   let noQuestionMark: string | Array<string>;
   let splitByEqual: Array<Array<string>> | undefined = [];
-  if (queryString.length > 1 && queryString[0] === "?"){
+  let hash = window.location.hash;
+
+  if (queryString.length > 1 && queryString[0] === "?" && hash[2] !== "p" && hash[2] !== "c"){
     noQuestionMark = queryString.slice(1);
     noQuestionMark = noQuestionMark.split("&");
-
     noQuestionMark.forEach((e) => {
       let temp: Array<string> = e.split("=");
       splitByEqual!.push(temp);
@@ -189,13 +190,20 @@ const parseQueryString: () => void = function() {
     })
   }
 
-  // парсинг страницы goods description
-  let hash = window.location.hash;
+  // парсинг страницы goods description и страницы cart
   if (hash[2] === "p"){
-
     let productIdHash = Number(hash.split("/")[hash.split("/").length-1]);
     displayBlockDetails();
     openGoodsDescription(productIdHash);
+  } 
+  if (hash[2] === "c"){
+    console.log('hash[2] === "c"')
+    //removeHash();
+    displayNoneMain();
+    const cartPopUp = document.querySelector('.cart') as HTMLDivElement;
+    cartPopUp.classList.add('cart_active');
+    displayNoneDetails();
+    setNewPageURL("cart");
   }
 };
 
@@ -211,87 +219,89 @@ const copyToClipboard: () => void = function(){
 
 // функция setQueryParameters(key, value) кладёт пару key=value в адресную строку в качестве query-строки
 const setQueryParameters = function(key: string, value: string): void{
-  // кладём ключ key со значением value в объект paramsObject в зависимости от выбранной фильтрации, сортировки и т.д.
-  switch (key) {
-    case "sort":
-      if (typeof value === "string"){
-      paramsObject.sort = value;
-      paramsObjectStringified = JSON.parse(JSON.stringify(paramsObject));
-      };
-      break;
-    case "search":
-      if (typeof value === "string"){
-        paramsObject.search = value;
+  if (window.location.hash[2] !== "p" && window.location.hash[2] !== "c"){
+    // кладём ключ key со значением value в объект paramsObject в зависимости от выбранной фильтрации, сортировки и т.д.
+    switch (key) {
+      case "sort":
+        if (typeof value === "string"){
+        paramsObject.sort = value;
         paramsObjectStringified = JSON.parse(JSON.stringify(paramsObject));
-      };
-      break;
-    case "layout":
-      if (value === "large"|| value === "small"){
-        paramsObject.layout = value;
-        paramsObjectStringified = JSON.parse(JSON.stringify(paramsObject));
-      };
-      break;
-    case "category":
-      if (typeof value === "string"){
-        paramsObject.category.push(value);
-      };
-      break;
-    case "brand":
-      if (typeof value === "string"){
-        paramsObject.brand.push(value);
-      };
-      break;
-    case "price":
-      if (typeof value === "string"){
-        paramsObject.price = value;
-      };
-      break;
-    case "stock":
-      if (typeof value === "string"){
-        paramsObject.stock = value;
-      };
-      break;
-  }
+        };
+        break;
+      case "search":
+        if (typeof value === "string"){
+          paramsObject.search = value;
+          paramsObjectStringified = JSON.parse(JSON.stringify(paramsObject));
+        };
+        break;
+      case "layout":
+        if (value === "large"|| value === "small"){
+          paramsObject.layout = value;
+          paramsObjectStringified = JSON.parse(JSON.stringify(paramsObject));
+        };
+        break;
+      case "category":
+        if (typeof value === "string"){
+          paramsObject.category.push(value);
+        };
+        break;
+      case "brand":
+        if (typeof value === "string"){
+          paramsObject.brand.push(value);
+        };
+        break;
+      case "price":
+        if (typeof value === "string"){
+          paramsObject.price = value;
+        };
+        break;
+      case "stock":
+        if (typeof value === "string"){
+          paramsObject.stock = value;
+        };
+        break;
+    }
 
-  // creating an object with stringified values
+    // creating an object with stringified values
 
-  if (paramsObject.search != undefined && paramsObject.search.length <= 0){
-      delete paramsObjectStringified.search;
+    if (paramsObject.search != undefined && paramsObject.search.length <= 0){
+        delete paramsObjectStringified.search;
+      };
+    
+    // НАСТЯ, эти if'ы внизу для твоей фильтрации, можешь переделывать по желанию.
+    if (paramsObject.category instanceof Array ){
+      if (paramsObject.category.length > 0){
+        paramsObjectStringified.category = paramsObject.category.join("_");
+      } else if (paramsObject.category.length <= 0){
+        delete paramsObjectStringified.category;
+      }
     };
-  
-  // НАСТЯ, эти if'ы внизу для твоей фильтрации, можешь переделывать по желанию.
-  if (paramsObject.category instanceof Array ){
-    if (paramsObject.category.length > 0){
-      paramsObjectStringified.category = paramsObject.category.join("_");
-    } else if (paramsObject.category.length <= 0){
-      delete paramsObjectStringified.category;
-    }
+    if (paramsObject.brand instanceof Array){
+      if (paramsObject.brand.length > 0){
+        paramsObjectStringified.brand = paramsObject.brand.join("_");
+      } else if (paramsObject.brand.length <= 0){
+        delete paramsObjectStringified.brand;
+      }
+    };
+    if (paramsObject.price != undefined &&
+      (Number(paramsObject.price?.split("_")[0]) === 10 && Number(paramsObject.price?.split("_")[1]) === 1749)){
+      delete paramsObjectStringified.price;
+    };
+    if (paramsObject.stock != undefined &&
+      (Number(paramsObject.stock?.split("_")[0]) === 2 && Number(paramsObject.stock?.split("_")[1]) === 150)){
+    delete paramsObjectStringified.stock;
   };
-  if (paramsObject.brand instanceof Array){
-    if (paramsObject.brand.length > 0){
-      paramsObjectStringified.brand = paramsObject.brand.join("_");
-    } else if (paramsObject.brand.length <= 0){
-      delete paramsObjectStringified.brand;
-    }
-  };
-  if (paramsObject.price != undefined &&
-     (Number(paramsObject.price?.split("_")[0]) === 10 && Number(paramsObject.price?.split("_")[1]) === 1749)){
-    delete paramsObjectStringified.price;
-  };
-  if (paramsObject.stock != undefined &&
-    (Number(paramsObject.stock?.split("_")[0]) === 2 && Number(paramsObject.stock?.split("_")[1]) === 150)){
-   delete paramsObjectStringified.stock;
- };
 
-  // assigning stringified object as a parameter of searchParams function and then stringifying it
-  searchParams = new URLSearchParams(paramsObjectStringified);
-  queryString = searchParams.toString();
-  const queryParams = new URLSearchParams(window.location.search);
-  for (let key in paramsObjectStringified){
-    queryParams.set(key, paramsObjectStringified[key as keyof IParamsObjectStringified]!)
-  };
-  window.history.pushState({}, '', `?${queryString}`);
-  currentURL = new URL (window.location.href);
+    // assigning stringified object as a parameter of searchParams function and then stringifying it
+    searchParams = new URLSearchParams(paramsObjectStringified);
+    queryString = searchParams.toString();
+    const queryParams = new URLSearchParams(window.location.search);
+    for (let key in paramsObjectStringified){
+      queryParams.set(key, paramsObjectStringified[key as keyof IParamsObjectStringified]!)
+    };
+    window.history.pushState({}, '', `?${queryString}`);
+    currentURL = new URL (window.location.href);
+  }
 } 
 
 
