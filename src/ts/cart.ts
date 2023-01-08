@@ -278,8 +278,14 @@ function countItemsCart () {
 
 function showTotalCount () {
     const headerCount = document.querySelector('.basket__value') as HTMLDivElement;
+    const cartCount = document.querySelector('.cart__summary__count__value') as HTMLDivElement;
+
     if (headerCount) {
         headerCount.textContent = String(countItemsCart());
+    }
+
+    if (cartCount) {
+        cartCount.textContent = String(countItemsCart());
     }
 }
 
@@ -295,8 +301,14 @@ function countTotalPrice () {
 
 function showTotalPrice () {
     const headerTotalPrice = document.querySelector('.total-card__value') as HTMLDivElement;
+    const cartTotalPrice = document.querySelector('.cart__summary__total__value') as HTMLDivElement;
+
     if (headerTotalPrice) {
         headerTotalPrice.textContent = String(countTotalPrice());
+    }
+
+    if (cartTotalPrice) {
+        cartTotalPrice.textContent = String(countTotalPrice());
     }
 }
 

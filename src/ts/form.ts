@@ -37,7 +37,7 @@ function formClose () {
 
 
 function createForm () {
-    const contentProducts = document.querySelector('.content__products') as HTMLDivElement;
+    const body = document.querySelector('.body') as HTMLDivElement;
     const divForm = document.createElement('div') as HTMLDivElement;
     const form = document.createElement('form') as HTMLFormElement;
     const divText = document.createElement('div') as HTMLDivElement;
@@ -160,7 +160,7 @@ function createForm () {
     labelCVV.appendChild(inputCVV);
 
     form.appendChild(buttonSubmit);    
-    contentProducts.appendChild(divForm);
+    body.appendChild(divForm);
 
     focusForm ();
     inputNumberCard.addEventListener('input', changePaymentSystem);
