@@ -36,8 +36,8 @@
 .cart__page__next {
     width: 20px;
     height: 25px;
-    border: 1px solid black;
     @include flex-center;
+    cursor: pointer;
 }
 
 .cart__page__value {
@@ -129,5 +129,6 @@
     border-radius: 50%;
     @include flex-center;
     background: $main-color;
+    cursor: pointer;
 }
 

@@ -13,6 +13,7 @@ const openGoodsDescription = function(productID: number) {
 
     const product = goodsList.find((obj: IOneProduct) => obj.id === productID);
     setNewPageURL(`product/${productID}`);
+
     const breadCrumb0: HTMLElement = document.getElementById("goods__details__breadcrumb0")!;
     const breadCrumb1: HTMLElement = document.getElementById("goods__details__breadcrumb1")!;
     const breadCrumb2: HTMLElement = document.getElementById("goods__details__breadcrumb2")!;
