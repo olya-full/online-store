@@ -1,7 +1,7 @@
 import { IGoodsList, IOneProduct } from "./interfaces";
 import { goodsList } from "./goods-list";
 import { displayBlockDetails, displayNoneMain, displayNoneDetails, displayBlocKMain } from "./hide-display-sections";
-import { addGoodsToCart, cart } from './cart';
+import { addGoodsToCart, cart, getIdGoodDescr } from './cart';
 import { setQueryParameters, setNewPageURL, removeHash, paramsObject } from "./query-handler";
 
 
@@ -164,6 +164,7 @@ const openGoodsDescription = function(productID: number) {
 
     // -----------------Настя добавила вызов функции для добавления товаров в корзину ---------------------//
     addGoodsToCart();
+    // getIdGoodDescr();
   }
 }
 

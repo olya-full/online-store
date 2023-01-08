@@ -271,7 +271,7 @@ const showGoods: IShowGoods = function(localGoods): IGoodsList {
   
   // ------------------------Настя добавила вызов функции для добавления товаров в корзину -----------------------//
   addGoodsToCart();
-  getIdGoodDescr();
+  // getIdGoodDescr();
   return localGoods;
 }
 

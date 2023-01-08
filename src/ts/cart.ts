@@ -2,6 +2,7 @@ import { ICartList, ICartGood } from './interfaces';
 import { goodsList } from './goods-list';
 import { displayNoneMain, displayBlockDetails, displayBlocKMain, displayNoneDetails } from './hide-display-sections';
 import { setNewPageURL, removeHash } from './query-handler';
+import { IOneProduct } from './interfaces';
 
 let cartActive: boolean;
 
@@ -97,8 +98,8 @@ function addGoodsToCart () { //добавление и удаление това
     }
 
     buttonAddToCardDescr?.addEventListener('click', () => {
+        getIdGoodDescr();
         const id: number = idCartDescr;
-
         let currentAddGood = {} as ICartGood;
         currentAddGood.id = id;
         currentAddGood.count = 1;
@@ -138,33 +139,25 @@ function addGoodsToCart () { //добавление и удаление това
 }
 
 function getIdGoodDescr () {
-    const buttonShowDescr = document.querySelectorAll('.content__products__product__details') as NodeListOf<Node>;
-    const cardGood = document.querySelectorAll('.content__products__product__wrapper') as NodeListOf<Node>;
+    // const cardGood = document.querySelectorAll('.content__products__product__wrapper') as NodeListOf<Node>;
 
-    for (let i:number = 0; i < cardGood.length; i ++) {
-        cardGood[i].addEventListener('click', () => {
-            let element = cardGood[i] as HTMLElement;
-            let elementId = element.querySelector('.content__products__product') as HTMLElement; 
-            const id: number = Number(elementId.id);
-            idCartDescr = id;
-        })
-    }
-
-    // for (let i:number = 0; i < buttonShowDescr.length; i ++) {
-    //     buttonShowDescr[i].addEventListener('click', () => {
-    //         let element = buttonShowDescr[i] as HTMLElement;
-    //         while (!element.classList.contains('content__products__product')) {
-    //             if (element) {
-    //                 element = element.parentElement as HTMLElement;
-    //             }
-    //             if (!element) {
-    //               break;
-    //             }
-    //         }
-    //         const id: number = Number(element.id);
+    // for (let i:number = 0; i < cardGood.length; i ++) {
+    //     cardGood[i].addEventListener('click', () => {
+    //         let element = cardGood[i] as HTMLElement;
+    //         let elementId = element.querySelector('.content__products__product') as HTMLElement; 
+    //         const id: number = Number(elementId.id);
     //         idCartDescr = id;
     //     })
     // }
+
+    const cardProduct = document.querySelector('.goods__details__product') as HTMLDivElement;
+    const nameProduct = cardProduct.querySelector('.goods__details__product__header')?.textContent as string;
+    const product = goodsList.find(obj => obj.title.toLowerCase() === nameProduct.toLowerCase());
+
+    if (product) {
+        const id: number = Number(product.id);
+        idCartDescr = id;
+    }
 }
 
 
@@ -372,12 +365,12 @@ function removeGoodsInCart () {
             if (cart[number].count > 0) { 
                 cart[number].count --;
 
-                if (cart[number].count === 0) {
-                    cart.splice(number, 1);
-                    showGoodsInCart();
-                    showTotalPrice();
-                    showTotalCount();
-                }
+                // if (cart[number].count === 0) {
+                //     cart.splice(number, 1);
+                //     showGoodsInCart();
+                //     showTotalPrice();
+                //     showTotalCount();
+                // }
 
                 cart[number].totalPrice = cart[number].count * cart[number].price;
                 showTotalPrice();
@@ -394,6 +387,13 @@ function removeGoodsInCart () {
                 if (totalPriceGood) {
                     totalPriceGood.textContent = String(cart[number].totalPrice);
                 }
+
+                if (cart[number].count === 0) {
+                    cart.splice(number, 1);
+                    showGoodsInCart();
+                    showTotalPrice();
+                    showTotalCount();
+                }
             }
         }) 
     }
@@ -401,7 +401,7 @@ function removeGoodsInCart () {
 
 
 
-//saving current cart in localStorage 
+// saving current cart in localStorage 
 document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "hidden") {
         if (cart.length > 0) {
