@@ -1,5 +1,5 @@
 import { goodsList, IGoodsList } from './goods-list';
-import { IShowGoods, IOneProduct, IGoodsInfo, IUpper } from './interfaces';
+import { IShowGoods, IOneProduct, IGoodsInfo } from './interfaces';
 import { setQueryParameters, currentURL, paramsObjectStringified, queryString, paramsObject } from './query-handler';
 import { mainSearch, listenGoodsDescription } from './event-listeners';
 import { goodsResult, getGoodsResult, applySortingAfterCheck, goodsForCategory, goodsForBrand,
@@ -155,7 +155,7 @@ const hideDetailedInfo: () => void = function(){
 //////////// ______________AUXILIARY FUNCTION______________ ////////////
 const showGoods: IShowGoods = function(localGoods): IGoodsList {
   // make sure the other areas like cart and product info are not displayed
-  if (window.location.hash[2] !== "p"){
+  if (window.location.hash[1] !== "p"){
     const goodsDetails: HTMLElement = document.getElementById("goods__details") as HTMLElement;
     goodsDetails.style.display = "none";
   }

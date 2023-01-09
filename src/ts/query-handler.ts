@@ -9,7 +9,7 @@ import { getGoodsResult, category, addCategoryGoods, changeShowGoodsBrand, chang
 import * as noUiSlider from 'nouislider';
 import 'nouislider/dist/nouislider.css';
 import { displayBlockDetails, displayNoneDetails, displayBlocKMain, displayNoneMain } from './hide-display-sections';
-import { cartOpen } from './cart';
+import { cartOpen, parseQueryCart } from './cart';
 
 let currentURL: URL = new URL (window.location.href);
 let searchParams: URLSearchParams | string;
@@ -27,13 +27,13 @@ let queryString: string;
 
 // removing everything that goes after hash basically clearing URL string
 function removeHash (): void { 
-  history.pushState("", document.title, window.location.pathname + window.location.search);
+  history.pushState("", document.title, window.location.pathname);
 }
 
 // setting new URL parameters when opening a new page (e.g. Main, Details, Cart)
 const setNewPageURL: (arg: string) => void = function(newURLParameters) {
   //let params = new URLSearchParams(window.location.search);
-  window.history.pushState({}, '', `/#/${newURLParameters}`);
+  window.history.pushState({}, "", `#${newURLParameters}`);
 }
 
 
@@ -44,7 +44,7 @@ const parseQueryString: () => void = function() {
   let splitByEqual: Array<Array<string>> | undefined = [];
   let hash = window.location.hash;
 
-  if (queryString.length > 1 && queryString[0] === "?" && hash[2] !== "p" && hash[2] !== "c"){
+  if (queryString.length > 1 && queryString[0] === "?" && hash[1] !== "p" && hash[1] !== "c"){
     noQuestionMark = queryString.slice(1);
     noQuestionMark = noQuestionMark.split("&");
     noQuestionMark.forEach((e) => {
@@ -190,21 +190,13 @@ const parseQueryString: () => void = function() {
     })
   }
 
-  // парсинг страницы goods description и страницы cart
-  if (hash[2] === "p"){
+  // парсинг страницы goods description
+  if (hash[1] === "p"){
     let productIdHash = Number(hash.split("/")[hash.split("/").length-1]);
+    console.log(productIdHash, "productIdHash");
     displayBlockDetails();
     openGoodsDescription(productIdHash);
   } 
-  if (hash[2] === "c"){
-    console.log('hash[2] === "c"')
-    //removeHash();
-    displayNoneMain();
-    const cartPopUp = document.querySelector('.cart') as HTMLDivElement;
-    cartPopUp.classList.add('cart_active');
-    displayNoneDetails();
-    setNewPageURL("cart");
-  }
 };
 
 // copying the URL into
@@ -219,7 +211,7 @@ const copyToClipboard: () => void = function(){
 
 // функция setQueryParameters(key, value) кладёт пару key=value в адресную строку в качестве query-строки
 const setQueryParameters = function(key: string, value: string): void{
-  if (window.location.hash[2] !== "p" && window.location.hash[2] !== "c"){
+  if (window.location.hash[1] !== "p" && window.location.hash[1] !== "c"){
     // кладём ключ key со значением value в объект paramsObject в зависимости от выбранной фильтрации, сортировки и т.д.
     switch (key) {
       case "sort":

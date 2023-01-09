@@ -1,15 +1,20 @@
-import { IGoodsList, IOneProduct } from "./interfaces";
+import { IGoodsList, IOneProduct, ICartGood } from "./interfaces";
 import { goodsList } from "./goods-list";
 import { displayBlockDetails, displayNoneMain, displayNoneDetails, displayBlocKMain } from "./hide-display-sections";
-import { addGoodsToCart, cart, getIdGoodDescr } from './cart';
+import { addGoodsToCart, cart, getIdGoodDescr, increasePage, decreasePage, setPaginationLimitValue, showPageChangeButtons,
+         showGoodsInCart, currentPage, showTotalCount, showTotalPrice } from './cart';
 import { setQueryParameters, setNewPageURL, removeHash, paramsObject } from "./query-handler";
+import { createForm, formActive } from "./form";
 
 
 const openGoodsDescription = function(productID: number) {
   if (productID >= 0 && productID <= 100){
     displayNoneMain();
     displayBlockDetails();
+    //console.log("alert from goods-description.ts");
     removeHash();
+
+    const cartPopUp = document.querySelector('.cart') as HTMLDivElement;
 
     const product = goodsList.find((obj: IOneProduct) => obj.id === productID);
     setNewPageURL(`product/${productID}`);
@@ -150,11 +155,81 @@ const openGoodsDescription = function(productID: number) {
     // adding event listener
     info2Buy.addEventListener("click", () => {
       if (info2Buy.innerHTML === "BUY NOW"){
-        info2Buy.innerHTML = "";
-        info2Buy.innerHTML = "Redirecting to Cart page...";
-      } else {
-        info2Buy.innerHTML = "";
-        info2Buy.innerHTML = "BUY NOW";
+        if (cart.some(e => e.id === productID)){
+          displayNoneMain();
+          displayNoneDetails();
+          cartPopUp.classList.add('cart_active');
+          removeHash();
+          setNewPageURL("cart");
+          displayNoneMain();
+          setPaginationLimitValue();
+          showPageChangeButtons(increasePage, decreasePage);
+          createForm();
+          const darkBackground = document.querySelector('.dark-background') as HTMLDivElement;
+          setTimeout(function(){
+              darkBackground?.classList.add('shadows');
+              darkBackground?.classList.add('shadows_opacity');             
+          }, 100);
+          darkBackground.addEventListener('click', () => {
+            const cardForm = document.querySelector('.card-form') as HTMLDivElement;
+            
+            cardForm.remove();
+
+            darkBackground.classList.remove('shadows_opacity');
+
+            setTimeout(function(){
+                darkBackground.classList.remove('shadows');
+            }, 800);
+          })
+          
+        } else {
+            const id: number = productID;
+            console.log("THIS ID", id);
+              let currentAddGood = {} as ICartGood;
+              currentAddGood.id = id;
+              currentAddGood.count = 1;
+              currentAddGood.price = goodsList[id -1].price;
+              currentAddGood.totalPrice = currentAddGood.count * currentAddGood.price;
+              currentAddGood.stock = goodsList[id -1].stock;
+              
+             
+                  cart.push(currentAddGood);
+
+                  showGoodsInCart(currentPage);
+                  showTotalCount();
+                  showTotalPrice();
+         
+
+
+          displayNoneMain();
+          displayNoneDetails();
+          cartPopUp.classList.add('cart_active');
+          removeHash();
+          setNewPageURL("cart");
+          displayNoneMain();
+          setPaginationLimitValue();
+          showPageChangeButtons(increasePage, decreasePage);
+          createForm();
+          const darkBackground = document.querySelector('.dark-background') as HTMLDivElement;
+          setTimeout(function(){
+              darkBackground?.classList.add('shadows');
+              darkBackground?.classList.add('shadows_opacity');             
+          }, 100);
+          darkBackground.addEventListener('click', () => {
+            const cardForm = document.querySelector('.card-form') as HTMLDivElement;
+            
+            cardForm.remove();
+
+            darkBackground.classList.remove('shadows_opacity');
+
+            setTimeout(function(){
+                darkBackground.classList.remove('shadows');
+            }, 800);
+          })
+          
+        //info2Buy.innerHTML = "";
+        //info2Buy.innerHTML = "Redirecting to Cart page...";
+        } 
       }
     });
 
