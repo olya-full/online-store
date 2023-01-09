@@ -437,7 +437,7 @@ document.addEventListener("visibilitychange", () => {
 })
    
 window.addEventListener("DOMContentLoaded", () => {
-    if (JSON.parse(localStorage.bestGoodsObjectEver).length > 0){
+    if (localStorage.bestGoodsObjectEver && JSON.parse(localStorage.bestGoodsObjectEver).length > 0){
         cart = JSON.parse(localStorage.bestGoodsObjectEver);
 
         if (window.location.hash[1] === "c"){
@@ -453,7 +453,6 @@ window.addEventListener("DOMContentLoaded", () => {
     } else {
         if (window.location.hash[1] === "c"){
             parseQueryCart();
-            //showPageChangeButtons(increasePage, decreasePage);
         } else {
             setInitialPaginationLimit();
         }
