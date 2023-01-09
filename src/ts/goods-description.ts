@@ -11,7 +11,6 @@ const openGoodsDescription = function(productID: number) {
   if (productID >= 0 && productID <= 100){
     displayNoneMain();
     displayBlockDetails();
-    //console.log("alert from goods-description.ts");
     removeHash();
 
     const cartPopUp = document.querySelector('.cart') as HTMLDivElement;
@@ -125,7 +124,7 @@ const openGoodsDescription = function(productID: number) {
     info2Price.innerHTML = "";
     info2Price.innerHTML = `€ ${product!.price}`;
     const info2Cart: HTMLElement = document.createElement("div");
-    // --------------------  Настя добавила класс "add-to-cart_descr" -----------------------------//
+    
     info2Cart.classList.add("product__info2__cart", "button", "add-to-cart_descr");
     info2Cart.id = "product__info2__cart";
     info2Cart.innerHTML = "";
@@ -152,7 +151,7 @@ const openGoodsDescription = function(productID: number) {
     info2Buy.id = "product__info2__buy";
     info2Buy.innerHTML = "";
     info2Buy.innerHTML = "BUY NOW";
-    // adding event listener
+
     info2Buy.addEventListener("click", () => {
       if (info2Buy.innerHTML === "BUY NOW"){
         if (cart.some(e => e.id === productID)){
@@ -184,7 +183,6 @@ const openGoodsDescription = function(productID: number) {
           
         } else {
             const id: number = productID;
-            console.log("THIS ID", id);
               let currentAddGood = {} as ICartGood;
               currentAddGood.id = id;
               currentAddGood.count = 1;
@@ -226,9 +224,6 @@ const openGoodsDescription = function(productID: number) {
                 darkBackground.classList.remove('shadows');
             }, 800);
           })
-          
-        //info2Buy.innerHTML = "";
-        //info2Buy.innerHTML = "Redirecting to Cart page...";
         } 
       }
     });
@@ -237,7 +232,7 @@ const openGoodsDescription = function(productID: number) {
     info2.append(info2Wrapper);
     displayBlockDetails();
 
-    // -----------------Настя добавила вызов функции для добавления товаров в корзину ---------------------//
+    
     addGoodsToCart();
     // getIdGoodDescr();
   }

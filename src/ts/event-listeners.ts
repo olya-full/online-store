@@ -25,7 +25,7 @@ window.addEventListener("DOMContentLoaded", () => {
   listenResetButton();
   listenCopyToClipboard();
   listenLogo();
-
+  listenEmptyCart();
 });
 
 // listener for goods sorting
@@ -106,12 +106,10 @@ const listenGoodsDescription: () => void = function(){
         targetSuperParent = targetSuperParent!.parentElement;        
         targetSuperParent = targetSuperParent!.parentElement;
         if (target.innerHTML === "ADD TO CART"){
-          console.log("ADDED PRODUCT TO THE CART");
           targetSuperParent?.classList.add("added");
           target.innerHTML = "";
           target.innerHTML = "DROP FROM CART";
         } else if (target.innerHTML === "DROP FROM CART"){
-          console.log("REMOVED PRODUCT FROM THE CART");
           targetSuperParent?.classList.remove("added");
           target.innerHTML = "";
           target.innerHTML = "ADD TO CART";
@@ -131,6 +129,27 @@ const listenLogo: () => void = function() {
     displayNoneDetails();
     clearAllFilters();
   })
+}
+
+const listenEmptyCart: () => void = function() {
+  const emptyPic: HTMLElement = document.querySelector(".cart__empty__wrapper_pic") as HTMLElement;
+  const emptyText: HTMLElement = document.querySelector(".start_shopping") as HTMLElement;
+  const cartPopUp = document.querySelector('.cart') as HTMLDivElement;
+  emptyPic.addEventListener("click", () => {
+    displayBlocKMain();
+    removeHash();
+    displayNoneDetails();
+    cartPopUp.classList.remove('cart_active');
+    clearAllFilters();
+  })
+  emptyText.addEventListener("click", () => {
+    displayBlocKMain();
+    removeHash();
+    displayNoneDetails();
+    cartPopUp.classList.remove('cart_active');
+    clearAllFilters();
+  })
+
 }
 
 

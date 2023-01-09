@@ -153,39 +153,6 @@ const parseQueryString: () => void = function() {
           changeShowGoodsBrand();
           showGoods(getGoodsResult());
           break;
-/*
-        case "price":
-
-          console.log(queryString, "querystring");
-          const sliderPrice = document.querySelector('.filters__price');
-          const snapSlider = document.querySelector('.slider-snap-price') as noUiSlider.target;
-          let priceArray = e[1].split("_");
-
-          console.log("priceArray: ", priceArray);
-          const snapValues = [
-            sliderPrice?.querySelector('.slider-snap-value-lower') as HTMLElement,
-            sliderPrice?.querySelector('.slider-snap-value-upper') as HTMLElement
-          ];
-
-          //if (snapSlider !== undefined)
-          snapValues[0].textContent = priceArray[0];
-          snapValues[1].textContent = priceArray[1];
-
-
-          let url = new URL(window.location.href);
-                    let params = new URLSearchParams(url.search);
-                    params.set("price", `${priceArray[0]}_${priceArray[1]}`); 
-                    window.history.pushState({}, '', `?${params.toString()}`);
-                    paramsObject.price = `${priceArray[0]}_${priceArray[1]}`;
-                    paramsObjectStringified.price = `${priceArray[0]}_${priceArray[1]}`;
-          
-          paramsObject.price = e[1];
-          paramsObjectStringified.price = e[1];
-          //setQueryParameters("price", e[1]);
-          
-          //searchGoods(getGoodsResult(), mainSearch.value);
-          break;
-      */
       }
     })
   }
@@ -193,7 +160,6 @@ const parseQueryString: () => void = function() {
   // парсинг страницы goods description
   if (hash[1] === "p"){
     let productIdHash = Number(hash.split("/")[hash.split("/").length-1]);
-    console.log(productIdHash, "productIdHash");
     displayBlockDetails();
     openGoodsDescription(productIdHash);
   } 
@@ -260,7 +226,6 @@ const setQueryParameters = function(key: string, value: string): void{
         delete paramsObjectStringified.search;
       };
     
-    // НАСТЯ, эти if'ы внизу для твоей фильтрации, можешь переделывать по желанию.
     if (paramsObject.category instanceof Array ){
       if (paramsObject.category.length > 0){
         paramsObjectStringified.category = paramsObject.category.join("_");
@@ -297,8 +262,6 @@ const setQueryParameters = function(key: string, value: string): void{
 } 
 
 
-// функция removeQueryParameters(key, value) удаляет значение value из пары key=value из качестве query-строки,
-// а в случае, если у данного key больше нет value, удаляет и value
 const removeQueryParameters = function(key: string, value: string | number): void{
   let index;
   switch (key) {
@@ -326,18 +289,11 @@ const removeQueryParameters = function(key: string, value: string | number): voi
         delete paramsObjectStringified.brand;
       };
       break;
-/*
-    case "price":
-      delete paramsObjectStringified.price;
-      setQueryParameters("price", "");
-      break;
-*/
   }
   
   // assigning stringified object as a parameter of searchParams function and then stringifying it
   searchParams = new URLSearchParams(paramsObjectStringified);
   queryString = searchParams.toString();
-  //window.location.href = window.location.href + `#${queryString}`;
 
   const queryParams = new URLSearchParams(window.location.search);
   for (let key in paramsObjectStringified){

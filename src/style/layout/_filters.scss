@@ -157,9 +157,16 @@
 	height: 50px;
 }
 
+.noUi-touch-area,
+.range_container, 
+.noUi-handle {
+	cursor: pointer;
+}
+
 .filters__snap__container {
 	@include flex-space-between;
 	margin-top: 10px;
+	user-select: none;
 }
 
 .filters__category__name,

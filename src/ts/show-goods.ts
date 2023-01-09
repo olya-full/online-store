@@ -152,7 +152,6 @@ const hideDetailedInfo: () => void = function(){
   };
 }
 
-//////////// ______________AUXILIARY FUNCTION______________ ////////////
 const showGoods: IShowGoods = function(localGoods): IGoodsList {
   // make sure the other areas like cart and product info are not displayed
   if (window.location.hash[1] !== "p"){
@@ -170,8 +169,6 @@ const showGoods: IShowGoods = function(localGoods): IGoodsList {
 
   hideDetailedInfo();
 
-
-
   // populate "Count"
   let countValue: HTMLElement | null = document.querySelector(".content__control__count__value");
   if (countValue instanceof HTMLElement){
@@ -179,7 +176,7 @@ const showGoods: IShowGoods = function(localGoods): IGoodsList {
     countValue.innerHTML = localGoods.length + "";
   };
   if (localGoods.length <= 0){
-    noGoodsText.style.display = "block";
+    noGoodsText.style.display = "flex";
   } else {
     noGoodsText.style.display = "none";
   };
@@ -246,8 +243,6 @@ const showGoods: IShowGoods = function(localGoods): IGoodsList {
 
     const productCart: HTMLElement = document.createElement("div");
 
-    // -------------------------- Настя добавила класс "add-to-cart" -------------------------------//
-    
     productCart.classList.add("content__products__product__cart", "button_product", "button", "add-to-cart");
     productCart.innerHTML = "";
 
@@ -269,7 +264,6 @@ const showGoods: IShowGoods = function(localGoods): IGoodsList {
   }
   listenGoodsDescription();
   
-  // ------------------------Настя добавила вызов функции для добавления товаров в корзину -----------------------//
   addGoodsToCart();
   // getIdGoodDescr();
   return localGoods;

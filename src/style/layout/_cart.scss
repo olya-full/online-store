@@ -161,3 +161,24 @@
 #cart__limit__input {
     font: inherit;
 }
+
+.cart__empty {
+    font-size: 2rem;
+    @include flex-center;
+    margin: auto;
+}
+
+.start_shopping_pic {
+    height: 100px;
+    width: 100px;
+    background-image: url("./images/cart.png");
+    background-size: cover;
+    margin: auto;
+    box-sizing: content-box;
+    align-self: center;
+}
+
+.start_shopping {
+    cursor: pointer;
+    user-select: none;
+}
