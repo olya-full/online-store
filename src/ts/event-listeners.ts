@@ -11,14 +11,19 @@ import { goodsList } from './goods-list';
 // commencing JS on the page
 window.addEventListener("DOMContentLoaded", () => {
   parseQueryString();
-  showAllGoods(goodsList);
+  if (window.location.hash[2] === "p" || window.location.hash[2] === "c"){
+    displayNoneMain();
+  }
+  if (window.location.hash[2] !== "p" && window.location.hash[2] !== "c"){
+    showAllGoods(goodsList);
+  }
+  createPriceSlider();
+  createStockSlider();
   listenSortGoods();
   listenSearchGoods();
   listenLayoutCheckbox();
   listenResetButton();
   listenCopyToClipboard();
-  createPriceSlider();
-  createStockSlider();
   listenLogo();
 
 });

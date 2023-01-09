@@ -2,7 +2,7 @@ import { ICartList, ICartGood } from './interfaces';
 import { goodsList } from './goods-list';
 import { displayNoneMain, displayBlockDetails, displayBlocKMain, displayNoneDetails } from './hide-display-sections';
 import { setNewPageURL, removeHash } from './query-handler';
-import { IOneProduct } from './interfaces';
+import { IOneProduct, IShowDescreaseButton } from './interfaces';
 
 let cartActive: boolean;
 
@@ -22,8 +22,10 @@ function cartOpen () {
         goodsDetails.style.display = 'none';
         // Оля добавила три строчки снизу
         removeHash();
-        setNewPageURL(`cart`);
+        setNewPageURL("cart");
         displayNoneMain();
+        setPaginationLimitValue();
+        showPageChangeButtons(increasePage, decreasePage);
     })
 }
 
@@ -69,7 +71,7 @@ function addGoodsToCart () { //добавление и удаление това
             if (cart.length === 0) {
                 cart.push(currentAddGood);
 
-                showGoodsInCart();
+                showGoodsInCart(currentPage);
                 showTotalCount();
                 showTotalPrice();
             } else {
@@ -82,14 +84,14 @@ function addGoodsToCart () { //добавление и удаление това
                 if (isInCart === false) {
                     cart.push(currentAddGood);
 
-                    showGoodsInCart();
+                    showGoodsInCart(currentPage);
                     showTotalCount();
                     showTotalPrice();
                 } else {
                     const index = cart.findIndex(currentAddGood => currentAddGood.id === id);
                     cart.splice(index, 1);
 
-                    showGoodsInCart();
+                    showGoodsInCart(currentPage);
                     showTotalCount();
                     showTotalPrice();
                 }
@@ -110,7 +112,7 @@ function addGoodsToCart () { //добавление и удаление това
         if (cart.length === 0) {
             cart.push(currentAddGood);
 
-            showGoodsInCart();
+            showGoodsInCart(currentPage);
             showTotalCount();
             showTotalPrice();
         } else {
@@ -123,14 +125,14 @@ function addGoodsToCart () { //добавление и удаление това
             if (isInCart === false) {
                 cart.push(currentAddGood);
 
-                showGoodsInCart();
+                showGoodsInCart(currentPage);
                 showTotalCount();
                 showTotalPrice();
             } else {
                 const index = cart.findIndex(currentAddGood => currentAddGood.id === id);
                 cart.splice(index, 1);
 
-                showGoodsInCart();
+                showGoodsInCart(currentPage);
                 showTotalCount();
                 showTotalPrice();
             }
@@ -160,15 +162,16 @@ function getIdGoodDescr () {
     }
 }
 
-
-function showGoodsInCart() {
+// Оля модифицировала эту функцию для работы пагинации
+function showGoodsInCart(localCurrentPage: number) {
     const cartItems = document.querySelector('.cart__items') as HTMLDivElement;
 
     while (cartItems.firstChild) {
         cartItems.removeChild(cartItems.firstChild);
     }
-    
-    for (let i = 0; i < cart.length; i ++) {
+    console.log("paginationLimitValue in showGoodsInCart:", paginationLimitValue, "currentPage:", currentPage);
+    // for (let i = 0; i < cart.length; i ++)
+    for (let i = (localCurrentPage - 1) * paginationLimitValue; i < (localCurrentPage * paginationLimitValue) && i < cart.length; i ++) {
 
         const id: number = cart[i].id;
         const images = goodsList[id - 1].images;
@@ -260,6 +263,7 @@ function showGoodsInCart() {
     }
     addGoodsInCart();
     removeGoodsInCart();
+    setInitialPaginationLimit();
 }
 
 
@@ -350,6 +354,7 @@ function addGoodsInCart () {
                     totalPriceGood.textContent = String(cart[number].totalPrice);
                 }
             }
+            setInitialPaginationLimit();
         }) 
     }
 }
@@ -379,7 +384,7 @@ function removeGoodsInCart () {
 
                 // if (cart[number].count === 0) {
                 //     cart.splice(number, 1);
-                //     showGoodsInCart();
+                //     showGoodsInCart(currentPage);
                 //     showTotalPrice();
                 //     showTotalCount();
                 // }
@@ -402,11 +407,13 @@ function removeGoodsInCart () {
 
                 if (cart[number].count === 0) {
                     cart.splice(number, 1);
-                    showGoodsInCart();
+                    checkPageAfterProductRemoval();
+                    showGoodsInCart(currentPage);
                     showTotalPrice();
                     showTotalCount();
                 }
             }
+            setInitialPaginationLimit();
         }) 
     }
 }
@@ -425,17 +432,179 @@ document.addEventListener("visibilitychange", () => {
 })
    
 window.addEventListener("DOMContentLoaded", () => {
+    if (window.location.hash[1] === "c"){
+        parseQueryCart();
+        //showPageChangeButtons(increasePage, decreasePage);
+    } else {
+        setInitialPaginationLimit();
+    }
+
     if (JSON.parse(localStorage.bestGoodsObjectEver).length > 0){
         cart = JSON.parse(localStorage.bestGoodsObjectEver);
         showTotalPrice();
         showTotalCount();
-        showGoodsInCart();
+        showGoodsInCart(currentPage);
     }
+
+    listenPaginationArrows();
+    listenPageChange();
 })
 
+// pagination
+let paginationLimitValue: number;
+const paginationHTML: HTMLInputElement = document.getElementById("cart__limit__input") as HTMLInputElement;
 
+let currentPage: number = 1;
+const pageNumberHTML: HTMLElement = document.getElementById("cart__page__value") as HTMLElement;
+const increasePage: HTMLElement = document.getElementById("cart__page__next") as HTMLElement;
+const decreasePage: HTMLElement = document.getElementById("cart__page__back") as HTMLElement;
+
+// setting pagination limit
+const setInitialPaginationLimit: () => void = function() {
+
+    if (paginationLimitValue === undefined){
+        paginationLimitValue = 5;
+        paginationHTML.setAttribute("value", paginationLimitValue.toString());
+        paginationHTML.max = "";
+        paginationHTML.max = cart.length.toString();
+    } else {
+        setPaginationLimitValue();
+    }
+    console.log("paginationLimitValue after setting", paginationLimitValue);
+} 
+
+const setPaginationLimitValue: () => void = function() {
+    paginationLimitValue = Number(paginationHTML.value);
+    paginationHTML.setAttribute("value", paginationLimitValue.toString());
+    if (cart.length <= 5) {
+        paginationHTML.max = "";
+        paginationHTML.max = "5";
+    } else {
+        paginationHTML.max = "";
+        paginationHTML.max = cart.length.toString();
+    }
+
+    let params = new URLSearchParams(window.location.search);
+    params.set("limit", `${paginationLimitValue}`);
+    params.set("page", `${currentPage}`);
+    if (window.location.hash[1] === "c"){
+        window.history.pushState({}, "", `?${params.toString()}#cart`);
+    }
+}
+
+// increasing and decreasing pagination limit by pressing on the corresponding arrows or keys
+const listenPaginationArrows: () => void = function() {
+    paginationHTML.addEventListener("change", () => {
+        setPaginationLimitValue();
+        checkPageAfterLimitIncrease();
+        showGoodsInCart(currentPage);
+        showPageChangeButtons(increasePage, decreasePage);
+    })
+}
+
+// listening to clicks to change the page number
+const listenPageChange: () => void = function() {
+    if (currentPage === 1){
+        decreasePage.style.visibility = "hidden";
+    }
+    pageNumberHTML.textContent = currentPage.toString();
+    //console.log(currentPage);
+    increasePage.addEventListener("click", () => {
+        currentPage++;
+        showPageChangeButtons(increasePage, decreasePage);
+        showGoodsInCart(currentPage);
+        //console.log(currentPage);
+    })
+    decreasePage.addEventListener("click", () => {
+        //console.log("page number decreased");
+        currentPage--;
+        showPageChangeButtons(increasePage, decreasePage);
+        showGoodsInCart(currentPage);
+    })
+}
+
+// changing the currentPage number; determining whether to allow to increase or descrease the page number
+const showPageChangeButtons: IShowDescreaseButton = function(localIncreasePage, localDescreasePage) {
+    if (currentPage === 1) {
+        localDescreasePage.style.visibility = "hidden";
+    } else {
+        localDescreasePage.style.visibility = "visible";
+    }
+
+    if (currentPage >= Math.ceil(cart.length / paginationLimitValue)) {
+        localIncreasePage.style.visibility = "hidden";
+    } else {
+        localIncreasePage.style.visibility = "visible";
+    }
+    pageNumberHTML.textContent = currentPage.toString();
+}
+
+// checking if the page must be decreased after a product is removed from the cart
+const checkPageAfterProductRemoval: () => void = function() {
+    if ((currentPage - 1) * paginationLimitValue === (cart.length) && currentPage !== 1) {
+        currentPage = Math.ceil(cart.length / paginationLimitValue);
+        pageNumberHTML.textContent = "";
+        pageNumberHTML.textContent = currentPage.toString();
+    }
+}
+
+const checkPageAfterLimitIncrease: () => void = function() {
+    if ((currentPage - 1) * paginationLimitValue >= (cart.length) && currentPage !== 1) {
+        currentPage = Math.ceil(cart.length / paginationLimitValue);
+        pageNumberHTML.textContent = "";
+        pageNumberHTML.textContent = currentPage.toString();
+    }
+}
+
+//
+const parseQueryCart: () => void = function() {    
+    const cartPopUp = document.querySelector('.cart') as HTMLDivElement;
+    cartPopUp.classList.add('cart_active');
+    setNewPageURL("cart");
+    displayNoneMain();
+    displayNoneDetails();
+
+    if (window.location.search[0] === "?" && window.location.hash[1] === "c"){
+        //console.log('hash[1] === "c"')
+        let params = new URLSearchParams(document.location.search);
+
+        if (params.get("limit") === null) {
+            paginationLimitValue = 5;
+        } 
+
+        if (params.get("page") === null) {
+            currentPage = 1;
+        }
+
+        if (params.get("limit") !== null){
+            if(!(Number(params.get("limit")) > 0)){
+                paginationLimitValue = 5;
+            } else {
+                paginationLimitValue = Number(params.get("limit"));
+            }
+        }
+        paginationHTML.setAttribute("value", paginationLimitValue.toString());
+        paginationLimitValue = Number(paginationHTML.value);
+        //console.log("Limit in HASH", paginationLimitValue);
+
+        if (params.get("page") !== null){
+            if(!(Number(params.get("page")) > 0)){
+                currentPage = 1;
+            } else {
+                currentPage = Number(params.get("page"));
+            }
+            //console.log("Page in HASH", currentPage);
+        }
+        window.history.pushState({}, "", "#cart");
+        window.history.pushState({}, "", `?limit=${paginationLimitValue}&page=${currentPage}#cart`);
+    }
+}
+
+// show "Cart is Empty"
+//const checkIfCartEmpty
 
 cartOpen ();
 cartClose ();
 
-export { addGoodsToCart, getIdGoodDescr, cart, cartOpen }
+export { addGoodsToCart, getIdGoodDescr, cart, cartOpen, parseQueryCart, increasePage, decreasePage, setPaginationLimitValue,
+         showPageChangeButtons, showGoodsInCart, currentPage, showTotalCount, showTotalPrice }
