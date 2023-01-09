@@ -2,9 +2,8 @@ import { ICartList, ICartGood } from './interfaces';
 import { goodsList } from './goods-list';
 import { displayNoneMain, displayBlockDetails, displayBlocKMain, displayNoneDetails } from './hide-display-sections';
 import { setNewPageURL, removeHash } from './query-handler';
-import { IOneProduct } from './interfaces';
+import { calculateTotalPrice } from './promo-code';
 
-let cartActive: boolean;
 
 let cart: ICartList = []; //корзина с товарами
 let idCartDescr: number;
@@ -94,6 +93,7 @@ function addGoodsToCart () { //добавление и удаление това
                     showTotalPrice();
                 }
             }
+            calculateTotalPrice();
         })
     }
 
@@ -135,20 +135,11 @@ function addGoodsToCart () { //добавление и удаление това
                 showTotalPrice();
             }
         }
+        calculateTotalPrice();
     })
 }
 
 function getIdGoodDescr () {
-    // const cardGood = document.querySelectorAll('.content__products__product__wrapper') as NodeListOf<Node>;
-
-    // for (let i:number = 0; i < cardGood.length; i ++) {
-    //     cardGood[i].addEventListener('click', () => {
-    //         let element = cardGood[i] as HTMLElement;
-    //         let elementId = element.querySelector('.content__products__product') as HTMLElement; 
-    //         const id: number = Number(elementId.id);
-    //         idCartDescr = id;
-    //     })
-    // }
 
     const cardProduct = document.querySelector('.goods__details__product') as HTMLDivElement;
     const nameProduct = cardProduct.querySelector('.goods__details__product__header')?.textContent as string;
@@ -308,7 +299,7 @@ function showTotalPrice () {
     }
 
     if (cartTotalPrice) {
-        cartTotalPrice.textContent = String(countTotalPrice());
+        cartTotalPrice.textContent = '€ ' + String(countTotalPrice());
     }
 }
 
@@ -350,6 +341,7 @@ function addGoodsInCart () {
                     totalPriceGood.textContent = String(cart[number].totalPrice);
                 }
             }
+            calculateTotalPrice();
         }) 
     }
 }
@@ -377,13 +369,6 @@ function removeGoodsInCart () {
             if (cart[number].count > 0) { 
                 cart[number].count --;
 
-                // if (cart[number].count === 0) {
-                //     cart.splice(number, 1);
-                //     showGoodsInCart();
-                //     showTotalPrice();
-                //     showTotalCount();
-                // }
-
                 cart[number].totalPrice = cart[number].count * cart[number].price;
                 showTotalPrice();
                 showTotalCount();
@@ -407,10 +392,10 @@ function removeGoodsInCart () {
                     showTotalCount();
                 }
             }
+            calculateTotalPrice();
         }) 
     }
 }
-
 
 
 // saving current cart in localStorage 
@@ -432,7 +417,6 @@ window.addEventListener("DOMContentLoaded", () => {
         showGoodsInCart();
     }
 })
-
 
 
 cartOpen ();
