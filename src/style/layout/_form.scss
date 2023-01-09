@@ -8,11 +8,14 @@
     right: 0;
     margin: auto;
     z-index: 25;
-    background: $background-form-color;
+    // background: $background-form-color;
     border-radius: 15px;
     @include flex-colomn;
     align-items: center;
-    @include regular-borders;
+    @include azure-borders;
+    padding-top: 10px;
+    background-image: url(https://wsemoboi.ru/image/catalog/oboi/loymina/origins/115556_rossiyskie-oboi-loymina-kollektsiya-origins-artikul-als10005.jpg);
+    background-size: contain;
 }
 
 .form {
@@ -32,8 +35,8 @@
 .form__submit {
     width: 300px;
     height: 40px;
-    @include regular-borders;
-    outline: none;
+    border: 1px solid $main-color;
+    // outline: none;
     text-align: center;
     margin-bottom: 10px;
     cursor: pointer;
@@ -59,21 +62,25 @@
     height: 150px;
     border-radius: 15px;
     padding: 10px;
-    border: 1px solid $second-color;
+    padding-top: 20px;
+    border: 1px solid $main-color;
+    background: linear-gradient(to right, rgb(9, 96, 155), $main-color);
 }
 
 .form__payment-system {
     width: 40px;
     height: 30px;
     border-radius: 5px;
-    border: 1px solid $second-color;
+    border: 1px solid $main-color;
+    margin-bottom: 15px;
+    background: white;
 }
 
 .form__number-card {
     width: 170px;
     height: 30px;
     border-radius: 5px;
-    border: 1px solid $second-color;
+    border: 1px solid $main-color;
 }
 
 .form__card-box {
@@ -92,7 +99,8 @@
 .form__CVV {
     width: 75px;
     height: 30px;
-    border: 1px solid $second-color;
+    border: 1px solid $main-color;
+    margin-left: 5px;
 }
 
 .form__CVV {

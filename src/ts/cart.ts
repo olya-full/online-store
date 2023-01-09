@@ -26,6 +26,7 @@ function cartOpen () {
         displayNoneMain();
         setPaginationLimitValue();
         showPageChangeButtons(increasePage, decreasePage);
+        checkIfCartEmpty();
     })
 }
 
@@ -99,6 +100,8 @@ function addGoodsToCart () { //добавление и удаление това
             calculateTotalPrice();
         })
     }
+
+    checkIfCartEmpty();
 
     buttonAddToCardDescr?.addEventListener('click', () => {
         getIdGoodDescr();
@@ -256,6 +259,7 @@ function showGoodsInCart(localCurrentPage: number) {
     addGoodsInCart();
     removeGoodsInCart();
     setInitialPaginationLimit();
+    checkIfCartEmpty();
 }
 
 
@@ -412,6 +416,14 @@ function removeGoodsInCart () {
             setInitialPaginationLimit();
         }) 
     }
+}
+
+
+function clearCart () {
+    cart = [];
+    showGoodsInCart(currentPage);
+    showTotalPrice();
+    showTotalCount();
 }
 
 
@@ -595,13 +607,26 @@ const parseQueryCart: () => void = function() {
     }
 }
 
-
 // show "Cart is Empty"
-//const checkIfCartEmpty
+const checkIfCartEmpty: () => void = function() {
+    const cartGoods: HTMLElement = document.querySelector(".cart__goods") as HTMLElement;
+    const cartSummary: HTMLElement = document.querySelector(".cart__summary") as HTMLElement;
+    const cartEmpty: HTMLElement = document.querySelector(".cart__empty") as HTMLElement;
+    
+    if (cart.length <= 0){
+        cartGoods.style.display = "none";
+        cartSummary.style.display = "none";
+        cartEmpty.style.display = "flex";
+    } else {
+        cartGoods.style.display = "block";
+        cartSummary.style.display = "flex";
+        cartEmpty.style.display = "none";
+    }
+}
 
 
 cartOpen ();
 cartClose ();
 
 export { addGoodsToCart, getIdGoodDescr, cart, cartOpen, parseQueryCart, increasePage, decreasePage, setPaginationLimitValue,
-         showPageChangeButtons, showGoodsInCart, currentPage, showTotalCount, showTotalPrice }
+         showPageChangeButtons, showGoodsInCart, currentPage, showTotalCount, showTotalPrice, clearCart, checkIfCartEmpty }
