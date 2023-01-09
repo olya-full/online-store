@@ -2,9 +2,9 @@ import { ICartList, ICartGood } from './interfaces';
 import { goodsList } from './goods-list';
 import { displayNoneMain, displayBlockDetails, displayBlocKMain, displayNoneDetails } from './hide-display-sections';
 import { setNewPageURL, removeHash } from './query-handler';
+import { calculateTotalPrice } from './promo-code';
 import { IOneProduct, IShowDescreaseButton } from './interfaces';
 
-let cartActive: boolean;
 
 let cart: ICartList = []; //корзина с товарами
 let idCartDescr: number;
@@ -97,6 +97,7 @@ function addGoodsToCart () { //добавление и удаление това
                     showTotalPrice();
                 }
             }
+            calculateTotalPrice();
         })
     }
 
@@ -140,20 +141,11 @@ function addGoodsToCart () { //добавление и удаление това
                 showTotalPrice();
             }
         }
+        calculateTotalPrice();
     })
 }
 
 function getIdGoodDescr () {
-    // const cardGood = document.querySelectorAll('.content__products__product__wrapper') as NodeListOf<Node>;
-
-    // for (let i:number = 0; i < cardGood.length; i ++) {
-    //     cardGood[i].addEventListener('click', () => {
-    //         let element = cardGood[i] as HTMLElement;
-    //         let elementId = element.querySelector('.content__products__product') as HTMLElement; 
-    //         const id: number = Number(elementId.id);
-    //         idCartDescr = id;
-    //     })
-    // }
 
     const cardProduct = document.querySelector('.goods__details__product') as HTMLDivElement;
     const nameProduct = cardProduct.querySelector('.goods__details__product__header')?.textContent as string;
@@ -314,7 +306,7 @@ function showTotalPrice () {
     }
 
     if (cartTotalPrice) {
-        cartTotalPrice.textContent = String(countTotalPrice());
+        cartTotalPrice.textContent = '€ ' + String(countTotalPrice());
     }
 }
 
@@ -356,6 +348,7 @@ function addGoodsInCart () {
                     totalPriceGood.textContent = String(cart[number].totalPrice);
                 }
             }
+            calculateTotalPrice();
             setInitialPaginationLimit();
         }) 
     }
@@ -384,12 +377,14 @@ function removeGoodsInCart () {
             if (cart[number].count > 0) { 
                 cart[number].count --;
 
+
                 // if (cart[number].count === 0) {
                 //     cart.splice(number, 1);
                 //     showGoodsInCart(currentPage);
                 //     showTotalPrice();
                 //     showTotalCount();
                 // }
+
 
                 cart[number].totalPrice = cart[number].count * cart[number].price;
                 showTotalPrice();
@@ -415,11 +410,11 @@ function removeGoodsInCart () {
                     showTotalCount();
                 }
             }
+            calculateTotalPrice();
             setInitialPaginationLimit();
         }) 
     }
 }
-
 
 
 // saving current cart in localStorage 
@@ -607,6 +602,7 @@ const parseQueryCart: () => void = function() {
     }
 }
 
+
 // show "Cart is Empty"
 const checkIfCartEmpty: () => void = function() {
     const cartGoods: HTMLElement = document.querySelector(".cart__goods") as HTMLElement;
@@ -623,6 +619,7 @@ const checkIfCartEmpty: () => void = function() {
         cartEmpty.style.display = "none";
     }
 }
+
 
 cartOpen ();
 cartClose ();
