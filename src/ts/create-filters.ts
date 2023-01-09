@@ -1,7 +1,4 @@
 import { goodsList, IGoodsList } from './goods-list';
-
-// -------------- Строчка1 Оли? -------------------//
-import { goodsResult } from './filter-category';
 import { filterCategoryGoods, filterBrandGoods } from './filter-category';
 
 
@@ -44,8 +41,6 @@ function createCategoryFilters () {
 
         const divShow = document.createElement('div') as HTMLDivElement;
         divShow.classList.add('checkselect__count__show');
-        // console.log(categoryItems[i])
-        // console.log(String(countCategoryGoodsShow(categoryItems[i], goodsList)))
         divShow.textContent = String(countCategoryGoodsShow(categoryItems[i], goodsList));
 
         label.appendChild(input);
@@ -120,7 +115,6 @@ function createBrandFilters () {
 
     filtersBrand?.appendChild(divCheckselect);
     
-    // -------------- Строчка3 Оли? -------------------//
     filterBrandGoods();
 }
 

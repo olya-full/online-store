@@ -26,6 +26,7 @@ function cartOpen () {
         displayNoneMain();
         setPaginationLimitValue();
         showPageChangeButtons(increasePage, decreasePage);
+        checkIfCartEmpty();
     })
 }
 
@@ -100,6 +101,8 @@ function addGoodsToCart () { //добавление и удаление това
         })
     }
 
+    checkIfCartEmpty();
+
     buttonAddToCardDescr?.addEventListener('click', () => {
         getIdGoodDescr();
         const id: number = idCartDescr;
@@ -154,14 +157,12 @@ function getIdGoodDescr () {
     }
 }
 
-// Оля модифицировала эту функцию для работы пагинации
 function showGoodsInCart(localCurrentPage: number) {
     const cartItems = document.querySelector('.cart__items') as HTMLDivElement;
 
     while (cartItems.firstChild) {
         cartItems.removeChild(cartItems.firstChild);
     }
-    console.log("paginationLimitValue in showGoodsInCart:", paginationLimitValue, "currentPage:", currentPage);
     // for (let i = 0; i < cart.length; i ++)
     for (let i = (localCurrentPage - 1) * paginationLimitValue; i < (localCurrentPage * paginationLimitValue) && i < cart.length; i ++) {
 
@@ -256,6 +257,7 @@ function showGoodsInCart(localCurrentPage: number) {
     addGoodsInCart();
     removeGoodsInCart();
     setInitialPaginationLimit();
+    checkIfCartEmpty();
 }
 
 
@@ -427,18 +429,26 @@ document.addEventListener("visibilitychange", () => {
 })
    
 window.addEventListener("DOMContentLoaded", () => {
-    if (window.location.hash[1] === "c"){
-        parseQueryCart();
-        //showPageChangeButtons(increasePage, decreasePage);
-    } else {
-        setInitialPaginationLimit();
-    }
-
     if (JSON.parse(localStorage.bestGoodsObjectEver).length > 0){
         cart = JSON.parse(localStorage.bestGoodsObjectEver);
+
+        if (window.location.hash[1] === "c"){
+            parseQueryCart();
+            //showPageChangeButtons(increasePage, decreasePage);
+        } else {
+            setInitialPaginationLimit();
+        }
+        
         showTotalPrice();
         showTotalCount();
         showGoodsInCart(currentPage);
+    } else {
+        if (window.location.hash[1] === "c"){
+            parseQueryCart();
+            //showPageChangeButtons(increasePage, decreasePage);
+        } else {
+            setInitialPaginationLimit();
+        }
     }
 
     listenPaginationArrows();
@@ -465,7 +475,6 @@ const setInitialPaginationLimit: () => void = function() {
     } else {
         setPaginationLimitValue();
     }
-    console.log("paginationLimitValue after setting", paginationLimitValue);
 } 
 
 const setPaginationLimitValue: () => void = function() {
@@ -503,24 +512,24 @@ const listenPageChange: () => void = function() {
         decreasePage.style.visibility = "hidden";
     }
     pageNumberHTML.textContent = currentPage.toString();
-    //console.log(currentPage);
+
     increasePage.addEventListener("click", () => {
         currentPage++;
-        showPageChangeButtons(increasePage, decreasePage);
         showGoodsInCart(currentPage);
-        //console.log(currentPage);
+        showPageChangeButtons(increasePage, decreasePage);
     })
+
     decreasePage.addEventListener("click", () => {
-        //console.log("page number decreased");
+
         currentPage--;
-        showPageChangeButtons(increasePage, decreasePage);
         showGoodsInCart(currentPage);
+        showPageChangeButtons(increasePage, decreasePage);
     })
 }
 
 // changing the currentPage number; determining whether to allow to increase or descrease the page number
 const showPageChangeButtons: IShowDescreaseButton = function(localIncreasePage, localDescreasePage) {
-    if (currentPage === 1) {
+    if (currentPage === 1 /*|| pageNumberHTML.textContent === "1"*/) {
         localDescreasePage.style.visibility = "hidden";
     } else {
         localDescreasePage.style.visibility = "visible";
@@ -552,7 +561,7 @@ const checkPageAfterLimitIncrease: () => void = function() {
 }
 
 //
-const parseQueryCart: () => void = function() {    
+const parseQueryCart: () => void = function() {
     const cartPopUp = document.querySelector('.cart') as HTMLDivElement;
     cartPopUp.classList.add('cart_active');
     setNewPageURL("cart");
@@ -560,7 +569,6 @@ const parseQueryCart: () => void = function() {
     displayNoneDetails();
 
     if (window.location.search[0] === "?" && window.location.hash[1] === "c"){
-        //console.log('hash[1] === "c"')
         let params = new URLSearchParams(document.location.search);
 
         if (params.get("limit") === null) {
@@ -580,7 +588,6 @@ const parseQueryCart: () => void = function() {
         }
         paginationHTML.setAttribute("value", paginationLimitValue.toString());
         paginationLimitValue = Number(paginationHTML.value);
-        //console.log("Limit in HASH", paginationLimitValue);
 
         if (params.get("page") !== null){
             if(!(Number(params.get("page")) > 0)){
@@ -588,8 +595,8 @@ const parseQueryCart: () => void = function() {
             } else {
                 currentPage = Number(params.get("page"));
             }
-            //console.log("Page in HASH", currentPage);
         }
+        showPageChangeButtons(increasePage, decreasePage);
         window.history.pushState({}, "", "#cart");
         window.history.pushState({}, "", `?limit=${paginationLimitValue}&page=${currentPage}#cart`);
     }
@@ -597,7 +604,21 @@ const parseQueryCart: () => void = function() {
 
 
 // show "Cart is Empty"
-//const checkIfCartEmpty
+const checkIfCartEmpty: () => void = function() {
+    const cartGoods: HTMLElement = document.querySelector(".cart__goods") as HTMLElement;
+    const cartSummary: HTMLElement = document.querySelector(".cart__summary") as HTMLElement;
+    const cartEmpty: HTMLElement = document.querySelector(".cart__empty") as HTMLElement;
+    
+    if (cart.length <= 0){
+        cartGoods.style.display = "none";
+        cartSummary.style.display = "none";
+        cartEmpty.style.display = "flex";
+    } else {
+        cartGoods.style.display = "block";
+        cartSummary.style.display = "flex";
+        cartEmpty.style.display = "none";
+    }
+}
 
 
 cartOpen ();

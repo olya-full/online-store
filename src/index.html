@@ -69,7 +69,7 @@
                                 <span class="content__control__count__value"></span>
                             </div>
                         </div>
-                        <div class="content__control__found"><input type="text" name="search" id="search" placeholder="  🔎︎    "></div>
+                        <div class="content__control__found"><input class="content__control__found__input" type="text" name="search" id="search" placeholder="  🔎︎    "></div>
                         <div class="content__control__layout">
                             <label class="content__control__layout__switch" for="content__control__layout_checkbox">Small Icons</label>
                             <input type="checkbox" id="content__control__layout_checkbox">
@@ -79,7 +79,10 @@
                         <div class="content__products large" id="content__products">
                             
                         </div>
-                        <div id="noGoodsText">No products found according to your search parameters.</div>
+                        <div class="content__products__wrapper__nogoods" id="noGoodsText">
+                            <div class="start_shopping_pic"></div>
+                            <div>No products found according to your search parameters.</div>
+                        </div>
                     </div>
                 </div>
             </main>
@@ -143,7 +146,12 @@
                     </div>
                     <div class="button button_buy">Buy now</div>
                 </div>
-                <div class="cart__empty">Cart is Empty</div>
+                <div class="cart__empty">
+                    <div class="cart__empty__wrapper_pic">
+                        <div id="cart__empty__wrapper_pic" class="start_shopping_pic start_shopping"></div>
+                        <div class="start_shopping">Your cart is empty. Start shopping!</div>
+                    </div>
+                </div>
             </section>
             <footer class="footer"> 
                 <a class="github" href="https://github.com/olya-full"></a>

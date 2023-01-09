@@ -30,7 +30,6 @@ function filterCategoryGoods () {
                 changeShowGoodsCategory();
                 changeShowGoodsBrand();
 
-                // ----------------------- Строчка1, 2 Оли ---------------------------//
                 setQueryParameters("category", inputsCategory[i].name);
             } else {
                 let index: number = category.indexOf(inputsCategory[i].name);
@@ -38,7 +37,6 @@ function filterCategoryGoods () {
                 removeFiltersGoods(inputsCategory[i].name);
                 showGoods(getGoodsResult());
 
-                // ----------------------- Строчка3, 4 Оли ---------------------------//
                 removeQueryParameters("category", inputsCategory[i].name);
 
                 changeShowGoodsCategory();
@@ -286,11 +284,9 @@ function createPriceSlider () {
                 addPriceGoods(currentMinPrice, currentMaxPrice);
                 showGoods(getGoodsResult());
 
-
-
                 changeShowGoodsCategory();
                 changeShowGoodsBrand();
-                // Оля вставила 4 строчки ниже
+
                 if (currentMaxPrice !== 0 && window.location.hash[1] !== "p"){
                     setQueryParameters("price", `${currentMinPrice}_${currentMaxPrice}`);
                     searchGoods(getGoodsResult(), mainSearch.value);
@@ -367,7 +363,6 @@ function createStockSlider () {
                 addStockGoods(currentMinStock, currentMaxStock);
                 showGoods(getGoodsResult());
 
-                // Оля вставила 4 строчки ниже
                 if (currentMaxStock !== 0 && window.location.hash[1] !== "p"){
                     setQueryParameters("stock", `${currentMinStock}_${currentMaxStock}`);
                     searchGoods(getGoodsResult(), mainSearch.value);
@@ -402,8 +397,6 @@ function addStockGoods (min: number, max: number) {
     }
 }
 
-// Оля вынесла этот код в отдельную функцию и применила функцию в category & brand вместо просто кода
-// и добавила в слайдеры price & stock, потому что без них сортировка не работала после перезагрузки страницы
 const applySortingAfterCheck: () => void = function() {
     if (paramsObject.sort === undefined) {
         showGoods(getGoodsResult());
