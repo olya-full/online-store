@@ -1,3 +1,7 @@
+import { clearCart } from './cart';
+import { displayBlocKMain, displayNoneDetails } from './hide-display-sections';
+import { clearAllFilters, removeHash } from './query-handler';
+
 let formActive: boolean;
 
 
@@ -57,6 +61,17 @@ function createForm () {
     const inputExpirationDate = document.createElement('input') as HTMLInputElement;
     const labelCVV = document.createElement('label') as HTMLLabelElement;
     const inputCVV = document.createElement('input') as HTMLInputElement;
+
+
+    form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        clearCart();
+        displayBlocKMain();
+        removeHash();
+        displayNoneDetails();
+        clearAllFilters();
+        form.submit();
+    }, true);
 
 
     divForm.classList.add('card-form');
@@ -166,6 +181,8 @@ function createForm () {
     inputNumberCard.addEventListener('input', changePaymentSystem);
     inputNumberCard.addEventListener('input', addSpaceCardNumber);
     inputExpirationDate.addEventListener('input', addSlashInputDate);
+
+    // validityCheck();
 }
 
 
@@ -315,6 +332,27 @@ function addSpaceCardNumber (this: HTMLInputElement) {
         this.value = cardNumber;
     }
 }
+
+
+// function validityCheck () {
+    // const submit = document.querySelector('.form__submit') as HTMLButtonElement;
+
+    // submit.onsubmit = function (e) {
+    //     e.preventDefault();
+    
+    //     console.log('submit!');
+    // }
+
+    // const email = document.querySelector('.form__email') as HTMLInputElement;
+
+    // email.addEventListener('input', function (event) {
+    // if (email.validity.typeMismatch) {
+    //     email.setCustomValidity('Пожалуйста, введите корректный e-mail!');
+    // } else {
+    //     email.setCustomValidity('');
+    // }
+    // });
+// }
 
 
 formOpen ();

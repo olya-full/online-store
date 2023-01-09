@@ -417,6 +417,14 @@ function removeGoodsInCart () {
 }
 
 
+function clearCart () {
+    cart = [];
+    showGoodsInCart(currentPage);
+    showTotalPrice();
+    showTotalCount();
+}
+
+
 // saving current cart in localStorage 
 document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "hidden") {
@@ -602,7 +610,6 @@ const parseQueryCart: () => void = function() {
     }
 }
 
-
 // show "Cart is Empty"
 const checkIfCartEmpty: () => void = function() {
     const cartGoods: HTMLElement = document.querySelector(".cart__goods") as HTMLElement;
@@ -625,4 +632,4 @@ cartOpen ();
 cartClose ();
 
 export { addGoodsToCart, getIdGoodDescr, cart, cartOpen, parseQueryCart, increasePage, decreasePage, setPaginationLimitValue,
-         showPageChangeButtons, showGoodsInCart, currentPage, showTotalCount, showTotalPrice }
+         showPageChangeButtons, showGoodsInCart, currentPage, showTotalCount, showTotalPrice, clearCart, checkIfCartEmpty }
