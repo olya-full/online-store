@@ -90,5 +90,5 @@ type IPromoCode = {
 
 
 export { IEventTargetValue, IShowGoods, IGoodsList, IParamsObject, IParamsObjectStringified, IOneProduct,
-         IGoodsInfo, ICartList, ICartGood, IUpper, IPromoCode, IShowDescreaseButton }
+         IGoodsInfo, ICartList, ICartGood, IPromoCode, IShowDescreaseButton }
 
