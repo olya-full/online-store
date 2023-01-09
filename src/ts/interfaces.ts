@@ -82,7 +82,13 @@ type ICartGood = {
   stock: number;
 }
 
+type IPromoCode = {
+  value: string;
+  discount: number;
+}[]
+
 
 
 export { IEventTargetValue, IShowGoods, IGoodsList, IParamsObject, IParamsObjectStringified, IOneProduct,
-         IGoodsInfo, ICartList, ICartGood, IShowDescreaseButton }
+         IGoodsInfo, ICartList, ICartGood, IUpper, IPromoCode, IShowDescreaseButton }
+
