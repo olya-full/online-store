@@ -321,8 +321,7 @@ formOpen ();
 formClose ();
 
 
-
-
+export { createForm, formActive }
 
 
 

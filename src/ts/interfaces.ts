@@ -1,4 +1,6 @@
-type IUpper<T extends string> = Uppercase<T>;
+// for cart.ts
+type ISeveralArguments<T> = Array<T>;
+type IShowDescreaseButton = (...args: ISeveralArguments<HTMLElement>) => void;
 
 // for event-listeners.ts
 interface IEventTargetValue extends EventTarget {
@@ -83,4 +85,4 @@ type ICartGood = {
 
 
 export { IEventTargetValue, IShowGoods, IGoodsList, IParamsObject, IParamsObjectStringified, IOneProduct,
-         IGoodsInfo, ICartList, ICartGood, IUpper }
+         IGoodsInfo, ICartList, ICartGood, IShowDescreaseButton }

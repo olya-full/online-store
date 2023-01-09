@@ -44,7 +44,7 @@ function filterCategoryGoods () {
                 changeShowGoodsCategory();
                 changeShowGoodsBrand();
             }
-            if (window.location.hash[2] !== "p" && window.location.hash[2] !== "c") {
+            if (window.location.hash[1] !== "p" && window.location.hash[1] !== "c") {
                 applySortingAfterCheck();
             }
         })
@@ -79,7 +79,7 @@ function filterBrandGoods () {
 
                 removeQueryParameters("brand", inputsBrand[i].name);
             }
-            if (window.location.hash[2] !== "p" && window.location.hash[2] !== "c") {
+            if (window.location.hash[1] !== "p" && window.location.hash[1] !== "c") {
                 applySortingAfterCheck();
             }
         })
@@ -291,7 +291,7 @@ function createPriceSlider () {
                 changeShowGoodsCategory();
                 changeShowGoodsBrand();
                 // Оля вставила 4 строчки ниже
-                if (currentMaxPrice !== 0 && window.location.hash[2] !== "p"){
+                if (currentMaxPrice !== 0 && window.location.hash[1] !== "p"){
                     setQueryParameters("price", `${currentMinPrice}_${currentMaxPrice}`);
                     searchGoods(getGoodsResult(), mainSearch.value);
                 };
@@ -299,7 +299,7 @@ function createPriceSlider () {
                 //
             }
         });
-        if (window.location.hash[2] !== "p" && window.location.hash[2] !== "c") {
+        if (window.location.hash[1] !== "p" && window.location.hash[1] !== "c") {
             applySortingAfterCheck();
         }
     }
@@ -368,7 +368,7 @@ function createStockSlider () {
                 showGoods(getGoodsResult());
 
                 // Оля вставила 4 строчки ниже
-                if (currentMaxStock !== 0 && window.location.hash[2] !== "p"){
+                if (currentMaxStock !== 0 && window.location.hash[1] !== "p"){
                     setQueryParameters("stock", `${currentMinStock}_${currentMaxStock}`);
                     searchGoods(getGoodsResult(), mainSearch.value);
                 };
@@ -379,7 +379,7 @@ function createStockSlider () {
                 changeShowGoodsBrand();
             }
         });
-        if (window.location.hash[2] !== "p" && window.location.hash[2] !== "c") {
+        if (window.location.hash[1] !== "p" && window.location.hash[1] !== "c") {
             applySortingAfterCheck();
         }
     }
