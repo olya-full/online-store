@@ -62,6 +62,50 @@ function createForm () {
     const labelCVV = document.createElement('label') as HTMLLabelElement;
     const inputCVV = document.createElement('input') as HTMLInputElement;
 
+    const inputWrapper1 = document.createElement('div') as HTMLDivElement;
+    const inputWrapper2 = document.createElement('div') as HTMLDivElement;
+    const inputWrapper3 = document.createElement('div') as HTMLDivElement;
+    const inputWrapper4 = document.createElement('div') as HTMLDivElement;
+
+    const cardSectionError = document.createElement('div') as HTMLDivElement;
+    cardSectionError.classList.add('form__cart__section-error');
+
+    inputWrapper1.classList.add('form__wrapper');
+    inputWrapper2.classList.add('form__wrapper');
+    inputWrapper3.classList.add('form__wrapper');
+    inputWrapper4.classList.add('form__wrapper');
+
+    const divError1 = document.createElement('div') as HTMLDivElement;
+    divError1.classList.add('form__error');
+    divError1.textContent = 'error!';
+
+    const divError2 = document.createElement('div') as HTMLDivElement;
+    divError2.classList.add('form__error');
+    divError2.textContent = 'error!';
+
+    const divError3 = document.createElement('div') as HTMLDivElement;
+    divError3.classList.add('form__error');
+    divError3.textContent = 'error!';
+
+    const divError4 = document.createElement('div') as HTMLDivElement;
+    divError4.classList.add('form__error');
+    divError4.textContent = 'error!';
+
+    const divError5 = document.createElement('div') as HTMLDivElement;
+    divError5.classList.add('form__error');
+    divError5.textContent = 'Card number - error!';
+    divError5.classList.add('form__cart__error');
+
+    const divError6 = document.createElement('div') as HTMLDivElement;
+    divError6.classList.add('form__error');
+    divError6.textContent = 'Date - error!';
+    divError6.classList.add('form__cart__error');
+
+    const divError7 = document.createElement('div') as HTMLDivElement;
+    divError7.classList.add('form__error');
+    divError7.classList.add('form__cart__error');
+    divError7.textContent = 'CVV - error!';
+
 
     form.addEventListener("submit", (event) => {
         event.preventDefault();
@@ -128,7 +172,7 @@ function createForm () {
     inputNumberCard.pattern = '([0-9]{4}[ ]){3}[0-9]{4}';
     inputNumberCard.minLength = 19;
     inputNumberCard.maxLength = 19;
-    
+
     cardDivFirst.classList.add('form__card-box');
     cardDivSecond.classList.add('form__card-box');
 
@@ -155,16 +199,39 @@ function createForm () {
 
     divForm.appendChild(form);
     form.appendChild(divText);
-    form.appendChild(inputName);
-    form.appendChild(inputPhone);
-    form.appendChild(inputAddress);
-    form.appendChild(inputEmail);
+
+    // form.appendChild(inputName);
+    form.appendChild(inputWrapper1);
+    inputWrapper1.appendChild(inputName);
+    inputWrapper1.appendChild(divError1);
+    
+    // form.appendChild(inputPhone);
+    form.appendChild(inputWrapper2);
+    inputWrapper2.appendChild(inputPhone);
+    inputWrapper2.appendChild(divError2);
+
+    // form.appendChild(inputAddress);
+    form.appendChild(inputWrapper3);
+    inputWrapper3.appendChild(inputAddress);
+    inputWrapper3.appendChild(divError3);
+
+    // form.appendChild(inputEmail);
+    form.appendChild(inputWrapper4);
+    inputWrapper4.appendChild(inputEmail);
+    inputWrapper4.appendChild(divError4);
+
     form.appendChild(cardSection);
 
     cardSection.appendChild(cardTitle);
     cardSection.appendChild(card);
+
     card.appendChild(cardDivFirst);
     card.appendChild(cardDivSecond);
+    card.appendChild(cardSectionError);
+    cardSectionError.appendChild(divError5);
+    cardSectionError.appendChild(divError6);
+    cardSectionError.appendChild(divError7);
+
 
     cardDivFirst.appendChild(paymentSystem);
     cardDivFirst.appendChild(inputNumberCard);
@@ -179,10 +246,72 @@ function createForm () {
 
     focusForm ();
     inputNumberCard.addEventListener('input', changePaymentSystem);
-    inputNumberCard.addEventListener('input', addSpaceCardNumber);
-    inputExpirationDate.addEventListener('input', addSlashInputDate);
 
-    // validityCheck();
+    inputNumberCard.addEventListener('input', addSpaceCardNumber);
+    inputNumberCard.addEventListener('input', isNumber);
+
+    inputExpirationDate.addEventListener('input', addSlashInputDate);
+    inputExpirationDate.addEventListener('input', isNumber);
+
+    inputCVV.addEventListener('input', isNumber);
+
+    validityCheck();
+
+    inputName.addEventListener('input', () => {
+        if (inputName.checkValidity() === true) {
+            divError1.style.opacity = '0';
+        } else {
+            divError1.style.opacity = '1';
+        }
+    })
+
+    inputPhone.addEventListener('input', () => {
+        if (inputPhone.checkValidity() === true) {
+            divError2.style.opacity = '0';
+        } else {
+            divError2.style.opacity = '1';
+        }
+    })
+
+    inputEmail.addEventListener('input', () => {
+        if (inputEmail.checkValidity() === true) {
+            divError4.style.opacity = '0';
+        } else {
+            divError4.style.opacity = '1';
+        }
+    })
+
+    inputAddress.addEventListener('input', () => {
+        if (inputAddress.checkValidity() === true) {
+            divError3.style.opacity = '0';
+        } else {
+            divError3.style.opacity = '1';
+        }
+    })
+
+    inputNumberCard.addEventListener('input', () => {
+        if (inputNumberCard.checkValidity() === true) {
+            divError5.style.opacity = '0';
+        } else {
+            divError5.style.opacity = '1';
+        }
+    })
+
+    inputExpirationDate.addEventListener('input', () => {
+        if (inputExpirationDate.checkValidity() === true) {
+            divError6.style.opacity = '0';
+        } else {
+            divError6.style.opacity = '1';
+        }
+    })
+
+    inputCVV.addEventListener('input', () => {
+        if (inputCVV.checkValidity() === true) {
+            divError7.style.opacity = '0';
+        } else {
+            divError7.style.opacity = '1';
+        }
+    })
 }
 
 
@@ -323,6 +452,18 @@ function addSlashInputDate (this: HTMLInputElement) {
     }
 }
 
+
+function isNumber (this: HTMLInputElement) {
+    // const inputNumberCard = document.querySelector('.form__number-card') as HTMLInputElement;
+    const number = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    const lastNumber: string = this.value[this.value.length - 1];
+
+    if (!(number.includes(lastNumber))) {
+        this.value = this.value.slice(0, -1);
+    }
+}
+
+
 function addSpaceCardNumber (this: HTMLInputElement) {
     const inputNumberCard = document.querySelector('.form__number-card') as HTMLInputElement;
 
@@ -334,25 +475,49 @@ function addSpaceCardNumber (this: HTMLInputElement) {
 }
 
 
-// function validityCheck () {
-    // const submit = document.querySelector('.form__submit') as HTMLButtonElement;
+function validityCheck () {
+    const form = document.querySelector('.card-form') as HTMLDivElement;
+    const submit = document.querySelector('.form__submit') as HTMLButtonElement;
+    const inputs = form.querySelectorAll('.form__input') as NodeListOf<Node>;
 
-    // submit.onsubmit = function (e) {
-    //     e.preventDefault();
-    
-    //     console.log('submit!');
-    // }
 
-    // const email = document.querySelector('.form__email') as HTMLInputElement;
+    submit.addEventListener('click', function() {
+        for (let i = 0; i < inputs.length; i++) {
+            const input = inputs[i] as HTMLInputElement;
+            if (i < 4) {
+                const parent = input.parentElement;
+                console.log(input);
+                const error = parent?.querySelector('.form__error') as HTMLElement;
+                if (input.checkValidity() === false) {
+                    error.style.opacity = '1';
+                } else {
+                    error.style.opacity = '0';
+                }
+            } else {
+                const cardErrorSection = document.querySelector('.form__cart__section-error') as HTMLDivElement;
+                const cardErrors = cardErrorSection.querySelectorAll('.form__error') as NodeListOf<Node>;
 
-    // email.addEventListener('input', function (event) {
-    // if (email.validity.typeMismatch) {
-    //     email.setCustomValidity('Пожалуйста, введите корректный e-mail!');
-    // } else {
-    //     email.setCustomValidity('');
-    // }
-    // });
-// }
+                if (input.checkValidity() === false) {
+                    if (i === 4) {
+                        (cardErrors[0] as HTMLDivElement).style.opacity = '1';
+                    } else if (i === 5) {
+                        (cardErrors[1] as HTMLDivElement).style.opacity = '1';
+                    } else if ( i === 6) {
+                        (cardErrors[2] as HTMLDivElement).style.opacity = '1';
+                    }                    
+                } else {
+                    if (i === 4) {
+                        (cardErrors[0] as HTMLDivElement).style.opacity = '0';
+                    } else if (i === 5) {
+                        (cardErrors[1] as HTMLDivElement).style.opacity = '0';
+                    } else if ( i === 6) {
+                        (cardErrors[2] as HTMLDivElement).style.opacity = '0';
+                    } 
+                }
+            }
+        }
+    })
+}
 
 
 formOpen ();
