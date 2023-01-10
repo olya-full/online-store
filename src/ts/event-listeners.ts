@@ -4,7 +4,7 @@ import { IEventTargetValue } from './interfaces'
 import { setQueryParameters, clearAllFilters, removeQueryParameters, parseQueryString, copyToClipboard, 
          paramsObject, removeHash, setNewPageURL } from './query-handler'
 import { openGoodsDescription } from './goods-description';
-import { goodsResult, getGoodsResult, createPriceSlider, createStockSlider, applySortingAfterCheck } from './filter-category';
+import { goodsResult, getGoodsResult, applySortingAfterCheck } from './filter-category';
 import { displayNoneMain, displayBlockDetails, displayBlocKMain, displayNoneDetails } from './hide-display-sections';
 import { goodsList } from './goods-list';
 
@@ -17,8 +17,7 @@ window.addEventListener("DOMContentLoaded", () => {
   if (window.location.hash[2] !== "p" && window.location.hash[2] !== "c"){
     showAllGoods(goodsList);
   }
-  createPriceSlider();
-  createStockSlider();
+
   listenSortGoods();
   listenSearchGoods();
   listenLayoutCheckbox();

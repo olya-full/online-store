@@ -53,9 +53,6 @@ function createCategoryFilters () {
     }
 
     filtersCategory?.appendChild(divCheckselect);
-    
-    // -------------- Строчка2 Оли? -------------------//
-    filterCategoryGoods ();
 }
 
 
@@ -114,8 +111,6 @@ function createBrandFilters () {
     }
 
     filtersBrand?.appendChild(divCheckselect);
-    
-    filterBrandGoods();
 }
 
 
