@@ -4,6 +4,7 @@ import { displayNoneMain, displayBlockDetails, displayBlocKMain, displayNoneDeta
 import { setNewPageURL, removeHash } from './query-handler';
 import { calculateTotalPrice } from './promo-code';
 import { IOneProduct, IShowDescreaseButton } from './interfaces';
+import { filterCategoryGoods, filterBrandGoods, createPriceSlider, createStockSlider } from './filter-category';
 
 
 let cart: ICartList = []; //корзина с товарами
@@ -258,6 +259,7 @@ function showGoodsInCart(localCurrentPage: number) {
     removeGoodsInCart();
     setInitialPaginationLimit();
     checkIfCartEmpty();
+    showPageChangeButtons();
 }
 
 
@@ -412,6 +414,7 @@ function removeGoodsInCart () {
             }
             calculateTotalPrice();
             setInitialPaginationLimit();
+            showPageChangeButtons(increasePage, decreasePage);
         }) 
     }
 }
@@ -458,8 +461,16 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    filterCategoryGoods();
+    filterBrandGoods();
+    createPriceSlider();
+    createStockSlider();
+
     listenPaginationArrows();
     listenPageChange();
+
+    cartOpen ();
+    cartClose ();
 })
 
 // pagination
@@ -536,15 +547,15 @@ const listenPageChange: () => void = function() {
 
 // changing the currentPage number; determining whether to allow to increase or descrease the page number
 const showPageChangeButtons: IShowDescreaseButton = function(localIncreasePage, localDescreasePage) {
-    if (currentPage === 1 /*|| pageNumberHTML.textContent === "1"*/) {
+    if (typeof localDescreasePage !== "undefined" && currentPage === 1 /*|| pageNumberHTML.textContent === "1"*/) {
         localDescreasePage.style.visibility = "hidden";
-    } else {
+    } else if (typeof localDescreasePage !== "undefined") {
         localDescreasePage.style.visibility = "visible";
     }
 
-    if (currentPage >= Math.ceil(cart.length / paginationLimitValue)) {
+    if (typeof localIncreasePage !== "undefined" && currentPage >= Math.ceil(cart.length / paginationLimitValue)) {
         localIncreasePage.style.visibility = "hidden";
-    } else {
+    } else if (typeof localIncreasePage !== "undefined") {
         localIncreasePage.style.visibility = "visible";
     }
     pageNumberHTML.textContent = currentPage.toString();
@@ -627,8 +638,7 @@ const checkIfCartEmpty: () => void = function() {
 }
 
 
-cartOpen ();
-cartClose ();
+
 
 export { addGoodsToCart, getIdGoodDescr, cart, cartOpen, parseQueryCart, increasePage, decreasePage, setPaginationLimitValue,
          showPageChangeButtons, showGoodsInCart, currentPage, showTotalCount, showTotalPrice, clearCart, checkIfCartEmpty }
