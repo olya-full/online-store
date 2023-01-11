@@ -1,0 +1,13 @@
+.content {
+    width: 75%;
+    @include flex-colomn;
+    @include azure-borders;
+}
+
+.main_404 {
+    width: 87%;
+    margin: 0 auto;
+    min-height: 500px;
+    padding-top: 100px;
+    text-align: center;
+}

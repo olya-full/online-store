@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online store</title>
+    <link rel="icon" type="image/jpg" href="https://liderdver.ru/catalog/view/theme/theme377/image/icons/shopping-cart.svg">
+</head>
+    <body class="body">
+        <div class="wrapper">
+            <header class="header">
+                <div class="logo"></div>
+                <div class="total-card">
+                    <div class="total-card__text">Cart total: €&nbsp</div>
+                    <div class="total-card__value">0</div>
+                </div>
+                <div class="basket">
+                    <div class="basket__img"></div>
+                    <div class="basket__value">0</div>
+                </div>
+            </header>
+            <main class="main" id="main">
+                <div class="filters">
+                    <div class="filters__options filters__control">
+                        <div class="button button_filters filters__control__reset" id="filters__control__reset">Clear Filters</div>
+                        <div class="button button_filters filters__control__copy" id="filters__control__copy">Copy Link</div>
+                    </div>
+                    <div class="filters__options filters__category">
+                        <div class="filters__category__name">Category</div>
+                    </div>
+                    <div class="filters__options filters__brand">
+                        <div class="filters__brand__name">Brand</div>
+                    </div>
+                    <div class="filters__options filters__price">
+                        <div class="filters__price__name">Price</div>
+                        <div class="filters__price__container">
+                            <div class="range_container slider-snap-price"></div>
+                            <div class="filters__snap__container">
+                                <div id="slider-snap-value-lower" class="slider-snap-value-lower"></div>
+                                <div id="slider-snap-value-upper" class="slider-snap-value-upper"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="filters__options filters__stock">
+                        <div class="filters__stock__name">Stock</div>
+                        <div class="filters__stock__container">
+                            <div class="range_container slider-snap-stock"></div>
+                            <div class="filters__snap__container">
+                                <div id="slider-snap-value-lower" class="slider-snap-value-lower"></div>
+                                <div id="slider-snap-value-upper" class="slider-snap-value-upper"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- <div class="button button_buy">Buy now</div> -->
+                </div>
+                <div class="content">
+                    <div class="content__control">
+                        <select class="content__control__sort" id="main_sort" name="main_sort">
+                            <option id="control_sort" value="Sort" disabled selected>Sort &nbsp ⇩</option>
+                            <option id="control_priceup" value="PriceUp">Price &nbsp &nbsp &nbsp  ▲</option>
+                            <option id="control_pricedown" value="PriceDown">Price &nbsp &nbsp &nbsp  ▼</option>
+                            <option id="control_ratingup" value="RatingUp">Rating &nbsp &nbsp ▲</option>
+                            <option id="control_ratingdown" value="RatingDown">Rating &nbsp &nbsp ▼</option>
+                        </select>
+                        <div class="content__control__count">
+                            <div class="content__control__count__text">Count: 
+                                <span class="content__control__count__value"></span>
+                            </div>
+                        </div>
+                        <div class="content__control__found"><input class="content__control__found__input" type="text" name="search" id="search" placeholder="  🔎︎    "></div>
+                        <div class="content__control__layout">
+                            <label class="content__control__layout__switch" for="content__control__layout_checkbox">Small Icons</label>
+                            <input type="checkbox" id="content__control__layout_checkbox">
+                        </div>
+                    </div>
+                    <div class="content__products__wrapper" id="content__products__wrapper">
+                        <div class="content__products large" id="content__products">
+                            
+                        </div>
+                        <div class="content__products__wrapper__nogoods" id="noGoodsText">
+                            <div class="start_shopping_pic"></div>
+                            <div>No products found according to your search parameters.</div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <section class="goods__details" id="goods__details">
+                <div class="goods__details__wrapper">
+                    <div class="goods__details__breadcrumbs">
+                        <span class="goods__details__breadcrumb" id="goods__details__breadcrumb0"></span><span>/</span>
+                        <span class="goods__details__breadcrumb" id="goods__details__breadcrumb1"></span><span>/</span>
+                        <span class="goods__details__breadcrumb" id="goods__details__breadcrumb2"></span><span>/</span>
+                        <span class="goods__details__breadcrumb" id="goods__details__breadcrumb3"></span>
+                    </div>
+                    <div class="goods__details__product">
+                        <div class="goods__details__product_wrapper">
+                            <div class="goods__details__product__header" id="goods__details__product__header"></div>
+                            <div class="goods__details__product__body" id="goods__details__product__body">
+                                <div class="goods__details__product__minipicswrapper" id="goods__details__product__minipicswrapper"></div>
+                                <div class="goods__details__product__info">
+                                    <div class="goods__details__product__info0" id="goods__details__product__info0"></div>
+                                    <div class="goods__details__product__info1" id="goods__details__product__info1"></div>
+                                    <div class="goods__details__product__info2" id="goods__details__product__info2"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="cart" id="cart">
+                <div class="cart__goods">
+                    <div class="cart__title">
+                        <div class="cart__text">Products In Cart</div>
+                        <label class="cart__limit">
+                            Limit
+                            <input id="cart__limit__input" type="number" name="limit" min="1" step="1"></input>
+                        </label>
+                        <div class="cart__page">
+                            <div id="cart__page__back" class="cart__page__back">◁</div>
+                            <div id="cart__page__value" class="cart__page__value"></div>
+                            <div id="cart__page__next" class="cart__page__next">▷</div>
+                        </div>
+                    </div>
+                    <div class="cart__items"></div>
+                </div>
+                <div class="cart__summary">
+                    <div class="cart__summary__wrapper">
+                        <div class="cart__title">Summary</div>
+                        <div class="cart__summary__box">
+                            <div class="cart__summary__count">Products:</div>
+                            <div class="cart__summary__count__value"></div>
+                        </div>
+                        <div class="cart__summary__box">
+                            <div class="cart__summary__total">Total:</div>
+                            <div class="cart__summary__total__value"></div>
+                        </div>
+                        <div class="cart__summary__box cart__summary__box__discount">
+                            <div class="cart__summary__total__discount"></div>
+                        </div>
+                        <div class="cart__summary__promo-applay-box"></div>
+                        <input type="text" class="cart__summary__promo form__input" name="promo" placeholder="Enter promo code">
+                        <div class="cart__summary__promo-box"></div>
+                        <div class="cart__summary__promo-test">Promo for test: 'OLYA', 'NASTYA'</div>
+                    </div>
+                    <div class="button button_buy">Buy now</div>
+                </div>
+                <div class="cart__empty">
+                    <div class="cart__empty__wrapper_pic">
+                        <div id="cart__empty__wrapper_pic" class="start_shopping_pic start_shopping"></div>
+                        <div class="start_shopping">Your cart is empty. Start shopping!</div>
+                    </div>
+                </div>
+            </section>
+            <footer class="footer"> 
+                <a class="github" href="https://github.com/olya-full"></a>
+                <a class="github" href="https://github.com/Florence100"></a>
+                <div class="info__year">2022</div>
+                <a class="rsshool" href="https://rs.school/js/"></a>
+            </footer>
+            <div class="dark-background"></div>
+        </div>
+    </body>
+</html>

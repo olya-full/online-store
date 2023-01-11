@@ -1,0 +1,30 @@
+// Здесь импорт всех файлов SCSS
+// Обрати внимание, названия файлов начинаются с нижнего подчеркивания, но импортируютя без нижнего подчеркивания и без расширения
+// Браузер не умеет работать с файлами SCSS, поэтому их нужно компилировать в CSS. Я пользуюсь расширением в vscode - Live Sass Compiller. 
+// Устанавливаешь расширение, нажимаешь внизу экрана на Watch SASS и готово - все стили собираютя в один файл - main.css, который и подключается в html
+
+
+@import 'style/absracts/mixins';
+@import 'style/absracts/variables';
+@import 'style/absracts/functions';
+
+@import 'style/base/reset';
+@import 'style/base/typography';
+
+@import 'style/components/buttons';
+@import 'style/components/dark-background';
+@import 'style/components/inputs';
+@import 'style/components/pop-up__order-formed';
+
+@import 'style/layout/footer';
+@import 'style/layout/header';
+@import 'style/layout/wrapper';
+@import 'style/layout/total-card';
+@import 'style/layout/main';
+@import 'style/layout/filters';
+@import 'style/layout/content';
+@import 'style/layout/content-control';
+@import 'style/layout/content-product';
+@import 'style/layout/form';
+@import 'style/layout/goods-description';
+@import 'style/layout/cart';

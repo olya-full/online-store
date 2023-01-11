@@ -1,0 +1,46 @@
+@mixin flex-space-between {
+    display: flex;
+    justify-content: space-between;
+}
+
+@mixin flex-colomn {
+    display: flex;
+    flex-direction: column;
+}
+
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin button-borders {
+    border: 1px solid $second-color;
+    border-radius: 5px;
+    color: white;
+    background: $main-color;
+}
+@mixin regular-borders {
+    border: 1px solid $second-color;
+    border-radius: 5px;
+}
+
+@mixin azure-borders {
+    border: 2px solid $main-color;
+}
+
+@mixin selected-item {
+    box-shadow: 0 0 4px 4px $third-color;
+}
+
+@mixin grid-4-rows {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+}
+
+@mixin grid-6-rows {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 5px;
+}

@@ -1,0 +1,30 @@
+.content__control {
+    width: 100%;
+    @include flex-space-between;
+    border-bottom: 2px solid $main-color;
+    padding: 2px;
+    align-items: center;
+}
+
+.content__control__sort,
+#search {
+    font: inherit;
+}
+.content__control__count__text,
+.content__control__count__value,
+.content__control__layout__switch {
+    font-weight: 900;
+}
+
+.content__control__layout__switch {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-content: center;
+}
+
+#content__control__layout_checkbox,
+.content__control__layout__switch {
+    display: inline;
+    vertical-align: middle;
+}

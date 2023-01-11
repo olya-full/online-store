@@ -1,0 +1,22 @@
+// Здесь будут переменные
+// Удобно собирать такие вещи, как размеры шрифтов, основные цвета в этот файл. А в проекте использовать переменную с нужным значением
+// В таком случае, если тебе захочется поменять, допустим, брендовый цвет с оранжевого на зеленый, 
+// тебе не придется искать и менять этот цвет по всем файлам, а нужно будет поменять только здесь. 
+// Сооответсвенно лучше называть свои переменные более абстрактно, напр @brandColor, нежели @orangeColor
+
+// https://sass-guidelin.es/ru/#section-46/
+
+$main-color: #2eb8b3; 
+$second-color: #ffcc99;
+
+$third-color: #fdf5df;
+$text-color: #f5a300;
+
+$border-selected-color: #6495ED;
+$border-selected-shadow: #7B68EE;
+
+$background-form-color: white;
+$background-form-invalid: rgb(255, 7, 7);
+$background-form-valid: rgb(13, 148, 35);
+
+$form-border: black;

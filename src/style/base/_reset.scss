@@ -1,0 +1,27 @@
+// сброс стилей по умолчанию
+
+html, 
+body, 
+header, 
+main, 
+footer {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+html {
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+a,
+a:visited {
+    color: unset;
+    text-decoration: none;
+    cursor: pointer;
+}

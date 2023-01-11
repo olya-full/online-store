@@ -1,0 +1,31 @@
+.button_buy {
+    width: 100px;
+    height: 30px;
+    @include flex-center;
+    @include button-borders;
+    cursor: pointer;
+}
+
+.button {
+    @include flex-center;
+    @include button-borders;
+    cursor: pointer;
+}
+
+.button_filters {
+    width: 45%;
+    height: 30px;
+    display: inline;
+    @include flex-center;
+}
+
+.button_product {
+    width: 90%;
+    height: 40%;
+}
+
+.button_buy:hover,
+.button:hover {
+    transform: scale(1.02);
+    transition: transform 0.25s;
+}

@@ -1,0 +1,8 @@
+.wrapper {
+    margin: 0 auto;
+    position: relative;
+    height: 100vh;
+    @include flex-colomn;
+    flex: 0 0 auto;
+}
+
